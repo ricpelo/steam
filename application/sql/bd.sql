@@ -3,7 +3,7 @@ drop table if exists usuarios;
 create table usuarios(
     id bigserial constraint pk_usuarios primary key,
     nick varchar(100) not null constraint uq_usuarios_nick unique,
-    password char(60) not null contraint ck_password_valida
+    password char(60) not null constraint ck_password_valida
                                check (length(password) = 60),
     email varchar(100) not null
 );
