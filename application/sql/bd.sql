@@ -1,5 +1,5 @@
 
-drop table if exists usuarios;
+drop table if exists usuarios cascade;
 
 create table usuarios(
     id bigserial constraint pk_usuarios primary key,
@@ -38,7 +38,9 @@ insert into juegos (codigo, descripcion, precio, existencias)
                 (1163456789012,'Call of Duty: Black Ops III',50.00,12),
                 (1173456789012,'The Witcher 3: Wild Hunt',50.00,12);
 
+drop table if exists valoraciones cascade;
 
+<<<<<<< HEAD
 
 ------------------------------------------------------------INSERCIONES-----------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------
@@ -50,3 +52,20 @@ values('admin', crypt('admin', gen_salt('bf')), 'guillermo.lopez@iesdonana.org')
       ('juan', crypt('juan', gen_salt('bf')), 'guillermo.lopez@iesdonana.org'),
       ('guillermo', crypt('guillermo', gen_salt('bf')), 'guillermo.lopez@iesdonana.org');
 >>>>>>> Insercion de usuarios en bd.sql
+=======
+create table valoraciones (
+    id_juego    bigint    constraint fk_juegos_valoraciones references juegos(id),
+    id_usuario  bigint    constraint fk_usuarios_valoraciones references usuarios(id),
+    valoracion  numeric(1) constraint ck_valoraciones_max
+                                        check (valoracion > 0 AND valoracion < 6),
+    constraint pk_valoraciones primary key (id_juego, id_usuario)
+);
+
+insert into valoraciones (id_juego, ud_usuario, valoracion)
+        values (2, 1, 3),
+        values (3, 5, 1),
+        values (4, 3, 2),
+        values (2, 2, 3),
+        values (3, 2, 4),
+        values (4, 4, 5);
+>>>>>>> Añade a bd.sql la tabla de valoraciones
