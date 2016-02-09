@@ -4,7 +4,7 @@
     <div class="col-md-8 col-md-offset-2">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">Listado de artículos</h3>
+          <h3 class="panel-title">Listado de Juegos</h3>
         </div>
         <div class="panel-body">
           <table border="1"
@@ -12,7 +12,7 @@
             <thead>
               <th>Descripción</th>
               <th>Precio</th>
-              <th>asd</th>
+              <th>Imágenes</th>
               <th colspan="2">Acciones</th>
             </thead>
             <tbody>

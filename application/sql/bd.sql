@@ -24,19 +24,18 @@ drop table if exists juegos cascade;
 
 create table juegos (
     id          bigserial constraint pk_juegos primary key,
-    codigo      numeric(13) not null constraint uq_juegos_codigo unique,
     descripcion varchar(50) not null,
     precio      numeric(6,2) not null
 );
 
 
-insert into juegos (codigo, descripcion, precio)
-        values  (1123456789012,'XCOM 2',49.99),
-                (2133456789012,'Rise of the Tomb Raider',45),
-                (3143456789012,'Rainbow Six Siege',60),
-                (4153456789012,'Grand Theft Auto V',50),
-                (5163456789012,'Call of Duty: Black Ops III',50),
-                (6173456789012,'Wild HuntThe Witcher 3: Wild Hunt',50);
+insert into juegos (descripcion, precio)
+        values  ('XCOM 2',49.99),
+                ('Rise of the Tomb Raider',45),
+                ('Rainbow Six Siege',60),
+                ('Grand Theft Auto V',50),
+                ('Call of Duty: Black Ops III',50),
+                ('Wild HuntThe Witcher 3: Wild Hunt',50);
 
 insert into usuarios(nick, password, email)
 values('admin', crypt('admin', gen_salt('bf')), 'guillermo.lopez@iesdonana.org'),
