@@ -4,7 +4,7 @@ class Juego extends CI_Model
 {
     public function todos()
     {
-        return $this->db->query('select * from juegos')->result_array();
+        return $this->db->query('select * from v_juegos')->result_array();
     }
 
     public function borrar($id)
@@ -35,27 +35,5 @@ class Juego extends CI_Model
     public function editar($valores, $id)
     {
         return $this->db->where('id', $id)->update('juegos', $valores);
-    }
-
-    public function valoracion($id)
-    {
-        $valoraciones = $this->db->query('select valoracion
-                                            from valoraciones
-                                           where id_juego = ?',
-                                           array($id))->result_array();
-
-        if ($valoraciones !== array())
-        {
-            $columnas = count($valoraciones);
-            $total    = 0;
-
-            foreach ($valoraciones as $v) {
-                $total += $v['valoracion'];
-            }
-            return round($total/$columnas, 2);
-        }
-        else {
-            return "Sin valoraciones";
-        }
     }
 }

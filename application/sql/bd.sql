@@ -43,6 +43,8 @@ values('admin', crypt('admin', gen_salt('bf')), 'guillermo.lopez@iesdonana.org')
       ('juan', crypt('juan', gen_salt('bf')), 'guillermo.lopez@iesdonana.org'),
       ('guillermo', crypt('guillermo', gen_salt('bf')), 'guillermo.lopez@iesdonana.org');
 
+drop table if exists valoraciones;
+
 create table valoraciones (
     id_juego    bigint    constraint fk_juegos_valoraciones references juegos(id),
     id_usuario  bigint    constraint fk_usuarios_valoraciones references usuarios(id),
@@ -58,3 +60,10 @@ insert into valoraciones (id_usuario, id_juego, valoracion)
                (2, 2, 3),
                (3, 2, 4),
                (4, 4, 5);
+
+drop view if exists v_juegos;
+
+create view v_juegos as
+    select j.*, round(avg(valoracion), 1) as valoracion
+      from juegos j join valoraciones v on id = id_juego
+  group by id;
