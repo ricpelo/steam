@@ -10,17 +10,17 @@
           <table border="1"
                  class="table table-striped table-bordered table-hover table-condensed">
             <thead>
-              <th>Código</th>
               <th>Descripción</th>
               <th>Precio</th>
+              <th>asd</th>
               <th colspan="2">Acciones</th>
             </thead>
             <tbody>
               <?php foreach ($filas as $fila): ?>
                 <tr>
-                  <td><?= $fila['codigo'] ?></td>
                   <td><?= $fila['descripcion'] ?></td>
                   <td><?= $fila['precio'] ?></td>
+                  <td><?= img('images/'.$fila['id'].'.jpg') ?></td>
                   <td align="center">
                     <?= anchor('/juegos/borrar/' . $fila['id'], 'Borrar',
                                'class="btn btn-danger btn-xs" role="button"') ?>
