@@ -12,6 +12,7 @@
             <thead>
               <th>Código</th>
               <th>Descripción</th>
+              <th>Precio</th>
               <th colspan="2">Acciones</th>
             </thead>
             <tbody>
@@ -19,12 +20,13 @@
                 <tr>
                   <td><?= $fila['codigo'] ?></td>
                   <td><?= $fila['descripcion'] ?></td>
+                  <td><?= $fila['precio'] ?></td>
                   <td align="center">
-                    <?= anchor('/articulos/borrar/' . $fila['id'], 'Borrar',
+                    <?= anchor('/juegos/borrar/' . $fila['id'], 'Borrar',
                                'class="btn btn-danger btn-xs" role="button"') ?>
                   </td>
                   <td align="center">
-                    <?= anchor('/articulos/editar/' . $fila['id'], 'Editar',
+                    <?= anchor('/juegos/editar/' . $fila['id'], 'Editar',
                                'class="btn btn-warning btn-xs" role="button"') ?>
                   </td>
                 </tr>
@@ -32,7 +34,7 @@
             </tbody>
           </table>
           <p align="center">
-            <?= anchor('articulos/insertar', 'Insertar',
+            <?= anchor('juegos/insertar', 'Insertar',
                        'class="btn btn-success" role="button"') ?>
           </p>
         </div>

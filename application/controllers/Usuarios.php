@@ -89,12 +89,10 @@ class Usuarios extends CI_Controller{
         }
     }
 
+
+
     public function index() {
         $this->template->load('usuarios/index', array('asd' => 'asd'));
-    }
-
-    public function registrar() {
-        $this->template->load('/usuarios/registrar');
     }
 
     public function recordar() {
@@ -208,6 +206,16 @@ class Usuarios extends CI_Controller{
             'token' => $token
         );
         $this->template->load('usuarios/regenerar', $data);
+    }
+
+
+    private function limpiar($accion, $valores)
+    {
+        unset($valores[$accion]);
+        $valores['password'] = password_hash($valores['password'], PASSWORD_DEFAULT);
+        unset($valores['password_confirm']);
+
+        return $valores;
     }
 
 }
