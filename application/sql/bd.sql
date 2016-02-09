@@ -9,7 +9,6 @@ create table usuarios(
     email varchar(100) not null
 );
 
-
 drop table if exists ci_sessions cascade;
 
 create table "ci_sessions" (
@@ -40,3 +39,14 @@ insert into juegos (codigo, descripcion, precio, existencias)
                 (1173456789012,'The Witcher 3: Wild Hunt',50.00,12);
 
 
+
+------------------------------------------------------------INSERCIONES-----------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------
+
+insert into usuarios(nick, password, email)
+values('admin', crypt('admin', gen_salt('bf')), 'guillermo.lopez@iesdonana.org'),
+      ('pepe', crypt('pepe', gen_salt('bf')), 'guillermo.lopez@iesdonana.org'),
+      ('juan', crypt('juan', gen_salt('bf')), 'guillermo.lopez@iesdonana.org'),
+      ('guillermo', crypt('guillermo', gen_salt('bf')), 'guillermo.lopez@iesdonana.org');
+>>>>>>> Insercion de usuarios en bd.sql
