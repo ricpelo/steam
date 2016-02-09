@@ -24,6 +24,7 @@ class Usuarios extends CI_Controller{
         if ($this->Usuario->logueado()) {
             redirect('usuarios/index');
         }
+
         if ($this->input->post('login') !== NULL)
         {
             $nick = $this->input->post('nick');
@@ -58,6 +59,7 @@ class Usuarios extends CI_Controller{
                 redirect('usuarios/index');
             }
         }
+
         $this->template->load('usuarios/login');
     }
 
@@ -71,11 +73,12 @@ class Usuarios extends CI_Controller{
 
         $accion = $this->uri->rsegment(2);
 
-        if ( ! in_array($accion, array('login', 'recordar', 'regenerar')) && !$this->Usuario->logueado()) {
+        if ( ! in_array($accion, array('login', 'recordar', 'regenerar', 'registrar')) &&
+             ! $this->Usuario->logueado()) {
             redirect('usuarios/login');
         }
 
-        if ( ! in_array($accion, array('login', 'logout', 'recordar', 'regenerar'))) {
+        if ( ! in_array($accion, array('login', 'logout', 'recordar', 'regenerar', 'registrar'))) {
             if( ! $this->Usuario->es_admin()) {
                 $mensajes = $this->session->flashdata('mensajes');
                 $mensajes = isset($mensajes) ? $mensajes : array();
@@ -84,7 +87,7 @@ class Usuarios extends CI_Controller{
 
                 $this->session->set_flashdata("mensajes", $mensajes);
 
-                redirect('articulos/index');
+                redirect('usuarios/index');
             }
         }
     }
@@ -92,7 +95,8 @@ class Usuarios extends CI_Controller{
 
 
     public function index() {
-        $this->template->load('usuarios/index', array('asd' => 'asd'));
+        
+        $this->template->load('usuarios/index', array());
     }
 
     public function recordar() {
@@ -130,7 +134,7 @@ class Usuarios extends CI_Controller{
                 # Mandar correo
 
                 $this->load->library('email');
-                $this->email->from('jdkdejava@gmail.com');
+                $this->email->from('asd@asd.com');
                 $this->email->to($email);
                 $this->email->subject('Regenerar Contraseña');
                 $this->email->message($enlace);
@@ -208,6 +212,22 @@ class Usuarios extends CI_Controller{
         $this->template->load('usuarios/regenerar', $data);
     }
 
+    public function _password_valido($password, $nick)
+    {
+        $usuario = $this->Usuario->por_nick($nick);
+
+        if ($usuario !== FALSE &&
+            password_verify($password, $usuario['password']) === TRUE)
+        {
+            return TRUE;
+        }
+        else
+        {
+            $this->form_validation->set_message('_password_valido',
+                'La {field} no es válida.');
+            return FALSE;
+        }
+    }
 
     private function limpiar($accion, $valores)
     {
