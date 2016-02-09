@@ -40,8 +40,6 @@ insert into juegos (codigo, descripcion, precio, existencias)
 
 drop table if exists valoraciones cascade;
 
-<<<<<<< HEAD
-
 ------------------------------------------------------------INSERCIONES-----------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------
@@ -51,8 +49,7 @@ values('admin', crypt('admin', gen_salt('bf')), 'guillermo.lopez@iesdonana.org')
       ('pepe', crypt('pepe', gen_salt('bf')), 'guillermo.lopez@iesdonana.org'),
       ('juan', crypt('juan', gen_salt('bf')), 'guillermo.lopez@iesdonana.org'),
       ('guillermo', crypt('guillermo', gen_salt('bf')), 'guillermo.lopez@iesdonana.org');
->>>>>>> Insercion de usuarios en bd.sql
-=======
+
 create table valoraciones (
     id_juego    bigint    constraint fk_juegos_valoraciones references juegos(id),
     id_usuario  bigint    constraint fk_usuarios_valoraciones references usuarios(id),
@@ -61,11 +58,10 @@ create table valoraciones (
     constraint pk_valoraciones primary key (id_juego, id_usuario)
 );
 
-insert into valoraciones (id_juego, ud_usuario, valoracion)
+insert into valoraciones (id_usuario, id_juego, valoracion)
         values (2, 1, 3),
-        values (3, 5, 1),
-        values (4, 3, 2),
-        values (2, 2, 3),
-        values (3, 2, 4),
-        values (4, 4, 5);
->>>>>>> Añade a bd.sql la tabla de valoraciones
+               (3, 5, 1),
+               (4, 3, 2),
+               (2, 2, 3),
+               (3, 2, 4),
+               (4, 4, 5);
