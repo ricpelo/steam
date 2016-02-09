@@ -31,12 +31,12 @@ create table juegos (
     existencias int
 );
 
-insert into articulos (codigo, descripcion, precio, existencias)
+insert into juegos (codigo, descripcion, precio, existencias)
         values  (1123456789012,'XCOM 2',50.00,10),
                 (1133456789012,'Rise of the Tomb Raider',45.00,20),
                 (1143456789012,'Rainbow Six Siege',60.00,15),
                 (1153456789012,'Grand Theft Auto V',50.00,23),
-                (1163456789012,'Call of Duty: Black Ops IIICall of Duty: Black Ops III',50.00,12),
-                (1173456789012,'The Witcher 3: Wild HuntThe Witcher 3: Wild Hunt',50.00,12);
+                (1163456789012,'Call of Duty: Black Ops III',50.00,12),
+                (1173456789012,'The Witcher 3: Wild Hunt',50.00,12);
 
 
