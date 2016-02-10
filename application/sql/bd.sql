@@ -17,6 +17,16 @@ create table tokens (
     token      char(32) not null
 );
 
+drop table if exists tokens_registro cascade;
+
+create table tokens_registro (
+    nick     varchar(100)   constraint pk_tokens_registro primary key,
+    email    varchar(100)   not null,
+    password char(60)       not null constraint ck_password_valida_registro
+                                   check (length(password) = 60),
+    token    char(32)       not null
+);
+
 drop table if exists ci_sessions cascade;
 
 create table "ci_sessions" (

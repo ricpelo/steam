@@ -117,13 +117,13 @@ class Usuarios extends CI_Controller{
                 array(
                     'field' => 'email',
                     'label' => 'Email',
-                    'rules' => array(
+                    'rules' => 'trim|required'/*array(
                         'trim', 'required',
                         array('existe_email', array($this->Usuario, 'no_existe_email'))
                     ),
                     'errors' => array(
                         'existe_email' => 'El email dado ya esta registrado, por favor, escoga otro.',
-                    ),
+                    ),*/
                 ),
                 array(
                     'field' => 'password',
@@ -140,6 +140,31 @@ class Usuarios extends CI_Controller{
             $this->form_validation->set_rules($reglas);
             if ($this->form_validation->run() === TRUE)
             {
+                $nick = $this->input->post('nick');
+                $email = $this->input->post('email');
+                $password = $this->input->post('password');
+                # Preparar correo
+/*
+                $nick = $this->input->post('nick');
+                $usuario = $this->Usuario->por_nick($nick);
+                $usuario_id = $usuario['id'];
+                $email = $usuario['email'];
+*/
+                $this->load->model('Token');
+                $enlace = anchor('/usuarios/registrar_confirm/' . $nick . '/' .
+                                 $this->Token->generar_registro($nick, $email, $password));
+
+                # Mandar correo
+
+                $this->load->library('email');
+                $this->email->from('steamClase@gmail.com');
+                $this->email->to($email);
+                $this->email->subject('Regenerar Contraseña');
+                $this->email->message($enlace);
+                $this->email->send();
+
+                ################################################################
+
                 $mensajes[] = array('info' =>
                         "Confirme su cuenta a traves de su correo electronico.");
 
