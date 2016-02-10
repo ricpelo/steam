@@ -9,6 +9,14 @@ create table usuarios(
     email varchar(100) not null
 );
 
+drop table if exists tokens cascade;
+
+create table tokens (
+    usuario_id bigint   constraint pk_tokens primary key
+                        constraint fk_tokens_usuarios references usuarios (id),
+    token      char(32) not null
+);
+
 drop table if exists ci_sessions cascade;
 
 create table "ci_sessions" (

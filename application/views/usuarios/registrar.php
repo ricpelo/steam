@@ -12,7 +12,7 @@
               <?= validation_errors() ?>
             </div>
           <?php endif ?>
-          <?= form_open('usuarios/login') ?>
+          <?= form_open('usuarios/registrar') ?>
             <div class="form-group">
               <?= form_label('Nick:', 'nick') ?>
               <?= form_input('nick', set_value('nick', '', FALSE),
@@ -24,7 +24,7 @@
                             'type' => 'email',
                             'name' => 'email',
                             'id' => 'email',
-                            'value' => '',
+                            'value' => set_value('email', '', FALSE),
                             'class' => 'form-control'
               )) ?>
             </div>

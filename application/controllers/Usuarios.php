@@ -87,16 +87,68 @@ class Usuarios extends CI_Controller{
 
                 $this->session->set_flashdata("mensajes", $mensajes);
 
-                redirect('usuarios/index');
+                redirect('juegos/index');
             }
         }
     }
 
-
-
     public function index() {
 
-        $this->template->load('usuarios/index', array());
+        $this->template->load('juegos/index');
+    }
+
+    public function registrar() {
+
+        if ($this->input->post('registrar') !== NULL)
+        {
+
+            $reglas = array(
+                array(
+                    'field' => 'nick',
+                    'label' => 'Nick',
+                    'rules' => array(
+                        'trim', 'required',
+                        array('existe_nick', array($this->Usuario, 'no_existe_nick'))
+                    ),
+                    'errors' => array(
+                        'existe_nick' => 'El nick ya existe, por favor, escoga otro.',
+                    ),
+                ),
+                array(
+                    'field' => 'email',
+                    'label' => 'Email',
+                    'rules' => array(
+                        'trim', 'required',
+                        array('existe_email', array($this->Usuario, 'no_existe_email'))
+                    ),
+                    'errors' => array(
+                        'existe_email' => 'El email dado ya esta registrado, por favor, escoga otro.',
+                    ),
+                ),
+                array(
+                    'field' => 'password',
+                    'label' => 'Contraseña',
+                    'rules' => "trim|required"
+                ),
+                array(
+                    'field' => 'password_confirm',
+                    'label' => 'Confirmar contraseña',
+                    'rules' => 'trim|required|matches[password]'
+                )
+            );
+
+            $this->form_validation->set_rules($reglas);
+            if ($this->form_validation->run() === TRUE)
+            {
+                $mensajes[] = array('info' =>
+                        "Confirme su cuenta a traves de su correo electronico.");
+
+                $this->flashdata->load($mensajes);
+
+                redirect('usuarios/login');
+            }
+        }
+        $this->template->load('usuarios/registrar');
     }
 
     public function recordar() {
@@ -108,9 +160,7 @@ class Usuarios extends CI_Controller{
                     'rules' => array(
                         'trim',
                         'required',
-                        array('existe_usuario', array(
-                                $this->Usuario, 'existe_nick'
-                            )
+                        array('existe_usuario', array($this->Usuario, 'existe_nick')
                         )
                     ),
                     'errors' => array(
@@ -134,7 +184,7 @@ class Usuarios extends CI_Controller{
                 # Mandar correo
 
                 $this->load->library('email');
-                $this->email->from('asd@asd.com');
+                $this->email->from('steamClase@gmail.com');
                 $this->email->to($email);
                 $this->email->subject('Regenerar Contraseña');
                 $this->email->message($enlace);
@@ -163,7 +213,7 @@ class Usuarios extends CI_Controller{
         $usuario_id = trim($usuario_id);
         $token = trim($token);
         $this->load->model('Token');
-        $res = $this->Token->por_token($usuario_id, $token);
+        $res = $this->Token->comprobar($usuario_id, $token);
 
         if ($res === FALSE) {
             $mensajes[] = array('error' =>
