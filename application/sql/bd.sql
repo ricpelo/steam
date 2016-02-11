@@ -68,7 +68,7 @@ create table valoraciones (
                             on update cascade on delete cascade,
     id_usuario  bigint    constraint fk_usuarios_valoraciones references usuarios(id),
     valoracion  numeric(1) constraint ck_valoraciones_max
-                                        check (valoracion > 0 AND valoracion < 6),
+                                        check (valoracion >= 1 AND valoracion <= 5),
     constraint pk_valoraciones primary key (id_juego, id_usuario)
 );
 
