@@ -13,7 +13,7 @@
               <th>Descripción</th>
               <th>Precio</th>
               <th>Imágenes</th>
-              <th>valoración</th>
+              <th>Valoración</th>
               <th colspan="2">Acciones</th>
             </thead>
             <tbody>
