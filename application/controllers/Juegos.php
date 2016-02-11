@@ -6,14 +6,6 @@ class Juegos extends CI_Controller {
 
     private $reglas_comunes = array(
         array(
-            'field' => 'codigo',
-            'label' => 'Código',
-            'rules' => 'trim|required|ctype_digit|max_length[13]',
-            'errors' => array(
-                'ctype_digit' => 'El campo %s debe contener sólo dígitos.'
-            )
-        ),
-        array(
             'field' => 'descripcion',
             'label' => 'Descripción',
             'rules' => 'trim|required|max_length[50]'
@@ -36,13 +28,46 @@ class Juegos extends CI_Controller {
         $data['filas'] = $this->Juego->todos();
         $this->template->load('juegos/index', $data, array('title' => 'Listado de juegos'));
     }
-
+    
+    public function borrar($id = NULL)
+    {
+        if ($this->input->post('borrar') !== NULL)
+        {
+            $id = $this->input->post('id');
+            if ($id !== NULL)
+            {
+                $this->Juego->borrar($id);
+                $this->output->delete_cache('/juegos/index');
+            }
+            redirect('juegos/index');
+        }
+        else
+        {
+            if ($id === NULL)
+            {
+                redirect('juegos/index');
+            }
+            else
+            {
+                $res = $this->Juego->por_id($id);
+                if ($res === FALSE)
+                {
+                    redirect('juegos/index');
+                }
+                else
+                {
+                    $data = $res;
+                    $this->template->load('juegos/borrar', $data);
+                }
+            }
+        }
+    }
+    
     public function insertar()
     {
         if ($this->input->post('insertar') !== NULL)
         {
             $reglas = $this->reglas_comunes;
-            $reglas[0]['rules'] .= '|is_unique[juegos.codigo]';
             $this->form_validation->set_rules($reglas);
             if ($this->form_validation->run() !== FALSE)
             {
@@ -54,7 +79,13 @@ class Juegos extends CI_Controller {
         }
         $this->template->load('juegos/insertar');
     }
-
+    
+    private function limpiar($accion, $valores)
+    {
+        unset($valores[$accion]);
+        return $valores;
+    }
+    
     public function editar($id = NULL)
     {
         if ($id === NULL)
@@ -67,7 +98,6 @@ class Juegos extends CI_Controller {
         if ($this->input->post('editar') !== NULL)
         {
             $reglas = $this->reglas_comunes;
-            $reglas[0]['rules'] .= "|callback__codigo_unico[$id]";
             $this->form_validation->set_rules($reglas);
             if ($this->form_validation->run() !== FALSE)
             {
@@ -77,13 +107,12 @@ class Juegos extends CI_Controller {
                 redirect('juegos/index');
             }
         }
-        $valores = $this->Articulo->por_id($id);
+        $valores = $this->Juego->por_id($id);
         if ($valores === FALSE)
         {
-            redirect('articulos/index');
+            redirect('juegos/index');
         }
         $data = $valores;
-        $this->template->load('articulos/editar', $data);
+        $this->template->load('juegos/editar', $data);
     }
-
 }

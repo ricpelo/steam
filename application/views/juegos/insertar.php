@@ -1,8 +1,6 @@
 <?php template_set('title', 'Insertar un juego') ?>
 <?= validation_errors() ?>
 <?= form_open('juegos/insertar') ?>
-    <?= form_label('Código:', 'codigo') ?>
-    <?= form_input('codigo', set_value('codigo', '', FALSE), 'id="codigo"') ?><br/>
     <?= form_label('Descripción:', 'descripcion') ?>
     <?= form_input('descripcion', set_value('descripcion', '', FALSE), 'id="descripcion"') ?><br/>
     <?= form_label('Precio:', 'precio') ?>

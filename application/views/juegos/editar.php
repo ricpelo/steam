@@ -14,12 +14,6 @@
           <?php endif ?>
           <?= form_open("juegos/editar/$id") ?>
             <div class="form-group">
-              <?= form_label('Código:', 'codigo') ?>
-              <?= form_input('codigo',
-                             set_value('codigo', $codigo, FALSE),
-                             'id="codigo" class="form-control"') ?>
-            </div>
-            <div class="form-group">
               <?= form_label('Descripción:', 'descripcion') ?>
               <?= form_input('descripcion',
                              set_value('descripcion', $descripcion, FALSE),
