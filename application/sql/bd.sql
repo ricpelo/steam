@@ -64,7 +64,8 @@ values('admin', crypt('admin', gen_salt('bf')), 'guillermo.lopez@iesdonana.org')
 drop table if exists valoraciones;
 
 create table valoraciones (
-    id_juego    bigint    constraint fk_juegos_valoraciones references juegos(id),
+    id_juego    bigint    constraint fk_juegos_valoraciones references juegos(id)
+                            on update cascade on delete cascade,
     id_usuario  bigint    constraint fk_usuarios_valoraciones references usuarios(id),
     valoracion  numeric(1) constraint ck_valoraciones_max
                                         check (valoracion > 0 AND valoracion < 6),
@@ -83,5 +84,5 @@ drop view if exists v_juegos;
 
 create view v_juegos as
     select j.*, round(avg(valoracion), 1) as valoracion
-      from juegos j join valoraciones v on id = id_juego
+      from juegos j  left join valoraciones v on id = id_juego
   group by id;
