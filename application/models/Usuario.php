@@ -24,6 +24,11 @@ class Usuario extends CI_Model
         return $res->num_rows() > 0 ? $res->row_array() : FALSE;
     }
 
+    public function por_nick_registrado($nick) {
+        $res = $this->db->get_where('v_usuarios_valido', array('nick' => $nick));
+        return $res->num_rows() > 0 ? $res->row_array() : FALSE;
+    }
+
     public function por_email($email)
     {
         $res = $this->db->get_where('usuarios', array('email' => $email));
@@ -34,15 +39,14 @@ class Usuario extends CI_Model
     {
         return $this->por_nick($nick) !== FALSE;
     }
-/*
-    public function existe_email($email)
-    {
-        return $this->por_email($email) !== FALSE;
-    }
-*/
+
     public function no_existe_nick($nick)
     {
         return $this->por_nick($nick) === FALSE;
+    }
+
+    public function existe_nick_registrado($nick) {
+        return $this->por_nick_registrado($nick) !== FALSE;
     }
 
     public function no_existe_email($email)

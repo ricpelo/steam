@@ -6,7 +6,8 @@ create table usuarios(
     nick varchar(100) not null constraint uq_usuarios_nick unique,
     password char(60) not null constraint ck_password_valida
                                check (length(password) = 60),
-    email varchar(100) not null
+    email varchar(100) not null,
+    registro_verificado bool not null default false
 );
 
 drop table if exists tokens cascade;
@@ -15,16 +16,6 @@ create table tokens (
     usuario_id bigint   constraint pk_tokens primary key
                         constraint fk_tokens_usuarios references usuarios (id),
     token      char(32) not null
-);
-
-drop table if exists tokens_registro cascade;
-
-create table tokens_registro (
-    nick     varchar(100)   constraint pk_tokens_registro primary key,
-    email    varchar(100)   not null,
-    password char(60)       not null constraint ck_password_valida_registro
-                                   check (length(password) = 60),
-    token    char(32)       not null
 );
 
 drop table if exists ci_sessions cascade;
@@ -55,11 +46,11 @@ insert into juegos (descripcion, precio)
                 ('Call of Duty: Black Ops III',50),
                 ('Wild HuntThe Witcher 3: Wild Hunt',50);
 
-insert into usuarios(nick, password, email)
-values('admin', crypt('admin', gen_salt('bf')), 'guillermo.lopez@iesdonana.org'),
-      ('pepe', crypt('pepe', gen_salt('bf')), 'guillermo.lopez@iesdonana.org'),
-      ('juan', crypt('juan', gen_salt('bf')), 'guillermo.lopez@iesdonana.org'),
-      ('guillermo', crypt('guillermo', gen_salt('bf')), 'guillermo.lopez@iesdonana.org');
+insert into usuarios(nick, password, email, registro_verificado)
+values('admin', crypt('admin', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true),
+      ('pepe', crypt('pepe', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true),
+      ('juan', crypt('juan', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true),
+      ('guillermo', crypt('guillermo', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true);
 
 drop table if exists valoraciones;
 
@@ -88,17 +79,20 @@ create view v_juegos as
   group by id;
 
 
-  drop table if exists comentarios cascade;
+drop table if exists comentarios cascade;
 
-  create table comentarios (
-      id      bigserial       constraint pk_comentarios primary key,
-      autor   bigint          not null constraint fk_usuarios references usuarios (id),
-      comentario varchar(150) not null,
-      fecha   date            not null default CURRENT_DATE,
-      padre_comentario   bigint   constraint fk_comentarios_padre
-                              references comentarios (id) constraint ck_comentarios_padre_comentario
-                                 check ((padre_juego is null AND padre_comentario is not null) OR (padre_comentario is null AND padre_juego is not null)),
-      padre_juego        bigint   constraint fk_comentarios_padre_juego
-                              references juegos (id) constraint ck_comentarios_padre_juego
-                                 check ((padre_juego is null AND padre_comentario is not null) OR (padre_comentario is null AND padre_juego is not null))
-  );
+create table comentarios (
+  id      bigserial       constraint pk_comentarios primary key,
+  autor   bigint          not null constraint fk_usuarios references usuarios (id),
+  comentario varchar(150) not null,
+  fecha   date            not null default CURRENT_DATE,
+  padre_comentario   bigint   constraint fk_comentarios_padre
+                          references comentarios (id) constraint ck_comentarios_padre_comentario
+                             check ((padre_juego is null AND padre_comentario is not null) OR (padre_comentario is null AND padre_juego is not null)),
+  padre_juego        bigint   constraint fk_comentarios_padre_juego
+                          references juegos (id) constraint ck_comentarios_padre_juego
+                             check ((padre_juego is null AND padre_comentario is not null) OR (padre_comentario is null AND padre_juego is not null))
+);
+
+create view v_usuarios_valido as
+    select * from usuarios where registro_verificado = true;

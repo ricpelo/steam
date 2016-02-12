@@ -28,25 +28,6 @@ class Token extends CI_Model
         return FALSE;
     }
 
-    public function generar_registro($nick, $email, $password)
-    {
-        if ($this->Usuario->no_existe_nick($nick))
-        {
-            $nuevo_token = md5(rand());
-            $password = password_hash($password, PASSWORD_DEFAULT);
-            //$token = $this->por_usuario_id($usuario_id);
-            $this->db->insert('tokens_registro', array('nick' => $nick,
-                                                'email' => $email,
-                                                'password' => $password,
-                                                'token' => $nuevo_token));
-            /*$this->db->where('usuario_id', $usuario_id)->
-                update('tokens', array('token' => $nuevo_token));
-            */
-            return $nuevo_token;
-        }
-        return FALSE;
-    }
-
     public function borrar($usuario_id)
     {
         if ($this->Usuario->por_id($usuario_id) !== FALSE)
