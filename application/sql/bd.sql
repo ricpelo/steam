@@ -92,5 +92,13 @@ create table comentarios (
                           references juegos (id)
 );
 
+insert into comentarios (autor, comentario, padre_juego)
+            values  (2, 'Comentario num Padre 1 ', 1),
+                    (2, 'Comentario num Padre 2 ', 1);
+
+insert into comentarios (autor, comentario, padre_juego, padre_comentario)
+            values  (2, 'Comentario num Hijo 1' , 1 , 1),
+                    (2, 'Comentario num Hijo 2' , 1 , 1);
+
 create view v_usuarios_valido as
     select * from usuarios where registro_verificado = true;
