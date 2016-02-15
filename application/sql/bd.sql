@@ -41,18 +41,80 @@ drop table if exists juegos cascade;
 
 create table juegos (
     id          bigserial constraint pk_juegos primary key,
-    descripcion varchar(50) not null,
-    precio      numeric(6,2) not null
+    nombre      varchar(50) not null,
+    precio      numeric(6,2) not null,
+    resumen     text not null,
+    descripcion text not null
 );
 
 
-insert into juegos (descripcion, precio)
-        values  ('XCOM 2',49.99),
-                ('Rise of the Tomb Raider',45),
-                ('Rainbow Six Siege',60),
-                ('Grand Theft Auto V',50),
-                ('Call of Duty: Black Ops III',50),
-                ('Wild HuntThe Witcher 3: Wild Hunt',50);
+insert into juegos (nombre, precio, resumen, descripcion)
+        values  ('XCOM 2',49.99,
+                    'XCOM 2 es la secuela de XCOM: Enemy Unknown, el galardonado 
+                    juego de estrategia que fue nombrado Juego del Año en 2012. )',
+                    'La Tierra ha cambiado. Han pasado veinte años desde que los 
+líderes mundiales se rindieran incondicionalmente ante las fuerzas alienígenas. 
+XCOM, la última defensa del planeta, acabó destrozada y dispersa. Ahora, en XCOM 
+2, los alienígenas dominan la Tierra y construyen resplandecientes ciudades que 
+prometen un futuro brillante para la humanidad mientras esconden siniestros planes 
+y eliminan a todos los opositores a su nuevo orden. 
+                    Solo quienes viven en los límites de la sociedad tienen un 
+margen de libertad. Allí vuelve a reunirse una fuerza para luchar por la humanidad. 
+Siempre a la fuga y con todo en su contra, las fuerzas restantes de XCOM deben 
+encontrar el modo de avivar una resistencia global y eliminar la amenaza alienígena 
+de una vez por todas.'),
+                ('Rise of the Tomb Raider',45, 
+'Tomb Raider se reinventa en un juego que narra la primera aventura de Lara.',
+'Tomb Raider se reinventa en un juego que narra la primera aventura de Lara. 
+No nos encontraremos con la Lara madura, segura de si misma y experimentada de 
+juegos anteriores, sino con una niña de apenas 20 años que ha sobrevivido a un 
+misterioso naufragio y tendrá que escapar de una isla llena de peligros. 
+Una aventura que reinventa Tomb Raider haciéndolo más intenso y cinemático, 
+en la que Lara tendrá que aprender las habilidades que la convertirán en la 
+gran aventurera que hemos conocido.'),
+            ('Rainbow Six Siege',60, 'Tom Clancys Rainbow Six Siege es la nueva 
+entrega del shooter más aclamado desarrollado por el estudio Ubisoft Montreal.',
+'Inspirado en el realismo de las actividades de contención terrorista que se desarrollan 
+alrededor del planeta, Tom Clancys Rainbow Six Siege, invita al jugador a controlar el 
+arte de la destrucción: Intensos enfrentamientos en espacios cerrados, combates letales, 
+enfrentamientos tácticos, trabajo en equipo y una acción frenética, son los pilares de la 
+experiencia. 
+El modo multijugador de Tom Clancys Rainbow Six Siege, sube un peldaño más en el intenso y 
+frenético tiroteo táctico, consolidando los pilares tradicionales de la franquicia'),
+                ('Grand Theft Auto V',50,
+'Grand Theft Auto V aprovechará al máximo la potencia del PC para ofrecer mejoras de 
+todo tipo, que incluyen resolución y detalle gráfico incrementados, tráfico más denso, 
+mayor distancia visual, IA mejorada, nueva fauna y avanzados efectos de clima y daño, 
+para crear la experiencia de mundo abierto definitiva.', 
+'Grand Theft Auto V aprovechará al máximo la potencia del PC para ofrecer 
+mejoras de todo tipo, que incluyen resolución y detalle gráfico incrementados, 
+tráfico más denso, mayor distancia visual, IA mejorada, nueva fauna y avanzados 
+efectos de clima y daño, para crear la experiencia de mundo abierto definitiva.
+
+Los Santos, una extensa y soleada metrópolis llena de gurús de autoayuda, 
+aspirantes a estrellas y famosos en decadencia, en su día la envidia del mundo 
+occidental, lucha ahora por mantenerse a flote en una era de incertidumbre 
+económica y "realities" baratos. En medio de la confusión, tres criminales 
+muy diferentes lo arriesgarán todo en una serie de atrevidos y peligrosos 
+atracos que marcarán sus vidas.'),
+                ('Call of Duty: Black Ops III',50,'Tom Clancys Rainbow Six Siege es la nueva 
+entrega del shooter más aclamado desarrollado por el estudio Ubisoft Montreal.',
+'Inspirado en el realismo de las actividades de contención terrorista que se desarrollan 
+alrededor del planeta, Tom Clancys Rainbow Six Siege, invita al jugador a controlar el 
+arte de la destrucción: Intensos enfrentamientos en espacios cerrados, combates letales, 
+enfrentamientos tácticos, trabajo en equipo y una acción frenética, son los pilares de la 
+experiencia. 
+El modo multijugador de Tom Clancys Rainbow Six Siege, sube un peldaño más en el intenso y 
+frenético tiroteo táctico, consolidando los pilares tradicionales de la franquicia'),
+                ('Wild HuntThe Witcher 3: Wild Hunt',50,'Tom Clancys Rainbow Six Siege es la nueva 
+entrega del shooter más aclamado desarrollado por el estudio Ubisoft Montreal.',
+'Inspirado en el realismo de las actividades de contención terrorista que se desarrollan 
+alrededor del planeta, Tom Clancys Rainbow Six Siege, invita al jugador a controlar el 
+arte de la destrucción: Intensos enfrentamientos en espacios cerrados, combates letales, 
+enfrentamientos tácticos, trabajo en equipo y una acción frenética, son los pilares de la 
+experiencia. 
+El modo multijugador de Tom Clancys Rainbow Six Siege, sube un peldaño más en el intenso y 
+frenético tiroteo táctico, consolidando los pilares tradicionales de la franquicia');
 
 insert into roles (descripcion)
 values('administrador'),
