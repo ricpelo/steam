@@ -58,9 +58,14 @@ class Usuarios extends CI_Controller {
                 $usuario = $this->Usuario->por_nick($nick);
                 $this->session->set_userdata('usuario', array(
                     'id' => $usuario['id'],
-                    'nick' => $nick
+                    'nick' => $nick,
+                    'rol_id' => $usuario['rol_id']
                 ));
-                redirect('usuarios/index');
+                if ($usuario['rol_id'] === '1') {
+                    redirect('usuarios/index');
+                } else {
+                    redirect('juegos/index');
+                }
             }
         }
         $this->output->delete_cache('/juegos/index');
@@ -84,7 +89,16 @@ class Usuarios extends CI_Controller {
         }
 
         if ( ! in_array($accion, array('login', 'logout', 'recordar', 'regenerar', 'registrar', 'validar'))) {
-            redirect('juegos/index');
+            if ( ! $this->Usuario->es_admin())
+            {
+                $mensajes = $this->session->flashdata('mensajes');
+                $mensajes = isset($mensajes) ? $mensajes : array();
+                $mensajes[] = array('error' =>
+                    "No tiene permisos para acceder a esta parte de la aplicación");
+                $this->session->set_flashdata('mensajes', $mensajes);
+
+                redirect('juegos/index');
+            }
         }
     }
 

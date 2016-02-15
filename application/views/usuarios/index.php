@@ -8,7 +8,6 @@
         </div>
         <div class="panel-body">
           <p>
-              <?= $asd ?>
           </p>
           <p align="center">
             <?= anchor('usuarios/insertar', 'Insertar',

@@ -49,10 +49,10 @@ class Usuario extends CI_Model
         return $this->session->has_userdata('usuario');
     }
 
-    // public function es_admin() {
-    //     $usuario = $this->session->userdata("usuario");
-    //     return $usuario['rol_id'] === '1';
-    // }
+    public function es_admin() {
+        $usuario = $this->session->userdata("usuario");
+        return $usuario['rol_id'] === '1';
+    }
 
     public function insertar($valores)
     {
