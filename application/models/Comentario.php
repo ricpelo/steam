@@ -20,6 +20,13 @@ class Comentario extends CI_Model
     {
         return $this->db->insert('comentarios', $valores);
     }
+
+    public function borrar($id)
+    {
+        return $this->db->query("delete from comentarios where id = ?",
+                                array($id));
+    }
+
     /* PINTAR COMENTARIOS
 
 
