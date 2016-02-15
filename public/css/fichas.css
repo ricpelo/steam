@@ -10,10 +10,14 @@
     padding: 10px;
 }
 
-.ficha div {
+.ficha > div {
     width: 50%;
 }
 
 .ficha img {
     width: 50%;
+}
+
+form {
+
 }

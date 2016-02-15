@@ -15,10 +15,12 @@
                 <div>
                     <h1><?= $fila['nombre'] ?></h1>
                     <h2><?= $fila['precio'] ?>€</h2>
-                    <p><?= $fila['resumen'] ?></p><br />
-                    <input id="input-1" class="rating" data-min="0" data-max="5"
-                        data-step="1" value="<?= $fila['valoracion'] ?>" data-readonly="true"
-                        data-show-clear="false" data-show-caption="false" data-size="xs"><br />
+                    <p><?= $fila['resumen'] ?></p>
+                    <form>
+                        <input id="input-1" class="rating" data-min="0" data-max="5"
+                            data-step="1" value="<?= $fila['valoracion'] ?>" data-readonly="true"
+                            data-show-clear="false" data-show-caption="false" data-size="xs">
+                    </form>
                     <p>
                         <?= anchor('/portal/juego/ficha' . $fila['id'], 'Ver ficha',
                             'class="btn btn-danger btn-xs" role="button"') ?>
