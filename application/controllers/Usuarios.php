@@ -98,7 +98,7 @@ class Usuarios extends CI_Controller{
 
     public function index() {
 
-        $this->template->load('juegos/index');
+        $this->template->load('usuarios/index');
     }
 
     public function validar($usuario_id = NULL, $token = NULL) {
@@ -151,7 +151,7 @@ class Usuarios extends CI_Controller{
                         array('existe_nick', array($this->Usuario, 'no_existe_nick'))
                     ),
                     'errors' => array(
-                        'existe_nick' => 'El nick ya existe, por favor, escoga otro.',
+                        'existe_nick' => 'El nick ya existe, por favor, escoja otro.',
                     ),
                 ),
                 array(
@@ -204,7 +204,7 @@ class Usuarios extends CI_Controller{
                 ################################################################
 
                 $mensajes[] = array('info' =>
-                        "Confirme su cuenta a traves de su correo electronico.");
+                        "Confirme su cuenta a traves de su correo electrónico.");
 
                 $this->flashdata->load($mensajes);
 
@@ -227,7 +227,7 @@ class Usuarios extends CI_Controller{
                         )
                     ),
                     'errors' => array(
-                        'existe_usuario' => 'Ese usuario no existe'
+                        'existe_usuario' => 'Ese usuario no existe.'
                     )
                 )
             );
@@ -256,7 +256,7 @@ class Usuarios extends CI_Controller{
                 ################################################################
 
                 $mensajes[] = array('info' =>
-                    "Se ha enviado un correo a su direccion de email");
+                    "Se ha enviado un correo a su dirección de email.");
                 $this->flashdata->load($mensajes);
 
                 redirect('/usuarios/login');
@@ -278,7 +278,7 @@ class Usuarios extends CI_Controller{
 
         if ($res === FALSE) {
             $mensajes[] = array('error' =>
-                "Parametros incorrectos para la regeneracion de contraseña.");
+                "Párametros incorrectos para la regeneración de contraseña.");
             $this->flashdata->load($mensajes);
 
             redirect('/usuarios/login');
