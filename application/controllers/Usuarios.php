@@ -113,7 +113,7 @@ class Usuarios extends CI_Controller{
 
         if ($res === FALSE) {
             $mensajes[] = array('error' =>
-                "Parametros incorrectos para la regeneracion de contraseña.");
+                "Parametros incorrectos para la validación de la cuenta.");
             $this->flashdata->load($mensajes);
 
             redirect('/usuarios/login');
