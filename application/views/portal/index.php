@@ -22,7 +22,7 @@
                             data-show-clear="false" data-show-caption="false" data-size="xs">
                     </form>
                     <p>
-                        <?= anchor('/portal/juego/ficha' . $fila['id'], 'Ver ficha',
+                        <?= anchor('/portal/juegos/ficha/' . $fila['id'], 'Ver ficha',
                             'class="btn btn-danger btn-xs" role="button"') ?>
                     </p>
                 </div>

@@ -24,3 +24,9 @@ function login()
 
     return $out;
 }
+
+function usuario_id()
+{
+        $CI =& get_instance();
+        return $CI->session->userdata('usuario')['id'];
+}
