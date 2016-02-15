@@ -1,13 +1,21 @@
 
 drop table if exists usuarios cascade;
 
+create table roles (
+    id bigserial constraint pk_roles primary key,
+    descripcion varchar(15)
+);
+
 create table usuarios(
     id bigserial constraint pk_usuarios primary key,
     nick varchar(100) not null constraint uq_usuarios_nick unique,
     password char(60) not null constraint ck_password_valida
                                check (length(password) = 60),
     email varchar(100) not null,
-    registro_verificado bool not null default false
+    registro_verificado bool not null default false,
+    rol_id bigint not null constraint fk_usuarios_roles
+                  references roles(id) on delete no action
+                  on update cascade
 );
 
 drop table if exists tokens cascade;
@@ -46,11 +54,15 @@ insert into juegos (descripcion, precio)
                 ('Call of Duty: Black Ops III',50),
                 ('Wild HuntThe Witcher 3: Wild Hunt',50);
 
-insert into usuarios(nick, password, email, registro_verificado)
-values('admin', crypt('admin', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true),
-      ('pepe', crypt('pepe', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true),
-      ('juan', crypt('juan', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true),
-      ('guillermo', crypt('guillermo', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true);
+insert into roles (descripcion)
+values('administrador'),
+      ('registrado');
+
+insert into usuarios(nick, password, email, registro_verificado, rol_id)
+values('admin', crypt('admin', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 1),
+      ('pepe', crypt('pepe', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 2),
+      ('juan', crypt('juan', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 2),
+      ('guillermo', crypt('guillermo', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 2);
 
 drop table if exists valoraciones;
 
