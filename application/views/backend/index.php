@@ -7,6 +7,7 @@
           <h3 class="panel-title">Listado de Juegos</h3>
         </div>
         <div class="panel-body">
+<<<<<<< HEAD
           <table border="1"
                  class="table table-striped table-bordered table-hover table-condensed">
             <thead>

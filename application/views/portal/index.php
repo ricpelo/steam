@@ -7,35 +7,22 @@
           <h3 class="panel-title">Listado de Juegos</h3>
         </div>
         <div class="panel-body">
-          <table border="1"
-                 class="table table-striped table-bordered table-hover table-condensed">
-            <thead>
-              <th>Descripción</th>
-              <th>Precio</th>
-              <th>Imágenes</th>
-              <th>Valoración</th>
-              <th colspan="2">Acciones</th>
-            </thead>
-            <tbody>
-              <?php foreach ($filas as $fila): ?>
-                <tr>
-                  <td><?= $fila['descripcion'] ?></td>
-                  <td><?= $fila['precio'] ?></td>
-                  <td><?= img('images/'.$fila['id'].'.jpg') ?></td>
-                  <td><?= ($fila['valoracion'] === NULL) ? 'Sin valoraciones' :
-                                                    $fila['valoracion'] ?></td>
-                  <td align="center">
-                    <?= anchor('/juegos/borrar/' . $fila['id'], 'Borrar',
-                               'class="btn btn-danger btn-xs" role="button"') ?>
-                  </td>
-                  <td align="center">
-                    <?= anchor('/juegos/editar/' . $fila['id'], 'Editar',
-                               'class="btn btn-warning btn-xs" role="button"') ?>
-                  </td>
-                </tr>
-              <?php endforeach ?>
-            </tbody>
-          </table>
+          <?php foreach ($filas as $fila): ?>
+            <div class="ficha">
+                <div>
+                    <td><?= img('images/'.$fila['id'].'.jpg') ?></td>
+                </div>
+                <div>
+                    <h1><?= $fila['nombre'] ?></h1>
+                    <h2><?= $fila['precio'] ?>€</h2>
+                    <p><?= $fila['resumen'] ?></p>
+                    <p>
+                        <?= anchor('/portal/juego/ficha' . $fila['id'], 'Ver ficha',
+                            'class="btn btn-danger btn-xs" role="button"') ?>
+                    </p>
+                </div>
+            </div>
+          <?php endforeach ?>
           <p align="center">
             <?= anchor('juegos/insertar', 'Insertar',
                        'class="btn btn-success" role="button"') ?>

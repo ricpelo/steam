@@ -1,0 +1,19 @@
+
+
+.ficha {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    text-align: center;
+    border-bottom: #000080 1px solid;
+    padding: 10px;
+}
+
+.ficha div {
+    width: 50%;
+}
+
+.ficha img {
+    width: 50%;
+}
