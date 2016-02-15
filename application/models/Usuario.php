@@ -40,18 +40,8 @@ class Usuario extends CI_Model
         return $this->por_nick($nick) !== FALSE;
     }
 
-    public function no_existe_nick($nick)
-    {
-        return $this->por_nick($nick) === FALSE;
-    }
-
     public function existe_nick_registrado($nick) {
         return $this->por_nick_registrado($nick) !== FALSE;
-    }
-
-    public function no_existe_email($email)
-    {
-        return $this->por_email($email) === FALSE;
     }
 
     public function logueado()
@@ -59,10 +49,10 @@ class Usuario extends CI_Model
         return $this->session->has_userdata('usuario');
     }
 
-    public function es_admin() {
-        $usuario = $this->session->userdata("usuario");
-        return $usuario['rol_id'] === '1';
-    }
+    // public function es_admin() {
+    //     $usuario = $this->session->userdata("usuario");
+    //     return $usuario['rol_id'] === '1';
+    // }
 
     public function insertar($valores)
     {
