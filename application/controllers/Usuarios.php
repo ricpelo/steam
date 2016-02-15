@@ -40,7 +40,7 @@ class Usuarios extends CI_Controller{
                     ),
                     'errors' => array(
                         'existe_nick' => 'El nick debe existir.',
-                        'existe_nick_registrado' => 'Esta cuenta todavia no ha sido validada por' .
+                        'existe_nick_registrado' => 'Esta cuenta todavía no ha sido validada por' .
                                                     ' los medios correspondientes. Por favor, ' .
                                                     'valide su cuenta.'
                     ),
@@ -56,6 +56,9 @@ class Usuarios extends CI_Controller{
             if ($this->form_validation->run() === TRUE)
             {
                 $usuario = $this->Usuario->por_nick($nick);
+                //echo $nick;
+                //var_dump($usuario); die();
+
                 $this->session->set_userdata('usuario', array(
                     'id' => $usuario['id'],
                     'nick' => $nick
@@ -63,11 +66,12 @@ class Usuarios extends CI_Controller{
                 redirect('usuarios/index');
             }
         }
-
+        $this->output->delete_cache('/juegos/index');
         $this->template->load('usuarios/login');
     }
 
     public function logout() {
+        $this->output->delete_cache('/juegos/index');
         $this->session->sess_destroy();
         redirect('usuarios/login');
     }
@@ -83,21 +87,19 @@ class Usuarios extends CI_Controller{
         }
 
         if ( ! in_array($accion, array('login', 'logout', 'recordar', 'regenerar', 'registrar', 'validar'))) {
-            if( ! $this->Usuario->es_admin()) {
-                $mensajes = $this->session->flashdata('mensajes');
-                $mensajes = isset($mensajes) ? $mensajes : array();
-                $mensajes[] = array('error' =>
-                    "No tiene permisos para acceder a $accion");
-
-                $this->session->set_flashdata("mensajes", $mensajes);
-
+            // if( ! $this->Usuario->es_admin()) {
+                // $mensajes = $this->session->flashdata('mensajes');
+                // $mensajes = isset($mensajes) ? $mensajes : array();
+                // $mensajes[] = array('error' =>
+                //     "No tiene permisos para acceder a $accion");
+                //
+                // $this->session->set_flashdata("mensajes", $mensajes);
                 redirect('juegos/index');
-            }
+            // }
         }
     }
 
     public function index() {
-
         $this->template->load('usuarios/index');
     }
 
