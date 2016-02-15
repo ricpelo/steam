@@ -22,8 +22,7 @@
                   <td><?= $fila['descripcion'] ?></td>
                   <td><?= $fila['precio'] ?></td>
                   <td><?= img('images/'.$fila['id'].'.jpg') ?></td>
-                  <td><?= ($fila['valoracion'] === NULL) ? 'Sin valoraciones' :
-                                                    $fila['valoracion'] ?></td>
+                  <td><?= $fila['valoracion'] ?></td>
                   <td align="center">
                     <?= anchor('/juegos/borrar/' . $fila['id'], 'Borrar',
                                'class="btn btn-danger btn-xs" role="button"') ?>

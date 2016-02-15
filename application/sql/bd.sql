@@ -86,12 +86,10 @@ create table comentarios (
   autor   bigint          not null constraint fk_usuarios references usuarios (id),
   comentario varchar(150) not null,
   fecha   date            not null default CURRENT_DATE,
-  padre_comentario   bigint   constraint fk_comentarios_padre
-                          references comentarios (id) constraint ck_comentarios_padre_comentario
-                             check ((padre_juego is null AND padre_comentario is not null) OR (padre_comentario is null AND padre_juego is not null)),
-  padre_juego        bigint   constraint fk_comentarios_padre_juego
-                          references juegos (id) constraint ck_comentarios_padre_juego
-                             check ((padre_juego is null AND padre_comentario is not null) OR (padre_comentario is null AND padre_juego is not null))
+  padre_comentario   bigint  constraint fk_comentarios_padre
+                          references comentarios (id) ,
+  padre_juego        bigint not null constraint fk_comentarios_padre_juego
+                          references juegos (id)
 );
 
 create view v_usuarios_valido as
