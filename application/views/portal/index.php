@@ -26,10 +26,6 @@
                 </div>
             </div>
           <?php endforeach ?>
-          <p align="center">
-            <?= anchor('juegos/insertar', 'Insertar',
-                       'class="btn btn-success" role="button"') ?>
-          </p>
         </div>
       </div>
     </div>

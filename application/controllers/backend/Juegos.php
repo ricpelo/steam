@@ -24,16 +24,13 @@ class Juegos extends CI_Controller {
 
     public function index()
     {
-        $this->output->cache(1);
+        if (ENVIRONMENT === 'production')
+        {
+            $this->output->cache(1);
+        }
+        
         $data['filas'] = $this->Juego->todos();
-        //PRUEBA
-
-        $this->load->model('Comentario');
-        $data['comentarios'] = $this->Comentario->todos();
-
-
-        //PRUEBA
-        $this->template->load('juegos/index', $data, array('title' => 'Listado de juegos'));
+        $this->template->load('backend/index', $data, array('title' => 'Listado de juegos'));
     }
 
     public function borrar($id = NULL)
@@ -79,7 +76,7 @@ class Juegos extends CI_Controller {
             if ($this->form_validation->run() !== FALSE)
             {
                 $valores = $this->limpiar('insertar', $this->input->post());
-                $this->Juego->insertar($valores);
+                $this->Juego->insertar($valores);                
                 $this->output->delete_cache('/juegos/index');
                 redirect('juegos/index');
             }
