@@ -22,7 +22,7 @@
                             data-show-clear="false" data-show-caption="false" data-size="xs">
                         <label>Tu valoración</label>
                         <input id="input-2" class="rating" data-min="0" data-max="5"
-                            data-step="1" value="<?= $juego['valoracion'] ?>"
+                            data-step="1" value="<?= $usuario['valoracion'] ?>"
                             data-show-clear="false" data-show-caption="false" data-size="xs">
                     </form>
                 </div>
@@ -33,15 +33,15 @@
   </div>
 </div>
 <script>
-    $("#input-2").click(valoracion);
+    $("#input-2").change(valoracion);
 
     function valoracion() {
         var val = $(this).val();
-        $.post("<?= base_url() ?>portal/juegos/valoracion/<?= usuario_id() ?>/<?= $juego['id'] ?>/" + val, enviar(r));
+        $.getJSON("<?= base_url() ?>portal/juegos/valoracion/<?= usuario_id() ?>/<?= $juego['id'] ?>/" +
+                val, enviar);
     }
 
     function enviar(r) {
-        $("input:first-of-type").val(r.total);
-        $("input:nth-of-type(2)").val(r.val);
+        $("#input-1").rating('update', r.total);
     }
 </script>

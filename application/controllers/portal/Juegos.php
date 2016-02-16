@@ -2,7 +2,6 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-header("Access-Control-Allow-Origin: *");
 class Juegos extends CI_Controller {
 
     public function index()
@@ -12,14 +11,17 @@ class Juegos extends CI_Controller {
         $this->template->load('portal/index', $data);
     }
 
-    public function ficha($id = NULL)
+    public function ficha($id_juego = NULL)
     {
-        if ($id === NULL)
+        if ($id_juego === NULL)
         {
             redirect('portal/index');
         }
 
-        $data['juego'] = $this->Juego->por_id($id);
+        $data['juego'] = $this->Juego->por_id($id_juego);
+        $this->load->model('Valoracion');
+        $id_usuario = $this->session->userdata('usuario')['id'];
+        $data['usuario'] = $this->Valoracion->por_ids($id_usuario, $id_juego);
         $this->template->load('portal/ficha', $data);
     }
 
@@ -30,13 +32,14 @@ class Juegos extends CI_Controller {
             $this->Valoracion->editar($id_juego, $id_usuario, $valoracion);
         }
         else {
-            $valores = array($id_juego, $id_usuario, $valoracion);
-            $this->Valoraciones->insertar($valores);
+            $valores = array('id_juego'   => $id_juego,
+                             'id_usuario' =>$id_usuario,
+                             'valoracion' => $valoracion);
+            $this->Valoracion->insertar($valores);
         }
-        $total = $this->Valoracion->por_ids($id_usuario, $id_juego);
-        return json_encode(array(
-                            total => $total['valoracion'],
-                            val   => $valoracion
+        $total = $this->Valoracion->por_id($id_juego);
+        echo json_encode(array(
+                            'total' => $total['valoracion']
         ));
     }
 }

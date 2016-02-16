@@ -3,6 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Valoracion extends CI_Model
 {
+    public function por_id($id_juego) {
+        return $this->db->query('select valoracion from v_juegos where id = ?',
+                                    array($id_juego))->row_array();
+    }
+
     public function por_ids($id_usuario, $id_juego)
     {
         return $this->db->query('select valoracion
@@ -29,6 +34,6 @@ class Valoracion extends CI_Model
     {
         return $this->db->where('id_juego', $id_juego)
                         ->where('id_usuario', $id_usuario)
-                        ->update('valoraciones', array($valoracion));
+                        ->update('valoraciones', array('valoracion' => $valoracion));
     }
 }
