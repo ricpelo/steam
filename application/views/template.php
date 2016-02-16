@@ -23,12 +23,19 @@
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         <?= link_tag('css/star-rating.min.css') ?>
+        <?= link_tag('css/general.css') ?>
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="<?= base_url() ?>js/star-rating.min.js" type="text/javascript"></script>
     </head>
     <body>
-        <?= login() ?>
+        <header>
+            <?= login() ?>
+            <?= img(array(
+                'src' => 'images/logo_steam.png',
+                'id'  => 'logo'
+            )) ?>
+        </header>
         <?= mensajes() ?>
         <?= $contents ?>
         <!-- Latest compiled and minified JavaScript -->

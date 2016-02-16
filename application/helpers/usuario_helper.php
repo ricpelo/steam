@@ -19,7 +19,6 @@ function login()
             $out .= form_close();
           $out .= '</div>';
         $out .= '</div>';
-        $out .= '<hr/>';
     endif;
 
     return $out;

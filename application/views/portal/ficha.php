@@ -9,7 +9,7 @@
         <div class="panel-body">
             <div class="ficha">
                 <div>
-                    <td><?= img('images/'.$juego['id'].'.jpg') ?></td>
+                    <td><?= img('images/juegos/'.$juego['id'].'.jpg') ?></td>
                 </div>
                 <div>
                     <h1><?= $juego['nombre'] ?></h1>

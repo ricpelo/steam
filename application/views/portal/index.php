@@ -10,7 +10,7 @@
           <?php foreach ($filas as $fila): ?>
             <div class="ficha">
                 <div>
-                    <td><?= img('images/'.$fila['id'].'.jpg') ?></td>
+                    <td><?= img('images/juegos/'.$fila['id'].'.jpg') ?></td>
                 </div>
                 <div>
                     <h1><?= $fila['nombre'] ?></h1>
