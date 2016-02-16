@@ -59,9 +59,9 @@ class Usuario extends CI_Model
         return $this->db->insert('usuarios', $valores);
     }
 
-    public function editar($valores, $nick)
+    public function editar($valores, $id)
     {
-        return $this->db->where('nick', $nick)->update('usuarios', $valores);
+        return $this->db->where('id', $id)->update('usuarios', $valores);
     }
 
     public function actualizar_password($id, $nueva_password) {

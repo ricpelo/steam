@@ -133,13 +133,11 @@ class Usuarios extends CI_Controller {
 
         ######################################################
 
-        $usuario = $this->Usuario->por_id($usuario_id);
-        $nick = $usuario['nick'];
         $valores = array(
             'registro_verificado' => TRUE
         );
 
-        $this->Usuario->editar($valores, $nick);
+        $this->Usuario->editar($valores, $usuario_id);
         $this->Token->borrar($usuario_id);
 
         $mensajes[] = array('info' =>
@@ -374,6 +372,7 @@ class Usuarios extends CI_Controller {
             if ($this->form_validation->run() !== FALSE)
             {
                 $valores = $this->limpiar('editar', $this->input->post());
+                unset($valores['password_anterior']);
                 $this->Usuario->editar($valores, $id);
                 redirect('usuarios/index');
             }
