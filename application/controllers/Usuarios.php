@@ -89,12 +89,12 @@ class Usuarios extends CI_Controller {
 
         $accion = $this->uri->rsegment(2);
 
-        if ( ! in_array($accion, array('login', 'recordar', 'regenerar', 'registrar', 'validar')) &&
+        if ( ! in_array($accion, array('login', 'recordar', 'regenerar', 'registrar', 'validar', 'upload')) &&
              ! $this->Usuario->logueado()) {
             redirect('usuarios/login');
         }
 
-        if ( ! in_array($accion, array('login', 'logout', 'recordar', 'regenerar', 'registrar', 'validar'))) {
+        if ( ! in_array($accion, array('login', 'logout', 'recordar', 'regenerar', 'registrar', 'validar', 'upload'))) {
             if ( ! $this->Usuario->es_admin())
             {
                 $mensajes = $this->session->flashdata('mensajes');
@@ -184,6 +184,11 @@ class Usuarios extends CI_Controller {
                     'field' => 'password_confirm',
                     'label' => 'Confirmar contraseña',
                     'rules' => 'trim|required|matches[password]'
+                ),
+                array(
+                    'field' => 'foto',
+                    'label' => 'Foto',
+                    'rules' => ''
                 )
             );
 
@@ -192,20 +197,38 @@ class Usuarios extends CI_Controller {
             {
 
                 $valores = $this->input->post();
+
                 unset($valores['registrar']);
                 unset($valores['password_confirm']);
+                unset($valores['foto']);
+
                 $valores['password'] = password_hash($valores['password'], PASSWORD_DEFAULT);
                 $valores['registro_verificado'] = FALSE;
 
                 $this->Usuario->insertar($valores);
-
-                ################################################################
 
                 $this->load->model('Token');
 
                 # Prepara correo
                 $usuario = $this->Usuario->por_nick($valores['nick']);
                 $usuario_id = $usuario['id'];
+
+                ################################################################
+
+                $config['upload_path'] = 'images/usuarios/';
+                $config['allowed_types'] = 'gif|jpg|png';
+                $config['file_name'] = $usuariod_id . '.png';
+
+                $this->load->library('upload', $config);
+
+                if ( ! $this->upload->do_upload('foto')) {
+                    $error = array('error' => $this->upload->display_errors());
+                }
+                else {
+                    $data = array('upload_data' => $this->upload->data());
+                }
+
+                ################################################################
 
                 # Mandar correo
                 $enlace = anchor('/usuarios/validar/' . $usuario_id . '/' .
@@ -478,5 +501,4 @@ class Usuarios extends CI_Controller {
             return FALSE;
         }
     }
-
 }
