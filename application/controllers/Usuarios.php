@@ -70,16 +70,16 @@ class Usuarios extends CI_Controller {
                 if ($usuario['rol_id'] === '1') {
                     redirect('usuarios/index');
                 } else {
-                    redirect('juegos/index');
+                    redirect('portal/juegos');
                 }
             }
         }
-        $this->output->delete_cache('/juegos/index');
+        $this->output->delete_cache('/portal/juegos');
         $this->template->load('usuarios/login');
     }
 
     public function logout() {
-        $this->output->delete_cache('/juegos/index');
+        $this->output->delete_cache('/portal/juegos');
         $this->session->sess_destroy();
         redirect('usuarios/login');
     }
@@ -103,7 +103,7 @@ class Usuarios extends CI_Controller {
                     "No tiene permisos para acceder a esta parte de la aplicación");
                 $this->session->set_flashdata('mensajes', $mensajes);
 
-                redirect('juegos/index');
+                redirect('portal/juegos');
             }
         }
     }
