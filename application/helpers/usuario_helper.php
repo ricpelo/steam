@@ -19,6 +19,13 @@ function login()
             $out .= form_close();
           $out .= '</div>';
         $out .= '</div>';
+    else:
+        $out .= '<div class="row">';
+          $out .= '<div class="col-md-2 col-md-offset-10">';
+                $out .= anchor('/usuarios/login', 'Iniciar sesión',
+                                'class="btn btn-primary btn-xs" role="button"');
+          $out .= '</div>';
+        $out .= '</div>';
     endif;
 
     return $out;

@@ -81,7 +81,7 @@ class Usuarios extends CI_Controller {
     public function logout() {
         $this->output->delete_cache('/portal/juegos');
         $this->session->sess_destroy();
-        redirect('usuarios/login');
+        redirect('portal/juegos');
     }
 
     public function __construct() {

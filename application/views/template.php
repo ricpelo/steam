@@ -31,10 +31,11 @@
     <body>
         <header>
             <?= login() ?>
-            <?= img(array(
-                'src' => 'images/logo_steam.png',
-                'id'  => 'logo'
-            )) ?>
+
+            <?= anchor('/portal/juegos', img(array(
+                                'src' => 'images/logo_steam.png',
+                                'id'  => 'logo'
+                    ))) ?>
         </header>
         <?= mensajes() ?>
         <?= $contents ?>
