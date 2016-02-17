@@ -20,6 +20,7 @@ class Juegos extends CI_Controller {
 
         $this->load->model('Comentario');
         $data['comentarios'] = $this->Comentario->todos($id_juego);
+
         $data['juego'] = $this->Juego->por_id($id_juego);
         $this->load->model('Valoracion');
         $id_usuario = $this->session->userdata('usuario')['id'];

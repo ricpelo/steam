@@ -4,9 +4,6 @@ class Comentario extends CI_Model
 {
     public function todos($id, $padre_comentario = NULL, $nivel = 0)
     {
-        // $res = $this->db->get_where('comentarios', array('padre_juego' => $id));
-        // return $res->num_rows() > 0 ? $res->result_array() : FALSE;
-
         $res = $this->db->get_where('comentarios',
             array('padre_juego' => $id, 'padre_comentario' => $padre_comentario));
 
@@ -30,7 +27,6 @@ class Comentario extends CI_Model
 
         return $resultado;
     }
-
     public function por_comentario($id)
     {
         $res = $this->db->get_where('comentarios', array('padre_comentario' => $id));

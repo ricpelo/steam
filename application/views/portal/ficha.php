@@ -33,28 +33,11 @@
 
             </div>
             <?php
-
-                if (isset($comentarios))
+            var_dump($comentarios);
+                foreach ($comentarios as $comentario)
                 {
-                    foreach ($comentarios as $comentario)
-                  {
-                      if ($comentario['padre_comentario'] === null)
-                      {
-                      ?>
-                      <td><?= $comentario['comentario'] ?></td>
-                      <?php
-                      }
-                      foreach ($comentarios as $com)
-                      {
-                          if ($com['padre_comentario'] === $comentario['id'])
-                          {
-                              ?>
-                              <td><?= $com['comentario'] ?></td>
-                              <?php
-                          }
-                      }
-                  }
-              }?>
+                    
+                }?>
         </div>
       </div>
     </div>
