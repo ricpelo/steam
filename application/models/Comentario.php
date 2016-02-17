@@ -21,7 +21,7 @@ class Comentario extends CI_Model
             $h = $this->todos($id, $r['id'], $nivel + 1);
             if ($h !== FALSE)
             {
-                $resultado[] = $h;
+                $resultado = array_merge($resultado, $h);
             }
         }
 
