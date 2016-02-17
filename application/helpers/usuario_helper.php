@@ -36,3 +36,8 @@ function usuario_id()
         $CI =& get_instance();
         return $CI->session->userdata('usuario')['id'];
 }
+
+function logueado() {
+    $CI =& get_instance();
+    return $CI->Usuario->logueado();
+}
