@@ -35,7 +35,7 @@
           </table>
             
           <p align="center">
-            <?= anchor('juegos/insertar', 'Insertar',
+            <?= anchor('/backend/juegos/insertar', 'Insertar',
                        'class="btn btn-success" role="button"') ?>
           </p>
         </div>

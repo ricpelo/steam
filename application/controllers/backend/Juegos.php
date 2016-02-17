@@ -21,9 +21,19 @@ class Juegos extends CI_Controller {
 
     private $reglas_comunes = array(
         array(
-            'field' => 'descripcion',
-            'label' => 'Descripción',
+            'field' => 'nombre',
+            'label' => 'Nombre',
             'rules' => 'trim|required|max_length[50]'
+        ),
+        array(
+            'field' => 'resumen',
+            'label' => 'Resumen',
+            'rules' => 'trim|required'
+        ),
+        array(
+            'field' => 'descripcion',
+            'label' => 'Descripcion',
+            'rules' => 'trim|required'
         ),
         array(
             'field' => 'precio',
@@ -57,27 +67,27 @@ class Juegos extends CI_Controller {
             if ($id !== NULL)
             {
                 $this->Juego->borrar($id);
-                $this->output->delete_cache('/juegos/index');
+                $this->output->delete_cache('/backend/index');
             }
-            redirect('juegos/index');
+            redirect('backend/juegos/index');
         }
         else
         {
             if ($id === NULL)
             {
-                redirect('juegos/index');
+                redirect('backend/juegos/index');
             }
             else
             {
                 $res = $this->Juego->por_id($id);
                 if ($res === FALSE)
                 {
-                    redirect('juegos/index');
+                    redirect('backend/juegos/index');
                 }
                 else
                 {
                     $data = $res;
-                    $this->template->load('juegos/borrar', $data);
+                    $this->template->load('/backend/borrar', $data);
                 }
             }
         }
@@ -92,12 +102,12 @@ class Juegos extends CI_Controller {
             if ($this->form_validation->run() !== FALSE)
             {
                 $valores = $this->limpiar('insertar', $this->input->post());
-                $this->Juego->insertar($valores);
-                $this->output->delete_cache('/juegos/index');
-                redirect('juegos/index');
+                $this->Juego->insertar($valores);                
+                $this->output->delete_cache('/backend/index');
+                redirect('backend/juegos/index');
             }
         }
-        $this->template->load('juegos/insertar');
+        $this->template->load('backend/insertar');
     }
 
     private function limpiar($accion, $valores)
@@ -110,7 +120,7 @@ class Juegos extends CI_Controller {
     {
         if ($id === NULL)
         {
-            redirect('juegos/index');
+            redirect('backend/juegos/index');
         }
 
         $id = trim($id);
@@ -123,16 +133,16 @@ class Juegos extends CI_Controller {
             {
                 $valores = $this->limpiar('editar', $this->input->post());
                 $this->Juego->editar($valores, $id);
-                $this->output->delete_cache('/juegos/index');
-                redirect('juegos/index');
+                $this->output->delete_cache('/backend/index');
+                redirect('backend/juegos/index');
             }
         }
         $valores = $this->Juego->por_id($id);
         if ($valores === FALSE)
         {
-            redirect('juegos/index');
+            redirect('backend/juegos/index');
         }
         $data = $valores;
-        $this->template->load('juegos/editar', $data);
+        $this->template->load('backend/editar', $data);
     }
 }

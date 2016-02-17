@@ -12,10 +12,22 @@
               <?= validation_errors() ?>
             </div>
           <?php endif ?>
-          <?= form_open("juegos/editar/$id") ?>
+          <?= form_open("backend/juegos/editar/$id") ?>
+            <div class="form-group">
+              <?= form_label('Nombre:', 'descripcion') ?>
+              <?= form_input('nombre',
+                             set_value('nombre', $nombre, FALSE),
+                             'id="nombre" class="form-control"') ?>
+            </div>
+            <div class="form-group">
+              <?= form_label('Resumen:', 'resumen') ?>
+              <?= form_textarea('resumen',
+                             set_value('resumen', $resumen, FALSE),
+                             'id="resumen"  class="form-control"') ?>
+            </div>
             <div class="form-group">
               <?= form_label('Descripción:', 'descripcion') ?>
-              <?= form_input('descripcion',
+              <?= form_textarea('descripcion',
                              set_value('descripcion', $descripcion, FALSE),
                              'id="descripcion" class="form-control"') ?>
             </div>
