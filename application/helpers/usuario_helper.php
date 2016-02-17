@@ -19,8 +19,20 @@ function login()
             $out .= form_close();
           $out .= '</div>';
         $out .= '</div>';
-        $out .= '<hr/>';
+    else:
+        $out .= '<div class="row">';
+          $out .= '<div class="col-md-2 col-md-offset-10">';
+                $out .= anchor('/usuarios/login', 'Iniciar sesión',
+                                'class="btn btn-primary btn-xs" role="button"');
+          $out .= '</div>';
+        $out .= '</div>';
     endif;
 
     return $out;
+}
+
+function usuario_id()
+{
+        $CI =& get_instance();
+        return $CI->session->userdata('usuario')['id'];
 }

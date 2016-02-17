@@ -1,10 +1,10 @@
-<?php template_set('title', 'Login') ?>
+<?php template_set('title', 'Registro') ?>
 <div class="container-fluid" style="padding-top:20px">
   <div class="row">
     <div class="col-md-4 col-md-offset-4">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">Login</h3>
+          <h3 class="panel-title">Registro</h3>
         </div>
         <div class="panel-body">
           <?php if ( ! empty(error_array())): ?>
@@ -12,7 +12,7 @@
               <?= validation_errors() ?>
             </div>
           <?php endif ?>
-          <?= form_open('usuarios/registrar') ?>
+          <?= form_open_multipart('usuarios/registrar') ?>
             <div class="form-group">
               <?= form_label('Nick:', 'nick') ?>
               <?= form_input('nick', set_value('nick', '', FALSE),
@@ -37,6 +37,10 @@
               <?= form_label('Confirmar Contraseña:', 'password_confirm') ?>
               <?= form_password('password_confirm', '',
                                 'id="password_confirm" class="form-control"') ?>
+            </div>
+            <div class="form-group">
+              <?= form_label('Foto:', 'foto') ?>
+              <?= form_upload('foto', set_value('foto', '', FALSE), 'id="foto"') ?>
             </div>
             <?= form_submit('registrar', 'Registrar', 'class="btn btn-success"') ?>
             <?= anchor('/usuarios/login', 'Volver', 'class="btn btn-info" role="button"') ?>

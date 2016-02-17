@@ -24,9 +24,14 @@ class Juegos extends CI_Controller {
 
     public function index()
     {
-        $this->output->cache(1);
+        if (ENVIRONMENT === 'production')
+        {
+            $this->output->cache(1);
+        }
+
         $data['filas'] = $this->Juego->todos();
-        $this->template->load('juegos/index', $data, array('title' => 'Listado de juegos'));
+        $this->template->load('backend/index', $data, array('title' => 'Listado de juegos'));
+
     }
 
     public function borrar($id = NULL)

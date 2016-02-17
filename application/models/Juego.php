@@ -15,7 +15,7 @@ class Juego extends CI_Model
 
     public function por_id($id)
     {
-        $res = $this->db->query('select * from juegos where id = ?',
+        $res = $this->db->query('select * from v_juegos where id = ?',
                                 array($id));
         return $res->num_rows() > 0 ? $res->row_array() : FALSE;
     }
@@ -27,7 +27,7 @@ class Juego extends CI_Model
 
     public function por_codigo($codigo)
     {
-        $res = $this->db->query('select * from juegos where codigo = ?',
+        $res = $this->db->query('select * from v_juegos where codigo = ?',
                                 array($codigo));
         return $res->num_rows() > 0 ? $res->row_array() : FALSE;
     }

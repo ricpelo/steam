@@ -19,8 +19,14 @@ class Usuarios extends CI_Controller{
             'rules' => 'trim|required|matches[password]'
         )
     );
-    public function login()
-    {
+
+    private $array_password_anterior = array(
+        'field' => 'password_anterior',
+        'label' => 'Contraseña Antigua',
+        'rules' => 'required'
+    );
+
+    public function login() {
         if ($this->Usuario->logueado()) {
             redirect('usuarios/index');
         }
@@ -58,18 +64,24 @@ class Usuarios extends CI_Controller{
                 $usuario = $this->Usuario->por_nick($nick);
                 $this->session->set_userdata('usuario', array(
                     'id' => $usuario['id'],
-                    'nick' => $nick
+                    'nick' => $nick,
+                    'rol_id' => $usuario['rol_id']
                 ));
-                redirect('usuarios/index');
+                if ($usuario['rol_id'] === '1') {
+                    redirect('usuarios/index');
+                } else {
+                    redirect('portal/juegos');
+                }
             }
         }
-
+        $this->output->delete_cache('/portal/juegos');
         $this->template->load('usuarios/login');
     }
 
     public function logout() {
+        $this->output->delete_cache('/portal/juegos');
         $this->session->sess_destroy();
-        redirect('usuarios/login');
+        redirect('portal/juegos');
     }
 
     public function __construct() {
@@ -77,28 +89,28 @@ class Usuarios extends CI_Controller{
 
         $accion = $this->uri->rsegment(2);
 
-        if ( ! in_array($accion, array('login', 'recordar', 'regenerar', 'registrar', 'validar')) &&
+        if ( ! in_array($accion, array('login', 'recordar', 'regenerar', 'registrar', 'validar', 'upload')) &&
              ! $this->Usuario->logueado()) {
             redirect('usuarios/login');
         }
 
-        if ( ! in_array($accion, array('login', 'logout', 'recordar', 'regenerar', 'registrar', 'validar'))) {
-            if( ! $this->Usuario->es_admin()) {
+        if ( ! in_array($accion, array('login', 'logout', 'recordar', 'regenerar', 'registrar', 'validar', 'upload'))) {
+            if ( ! $this->Usuario->es_admin())
+            {
                 $mensajes = $this->session->flashdata('mensajes');
                 $mensajes = isset($mensajes) ? $mensajes : array();
                 $mensajes[] = array('error' =>
-                    "No tiene permisos para acceder a $accion");
+                    "No tiene permisos para acceder a esta parte de la aplicación");
+                $this->session->set_flashdata('mensajes', $mensajes);
 
-                $this->session->set_flashdata("mensajes", $mensajes);
-
-                redirect('juegos/index');
+                redirect('portal/juegos');
             }
         }
     }
 
     public function index() {
-
-        $this->template->load('usuarios/index');
+        $data['filas'] = $this->Usuario->todos();
+        $this->template->load('usuarios/index', $data);
     }
 
     public function validar($usuario_id = NULL, $token = NULL) {
@@ -121,13 +133,11 @@ class Usuarios extends CI_Controller{
 
         ######################################################
 
-        $usuario = $this->Usuario->por_id($usuario_id);
-        $nick = $usuario['nick'];
         $valores = array(
             'registro_verificado' => TRUE
         );
 
-        $this->Usuario->editar($valores, $nick);
+        $this->Usuario->editar($valores, $usuario_id);
         $this->Token->borrar($usuario_id);
 
         $mensajes[] = array('info' =>
@@ -168,6 +178,11 @@ class Usuarios extends CI_Controller{
                     'field' => 'password_confirm',
                     'label' => 'Confirmar contraseña',
                     'rules' => 'trim|required|matches[password]'
+                ),
+                array(
+                    'field' => 'foto',
+                    'label' => 'Foto',
+                    'rules' => ''
                 )
             );
 
@@ -176,19 +191,37 @@ class Usuarios extends CI_Controller{
             {
 
                 $valores = $this->input->post();
+
                 unset($valores['registrar']);
                 unset($valores['password_confirm']);
+                unset($valores['foto']);
+
                 $valores['password'] = password_hash($valores['password'], PASSWORD_DEFAULT);
                 $valores['registro_verificado'] = FALSE;
 
                 $this->Usuario->insertar($valores);
 
-                ################################################################
-
                 $this->load->model('Token');
                 # Prepara correo
                 $usuario = $this->Usuario->por_nick($valores['nick']);
                 $usuario_id = $usuario['id'];
+
+                ################################################################
+
+                $config['upload_path'] = 'images/usuarios/';
+                $config['allowed_types'] = 'gif|jpg|png';
+                $config['file_name'] = $usuariod_id . '.png';
+
+                $this->load->library('upload', $config);
+
+                if ( ! $this->upload->do_upload('foto')) {
+                    $error = array('error' => $this->upload->display_errors());
+                }
+                else {
+                    $data = array('upload_data' => $this->upload->data());
+                }
+
+                ################################################################
 
                 # Mandar correo
                 $enlace = anchor('/usuarios/validar/' . $usuario_id . '/' .
@@ -323,8 +356,96 @@ class Usuarios extends CI_Controller{
         $this->template->load('usuarios/regenerar', $data);
     }
 
-    public function _password_valido($password, $nick)
+    public function insertar()
     {
+        if ($this->input->post('insertar') !== NULL)
+        {
+            $reglas = $this->reglas_comunes;
+            $reglas[0]['rules'] .= '|is_unique[usuarios.nick]';
+            $this->form_validation->set_rules($reglas);
+            if ($this->form_validation->run() !== FALSE)
+            {
+                $valores = $this->limpiar('insertar', $this->input->post());
+                $this->Usuario->insertar($valores);
+                redirect('usuarios/index');
+            }
+        }
+        $data['roles'] = $this->Rol->lista();
+        $this->template->load('usuarios/insertar', $data);
+    }
+
+    public function editar($id = NULL)
+    {
+        if ($id === NULL)
+        {
+            redirect('usuarios/index');
+        }
+
+        $id = trim($id);
+
+        if ($this->input->post('editar') !== NULL)
+        {
+            $reglas = $this->reglas_comunes;
+            $reglas[0]['rules'] .= "|callback__nick_unico[$id]";
+            $reglas[] = $this->array_password_anterior;
+            $reglas[sizeof($reglas)-1]['rules'] .= "|callback__password_anterior_correcto[$id]";
+            $this->form_validation->set_rules($reglas);
+            if ($this->form_validation->run() !== FALSE)
+            {
+                $valores = $this->limpiar('editar', $this->input->post());
+                unset($valores['password_anterior']);
+                $this->Usuario->editar($valores, $id);
+                redirect('usuarios/index');
+            }
+        }
+        $valores = $this->Usuario->por_id($id);
+        if ($valores === FALSE)
+        {
+            redirect('usuarios/index');
+        }
+        $data = $valores;
+        if (isset($data['password']))
+        {
+            unset($data['password']);
+        }
+        $data['roles'] = $this->Rol->lista();
+        $this->template->load('usuarios/editar', $data);
+    }
+
+    public function borrar($id = NULL)
+    {
+        if ($this->input->post('borrar') !== NULL)
+        {
+            $id = $this->input->post('id');
+            if ($id !== NULL)
+            {
+                $this->Usuario->borrar($id);
+            }
+            redirect('usuarios/index');
+        }
+        else
+        {
+            if ($id === NULL)
+            {
+                redirect('usuarios/index');
+            }
+            else
+            {
+                $res = $this->Usuario->por_id($id);
+                if ($res === FALSE)
+                {
+                    redirect('usuarios/index');
+                }
+                else
+                {
+                    $data = $res;
+                    $this->template->load('usuarios/borrar', $data);
+                }
+            }
+        }
+    }
+
+    public function _password_valido($password, $nick) {
         $usuario = $this->Usuario->por_nick($nick);
 
         if ($usuario !== FALSE &&
@@ -349,4 +470,34 @@ class Usuarios extends CI_Controller{
         return $valores;
     }
 
+    public function _password_anterior_correcto($password_anterior, $id)
+    {
+        $valores = $this->Usuario->password($id);
+        if (password_verify($password_anterior, $valores['password']) === TRUE)
+        {
+            return TRUE;
+        }
+        else
+        {
+            $this->form_validation->set_message('_password_anterior_correcto',
+                'La {field} no es correcta.');
+            return FALSE;
+        }
+    }
+
+    public function _nick_unico($nick, $id)
+    {
+        $res = $this->Usuario->por_nick($nick);
+
+        if ($res === FALSE || $res['id'] === $id)
+        {
+            return TRUE;
+        }
+        else
+        {
+            $this->form_validation->set_message('_nick_unico',
+                'El {field} debe ser único.');
+            return FALSE;
+        }
+    }
 }

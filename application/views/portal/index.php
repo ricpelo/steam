@@ -10,23 +10,24 @@
           <?php foreach ($filas as $fila): ?>
             <div class="ficha">
                 <div>
-                    <td><?= img('images/'.$fila['id'].'.jpg') ?></td>
+                    <td><?= img('images/juegos/'.$fila['id'].'.jpg') ?></td>
                 </div>
                 <div>
                     <h1><?= $fila['nombre'] ?></h1>
                     <h2><?= $fila['precio'] ?>€</h2>
                     <p><?= $fila['resumen'] ?></p>
+                    <form>
+                        <input id="input-1" class="rating" data-min="0" data-max="5"
+                            data-step="1" value="<?= $fila['valoracion'] ?>" data-readonly="true"
+                            data-show-clear="false" data-show-caption="false" data-size="xs">
+                    </form>
                     <p>
-                        <?= anchor('/portal/juego/ficha' . $fila['id'], 'Ver ficha',
+                        <?= anchor('/portal/juegos/ficha/' . $fila['id'], 'Ver ficha',
                             'class="btn btn-danger btn-xs" role="button"') ?>
                     </p>
                 </div>
             </div>
           <?php endforeach ?>
-          <p align="center">
-            <?= anchor('juegos/insertar', 'Insertar',
-                       'class="btn btn-success" role="button"') ?>
-          </p>
         </div>
       </div>
     </div>

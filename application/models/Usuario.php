@@ -4,7 +4,7 @@ class Usuario extends CI_Model
 {
     public function todos()
     {
-        return $this->db->get('usuarios')->result_array();
+        return $this->db->get('v_usuarios_roles')->result_array();
     }
 
     public function borrar($id)
@@ -14,7 +14,7 @@ class Usuario extends CI_Model
 
     public function por_id($id)
     {
-        $res = $this->db->get_where('usuarios', array('id' => $id));
+        $res = $this->db->get_where('v_usuarios_roles', array('id' => $id));
         return $res->num_rows() > 0 ? $res->row_array() : FALSE;
     }
 
@@ -49,23 +49,30 @@ class Usuario extends CI_Model
         return $this->session->has_userdata('usuario');
     }
 
-    // public function es_admin() {
-    //     $usuario = $this->session->userdata("usuario");
-    //     return $usuario['rol_id'] === '1';
-    // }
+    public function es_admin() {
+        $usuario = $this->session->userdata("usuario");
+        return $usuario['rol_id'] === '1';
+    }
 
     public function insertar($valores)
     {
         return $this->db->insert('usuarios', $valores);
     }
 
-    public function editar($valores, $nick)
+    public function editar($valores, $id)
     {
-        return $this->db->where('nick', $nick)->update('usuarios', $valores);
+        return $this->db->where('id', $id)->update('usuarios', $valores);
     }
 
     public function actualizar_password($id, $nueva_password) {
         return $this->db->query("update usuarios set password = ? where id::text = ?",
                           array($nueva_password, $id));
+    }
+
+    public function password($id)
+    {
+        $res = $this->db->query('select password from usuarios where id = ?',
+                                array($id));
+        return $res->num_rows() > 0 ? $res->row_array() : FALSE;
     }
 }

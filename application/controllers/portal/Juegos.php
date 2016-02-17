@@ -4,28 +4,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Juegos extends CI_Controller {
 
-    private $reglas_comunes = array(
-        array(
-            'field' => 'descripcion',
-            'label' => 'Descripción',
-            'rules' => 'trim|required|max_length[50]'
-        ),
-        array(
-            'field' => 'precio',
-            'label' => 'Precio',
-            'rules' => 'trim|required|numeric|less_than_equal_to[9999.99]'
-        ),
-        array(
-            'field' => 'existencias',
-            'label' => 'Existencias',
-            'rules' => 'trim|integer|greater_than_equal_to[-2147483648]|less_than_equal_to[+2147483647]'
-        )
-    );
-
     public function index()
     {
         $this->output->cache(1);
         $data['filas'] = $this->Juego->todos();
-        $this->template->load('portal/index', $data, array('title' => 'Listado de juegos'));
+        $this->template->load('portal/index', $data);
+    }
+
+    public function ficha($id_juego = NULL)
+    {
+        if ($id_juego === NULL)
+        {
+            redirect('portal/index');
+        }
+
+        $data['juego'] = $this->Juego->por_id($id_juego);
+        $this->load->model('Valoracion');
+        $id_usuario = $this->session->userdata('usuario')['id'];
+        $data['usuario'] = $this->Valoracion->por_ids($id_usuario, $id_juego);
+        $this->template->load('portal/ficha', $data);
+    }
+
+    public function valoracion($id_usuario, $id_juego, $valoracion) {
+        $this->load->model('Valoracion');
+        if ($this->Valoracion->tiene_valoracion($id_usuario, $id_juego))
+        {
+            $this->Valoracion->editar($id_juego, $id_usuario, $valoracion);
+        }
+        else {
+            $valores = array('id_juego'   => $id_juego,
+                             'id_usuario' =>$id_usuario,
+                             'valoracion' => $valoracion);
+            $this->Valoracion->insertar($valores);
+        }
+        $total = $this->Valoracion->por_id($id_juego);
+        echo json_encode(array(
+                            'total' => $total['valoracion']
+        ));
     }
 }

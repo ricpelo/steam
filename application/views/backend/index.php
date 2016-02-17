@@ -7,35 +7,33 @@
           <h3 class="panel-title">Listado de Juegos</h3>
         </div>
         <div class="panel-body">
-<<<<<<< HEAD
           <table border="1"
                  class="table table-striped table-bordered table-hover table-condensed">
             <thead>
-              <th>Descripción</th>
+              <th>Nombre</th>
               <th>Precio</th>
-              <th>Imágenes</th>
-              <th>Valoración</th>
+              <th>Valoracion</th>
               <th colspan="2">Acciones</th>
             </thead>
             <tbody>
               <?php foreach ($filas as $fila): ?>
                 <tr>
-                  <td><?= $fila['descripcion'] ?></td>
+                  <td><?= $fila['nombre'] ?></td>
                   <td><?= $fila['precio'] ?></td>
-                  <td><?= img('images/'.$fila['id'].'.jpg') ?></td>
                   <td><?= $fila['valoracion'] ?></td>
                   <td align="center">
-                    <?= anchor('/juegos/borrar/' . $fila['id'], 'Borrar',
+                    <?= anchor('/backend/juegos/borrar/' . $fila['id'], 'Borrar',
                                'class="btn btn-danger btn-xs" role="button"') ?>
                   </td>
                   <td align="center">
-                    <?= anchor('/juegos/editar/' . $fila['id'], 'Editar',
+                    <?= anchor('/backend/juegos/editar/' . $fila['id'], 'Editar',
                                'class="btn btn-warning btn-xs" role="button"') ?>
                   </td>
                 </tr>
               <?php endforeach ?>
             </tbody>
           </table>
+            
           <p align="center">
             <?= anchor('juegos/insertar', 'Insertar',
                        'class="btn btn-success" role="button"') ?>
