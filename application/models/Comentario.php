@@ -2,11 +2,7 @@
 
 class Comentario extends CI_Model
 {
-    public function todos()
-    {
-        return $this->db->query('select * from comentarios')->result_array();
-    }
-    public function por_juego($id)
+    public function todos($id)
     {
         $res = $this->db->get_where('comentarios', array('padre_juego' => $id));
         return $res->num_rows() > 0 ? $res->result_array() : FALSE;

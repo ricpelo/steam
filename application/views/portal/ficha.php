@@ -25,8 +25,34 @@
                             data-step="1" value="<?= $usuario['valoracion'] ?>"
                             data-show-clear="false" data-show-caption="false" data-size="xs">
                     </form>
+
+
                 </div>
+
             </div>
+            <?php
+
+                if (isset($comentarios))
+                {
+                    foreach ($comentarios as $comentario)
+                  {
+                      if ($comentario['padre_comentario'] === null)
+                      {
+                      ?>
+                      <td><?= $comentario['comentario'] ?></td>
+                      <?php
+                      }
+                      foreach ($comentarios as $com)
+                      {
+                          if ($com['padre_comentario'] === $comentario['id'])
+                          {
+                              ?>
+                              <td><?= $com['comentario'] ?></td>
+                              <?php
+                          }
+                      }
+                  }
+              }?>
         </div>
       </div>
     </div>
