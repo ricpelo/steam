@@ -89,12 +89,12 @@ class Usuarios extends CI_Controller{
 
         $accion = $this->uri->rsegment(2);
 
-        if ( ! in_array($accion, array('login', 'recordar', 'regenerar', 'registrar', 'validar', 'upload')) &&
+        if ( ! in_array($accion, array('login', 'recordar', 'regenerar', 'registrar', 'validar')) &&
              ! $this->Usuario->logueado()) {
             redirect('usuarios/login');
         }
 
-        if ( ! in_array($accion, array('login', 'logout', 'recordar', 'regenerar', 'registrar', 'validar', 'upload'))) {
+        if ( ! in_array($accion, array('login', 'logout', 'recordar', 'regenerar', 'registrar', 'validar'))) {
             if ( ! $this->Usuario->es_admin())
             {
                 $mensajes = $this->session->flashdata('mensajes');
@@ -111,6 +111,49 @@ class Usuarios extends CI_Controller{
     public function index() {
         $data['filas'] = $this->Usuario->todos();
         $this->template->load('usuarios/index', $data);
+    }
+
+    public function perfil($id = NULL) {
+        if($id === NULL) {
+            $mensajes[] = array('error' =>
+                    "Parámetros incorrectos para acceder a su perfil de usuario, por favor, intentelo de nuevo.");
+            $this->flashdata->load($mensajes);
+            redirect('usuarios/login');
+        }
+        $usuario = $this->Usuario->por_id($id);
+        $this->template->load('usuarios/perfil', $usuario);
+    }
+
+    public function foto($id = NULL) {
+        if($id === NULL) {
+            $mensajes[] = array('error' =>
+                    "Parámetros incorrectos para acceder a subido de foto de perfil, por favor, intentelo de nuevo.");
+            $this->flashdata->load($mensajes);
+            redirect('usuarios/login');
+        }
+        $data['id'] = $id;
+
+        if ($this->input->post('insertar') !== NULL) {
+            $config['upload_path'] = 'images/usuarios/';
+            $config['allowed_types'] = 'jpeg';
+            $config['overwrite'] = TRUE;
+            $config['max-width'] = 250;
+            $config['max-height'] = 250;
+            $config['max-size'] = 100;
+            $config['file_name'] = $id . '.jpeg';
+
+            $this->load->library('upload', $config);
+
+            if ( ! $this->upload->do_upload('foto')) {
+                $error = array('error' => $this->upload->display_errors());
+                var_dump($error); die();
+            }
+            else {
+                $data = array('upload_data' => $this->upload->data());
+            }
+            redirect('usuarios/perfil/' . $id);
+        }
+        $this->template->load('usuarios/foto', $data);
     }
 
     public function validar($usuario_id = NULL, $token = NULL) {
@@ -146,7 +189,6 @@ class Usuarios extends CI_Controller{
 
         redirect('/usuarios/login');
     }
-
     public function registrar() {
 
         if ($this->input->post('registrar') !== NULL)
@@ -205,21 +247,6 @@ class Usuarios extends CI_Controller{
                 # Prepara correo
                 $usuario = $this->Usuario->por_nick($valores['nick']);
                 $usuario_id = $usuario['id'];
-
-                ################################################################
-
-                $config['upload_path'] = 'images/usuarios/';
-                $config['allowed_types'] = 'gif|jpg|png';
-                $config['file_name'] = $usuariod_id . '.png';
-
-                $this->load->library('upload', $config);
-
-                if ( ! $this->upload->do_upload('foto')) {
-                    $error = array('error' => $this->upload->display_errors());
-                }
-                else {
-                    $data = array('upload_data' => $this->upload->data());
-                }
 
                 ################################################################
 
