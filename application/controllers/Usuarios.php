@@ -1,8 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Usuarios extends CI_Controller {
-
+class Usuarios extends CI_Controller{
     private $reglas_comunes = array(
         array(
             'field' => 'nick',
@@ -20,13 +19,14 @@ class Usuarios extends CI_Controller {
             'rules' => 'trim|required|matches[password]'
         )
     );
-
-    public function login() {
+    public function login()
+    {
         if ($this->Usuario->logueado()) {
             redirect('usuarios/index');
         }
 
-        if ($this->input->post('login') !== NULL) {
+        if ($this->input->post('login') !== NULL)
+        {
             $nick = $this->input->post('nick');
 
             $reglas = array(
@@ -40,7 +40,7 @@ class Usuarios extends CI_Controller {
                     ),
                     'errors' => array(
                         'existe_nick' => 'El nick debe existir.',
-                        'existe_nick_registrado' => 'Esta cuenta todavía no ha sido validada por' .
+                        'existe_nick_registrado' => 'Esta cuenta todavia no ha sido validada por' .
                                                     ' los medios correspondientes. Por favor, ' .
                                                     'valide su cuenta.'
                     ),
@@ -63,12 +63,11 @@ class Usuarios extends CI_Controller {
                 redirect('usuarios/index');
             }
         }
-        $this->output->delete_cache('/juegos/index');
+
         $this->template->load('usuarios/login');
     }
 
     public function logout() {
-        $this->output->delete_cache('/juegos/index');
         $this->session->sess_destroy();
         redirect('usuarios/login');
     }
@@ -84,11 +83,21 @@ class Usuarios extends CI_Controller {
         }
 
         if ( ! in_array($accion, array('login', 'logout', 'recordar', 'regenerar', 'registrar', 'validar'))) {
-            redirect('juegos/index');
+            if( ! $this->Usuario->es_admin()) {
+                $mensajes = $this->session->flashdata('mensajes');
+                $mensajes = isset($mensajes) ? $mensajes : array();
+                $mensajes[] = array('error' =>
+                    "No tiene permisos para acceder a $accion");
+
+                $this->session->set_flashdata("mensajes", $mensajes);
+
+                redirect('juegos/index');
+            }
         }
     }
 
     public function index() {
+
         $this->template->load('usuarios/index');
     }
 
@@ -139,22 +148,16 @@ class Usuarios extends CI_Controller {
                     'label' => 'Nick',
                     'rules' => array(
                         'trim', 'required',
-                        array('existe_nick', function($nick) {return !$this->Usuario->existe_nick($nick);})
+                        array('existe_nick', array($this->Usuario, 'no_existe_nick'))
                     ),
                     'errors' => array(
                         'existe_nick' => 'El nick ya existe, por favor, escoja otro.',
-                    )
+                    ),
                 ),
                 array(
                     'field' => 'email',
                     'label' => 'Email',
-                    'rules' => array(
-                        'trim', 'required',
-                        array('existe_email', function($email) {return !$this->Usuario->por_email($email);})
-                    ),
-                    'errors' => array(
-                        'existe_email' => 'El email ya está registrado, por favor, escoja otro.',
-                    )
+                    'rules' => 'trim|required'
                 ),
                 array(
                     'field' => 'password',
@@ -183,7 +186,6 @@ class Usuarios extends CI_Controller {
                 ################################################################
 
                 $this->load->model('Token');
-
                 # Prepara correo
                 $usuario = $this->Usuario->por_nick($valores['nick']);
                 $usuario_id = $usuario['id'];
@@ -231,8 +233,8 @@ class Usuarios extends CI_Controller {
             );
             $this->form_validation->set_rules($reglas);
             if ($this->form_validation->run() !== FALSE) {
-
                 # Preparar correo
+
                 $nick = $this->input->post('nick');
                 $usuario = $this->Usuario->por_nick($nick);
                 $usuario_id = $usuario['id'];
@@ -243,6 +245,7 @@ class Usuarios extends CI_Controller {
                                  $this->Token->generar($usuario_id));
 
                 # Mandar correo
+
                 $this->load->library('email');
                 $this->email->from('steamClase@gmail.com');
                 $this->email->to($email);
@@ -281,6 +284,8 @@ class Usuarios extends CI_Controller {
             redirect('/usuarios/login');
         }
 
+        ######################################################
+
         if ($this->input->post('regenerar') !== NULL) {
             $reglas = array(
                 array(
@@ -309,6 +314,8 @@ class Usuarios extends CI_Controller {
             }
         }
 
+        ########################################################
+
         $data = array(
             'usuario_id' => $usuario_id,
             'token' => $token
@@ -316,7 +323,8 @@ class Usuarios extends CI_Controller {
         $this->template->load('usuarios/regenerar', $data);
     }
 
-    public function _password_valido($password, $nick) {
+    public function _password_valido($password, $nick)
+    {
         $usuario = $this->Usuario->por_nick($nick);
 
         if ($usuario !== FALSE &&
@@ -332,7 +340,8 @@ class Usuarios extends CI_Controller {
         }
     }
 
-    private function limpiar($accion, $valores) {
+    private function limpiar($accion, $valores)
+    {
         unset($valores[$accion]);
         $valores['password'] = password_hash($valores['password'], PASSWORD_DEFAULT);
         unset($valores['password_confirm']);

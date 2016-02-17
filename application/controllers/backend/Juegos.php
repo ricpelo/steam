@@ -26,13 +26,6 @@ class Juegos extends CI_Controller {
     {
         $this->output->cache(1);
         $data['filas'] = $this->Juego->todos();
-        //PRUEBA
-
-        $this->load->model('Comentario');
-        $data['comentarios'] = $this->Comentario->todos();
-
-
-        //PRUEBA
         $this->template->load('juegos/index', $data, array('title' => 'Listado de juegos'));
     }
 
