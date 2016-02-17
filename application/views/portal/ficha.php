@@ -20,10 +20,12 @@
                         <input id="input-1" class="rating" data-min="0" data-max="5"
                             data-step="1" value="<?= $juego['valoracion'] ?>" data-readonly="true"
                             data-show-clear="false" data-show-caption="false" data-size="xs">
-                        <label>Tu valoración</label>
-                        <input id="input-2" class="rating" data-min="0" data-max="5"
+                        <?php if (logueado()): ?>
+                            <label>Tu valoración</label>
+                            <input id="input-2" class="rating" data-min="0" data-max="5"
                             data-step="1" value="<?= $usuario['valoracion'] ?>"
                             data-show-clear="false" data-show-caption="false" data-size="xs">
+                        <?php endif; ?>
                     </form>
                 </div>
             </div>
