@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Usuarios extends CI_Controller{
+class Usuarios extends CI_Controller {
     private $reglas_comunes = array(
         array(
             'field' => 'nick',
@@ -199,7 +199,7 @@ class Usuarios extends CI_Controller{
 
         if ($this->input->post('registrar') !== NULL)
         {
-            $reglas = $reglas_comunes;
+            $reglas = $this->reglas_comunes;
             $reglas[0] = array(
                             'field' => 'nick',
                             'label' => 'Nick',
@@ -209,12 +209,11 @@ class Usuarios extends CI_Controller{
                             ),
                             'errors' => array(
                                 'existe_nick' => 'El nick ya existe, por favor, escoja otro.',
-                        )
-                    );
+                            )
+                        );
 
             $this->form_validation->set_rules($reglas);
-            if ($this->form_validation->run() === TRUE)
-            {
+            if ($this->form_validation->run() === TRUE) {
 
                 $valores = $this->input->post();
 
@@ -224,6 +223,7 @@ class Usuarios extends CI_Controller{
 
                 $valores['password'] = password_hash($valores['password'], PASSWORD_DEFAULT);
                 $valores['registro_verificado'] = FALSE;
+                $valores['activado'] = TRUE;
 
                 $this->Usuario->insertar($valores);
 
@@ -332,7 +332,7 @@ class Usuarios extends CI_Controller{
 
         if ($this->input->post('regenerar') !== NULL) {
             $reglas = array(
-                $reglas_comunes[2], $reglas_comunes[3]
+                $this->reglas_comunes[2], $this->reglas_comunes[3]
             );
 
             $this->form_validation->set_rules($reglas);

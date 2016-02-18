@@ -8,15 +8,17 @@ create table roles (
 drop table if exists usuarios cascade;
 
 create table usuarios(
-    id bigserial constraint pk_usuarios primary key,
-    nick varchar(100) not null constraint uq_usuarios_nick unique,
-    password char(60) not null constraint ck_password_valida
-                               check (length(password) = 60),
-    email varchar(100) not null,
-    registro_verificado bool not null default false,
-    rol_id bigint not null default 2 constraint fk_usuarios_roles
-                  references roles(id) on delete no action
-                  on update cascade
+    id                  bigserial             constraint pk_usuarios primary key,
+    nick                varchar(100) not null constraint uq_usuarios_nick unique,
+    password            char(60)     not null constraint ck_password_valida
+                                              check (length(password) = 60),
+    email               varchar(100) not null,
+    registro_verificado bool         not null default false,
+    rol_id              bigint       not null default 2 constraint fk_usuarios_roles
+                                                        references roles(id)
+                                                        on delete no action
+                                                        on update cascade,
+    activado            bool         not null default true
 );
 
 drop table if exists tokens cascade;
@@ -122,10 +124,10 @@ values('administrador'),
       ('registrado');
 
 insert into usuarios(nick, password, email, registro_verificado, rol_id)
-values('admin', crypt('admin', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 1),
-      ('pepe', crypt('pepe', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 2),
-      ('juan', crypt('juan', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 2),
-      ('guillermo', crypt('guillermo', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 2);
+values('admin', crypt('admin', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 1, true),
+      ('pepe', crypt('pepe', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 2, true),
+      ('juan', crypt('juan', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 2, true),
+      ('guillermo', crypt('guillermo', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 2, true);
 
 drop table if exists valoraciones;
 
