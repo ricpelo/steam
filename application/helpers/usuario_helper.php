@@ -37,7 +37,18 @@ function usuario_id()
         return $CI->session->userdata('usuario')['id'];
 }
 
-function logueado() {
+function logueado()
+{
     $CI =& get_instance();
     return $CI->Usuario->logueado();
+}
+
+function nick($usuario_id)
+{
+    $CI =& get_instance();
+    $usuario =  $CI->Usuario->por_id($usuario_id);
+    if ($usuario !== FALSE)
+    {
+        return $usuario['nick'];
+    }
 }
