@@ -33,11 +33,38 @@
 
             </div>
             <?php
-            var_dump($comentarios);
-                foreach ($comentarios as $comentario)
+                if ($comentarios !== FALSE)
                 {
-                    
-                }?>
+                    foreach ($comentarios as $comentario)
+                    { ?>
+                        <div class='row'>
+                          <div class='col-md-offset-<?= $comentario['nivel'] > 3 ? 3: $comentario['nivel']  ?>' >
+                              <div class="col-md-2 col-sm-2 hidden-xs">
+                                <figure class="thumbnail">
+                                  <figcaption class="text-center"><?= img('images/usuarios/'.$comentario['autor'].'.jpeg') ?></figcaption>
+                                </figure>
+                              </div>
+                              <div class="col-md-10 col-sm-10">
+                                <div class="panel panel-default arrow left">
+                                  <div class="panel-body">
+                                    <header class="text-left">
+                                      <div class="comment-user"><i class="fa fa-user"></i> <?= $comentario['autor'] ?></div>
+                                      <time class="comment-date" datetime="<?= $comentario['created_at'] ?> "><i class="fa fa-clock-o"></i> Escrito el: <?= $comentario['created_at'] ?></time>
+                                    </header>
+                                    <div class="comment-post">
+                                      <p>
+                                        <?= $comentario['contenido'] ?>
+                                      </p>
+                                    </div>
+                                    <p class="text-right"><a href=<?= $comentario['id'] ?> class="btn btn-default btn-sm"><i class="fa fa-reply"></i> Responder</a></p>
+                                  </div>
+                                </div>
+                              </div>
+                        </div>
+                      </div><?php
+                    }
+                }
+                ?>
         </div>
       </div>
     </div>
