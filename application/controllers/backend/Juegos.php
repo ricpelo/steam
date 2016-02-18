@@ -4,6 +4,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Juegos extends CI_Controller {
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        if ( ! $this->Usuario->logueado())
+        {
+            redirect('usuarios/login');
+        }
+
+        if ( ! $this->Usuario->es_admin())
+        {
+            redirect('portal/juegos');
+        }
+    }
+
     private $reglas_comunes = array(
         array(
             'field' => 'descripcion',

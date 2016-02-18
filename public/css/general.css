@@ -7,9 +7,21 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
-img#logo { width: 15%; }
+img#logo { width: 50%%; }
 
 header {
+    margin: 2em;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+header a {
+    margin-right: 0.5em;
+    color: lightgray;
+}
+
+header a:hover {
+    color: white;
+    text-decoration: none;
 }

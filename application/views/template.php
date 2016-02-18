@@ -30,12 +30,11 @@
     </head>
     <body>
         <header>
-            <?= login() ?>
-
             <?= anchor('/portal/juegos', img(array(
                                 'src' => 'images/logo_steam.png',
                                 'id'  => 'logo'
                     ))) ?>
+            <?= login() ?>
         </header>
         <?= mensajes() ?>
         <?= $contents ?>
