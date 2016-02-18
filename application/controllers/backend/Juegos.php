@@ -109,7 +109,44 @@ class Juegos extends CI_Controller {
         }
         $this->template->load('backend/insertar');
     }
-
+    
+    public function subida($id = NULL)
+    {
+         var_dump($id);
+        $subir = $this->input->post('subir');
+        if ($subir !== NULL)
+        {
+            $config['upload_path']          = './images/juegos/';
+            $config['allowed_types']        = 'jpg';
+            $config['max_size']             = 100;
+            $config['max_width']            = 1024;
+            $config['max_height']           = 768;
+            $config['file_name']            = $id . '.jpg';
+            
+            
+            $this->load->library('upload', $config);
+            
+            if (!$this->upload->do_upload('foto'))
+            {
+                var_dump("2");
+                $error = array('error' => $this->upload->display_errors());
+                $this->load->view('backend/subida', $id);
+            }
+            else
+            {   
+                var_dump("3");
+                $data = array('upload_data' => $this->upload->data());
+                redirect('backend/juegos/index');
+            }
+            
+        } else {
+            var_dump("1");
+            $data['id'] = $id;
+            $this->load->view('backend/subida', $data);
+           
+        }
+    }
+    
     private function limpiar($accion, $valores)
     {
         unset($valores[$accion]);
