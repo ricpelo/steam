@@ -160,9 +160,8 @@ drop table if exists comentarios cascade;
 create table comentarios (
   id      bigserial       constraint pk_comentarios primary key,
   autor   bigint          not null constraint fk_usuarios references usuarios (id),
-  contenido varchar(150)    not null,
-  fecha   date            not null default CURRENT_DATE,
-  hora    time              not null default CURRENT_TIME,
+  contenido varchar(150)  not null,
+  created_at   timestamp  not null default CURRENT_TIMESTAMP,
   padre_comentario   bigint  constraint fk_comentarios_padre
                           references comentarios (id) ,
   padre_juego        bigint not null constraint fk_comentarios_padre_juego
