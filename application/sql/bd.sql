@@ -162,6 +162,11 @@ create table comentarios (
   autor   bigint          not null constraint fk_usuarios references usuarios (id),
   contenido varchar(150)  not null,
   created_at   timestamp  not null default CURRENT_TIMESTAMP,
+  autor   bigint          not null constraint fk_usuarios references usuarios (id)
+                          on update cascade on delete cascade,
+  contenido varchar(150)    not null,
+  fecha   date            not null default CURRENT_DATE,
+  hora    time              not null default CURRENT_TIME,
   padre_comentario   bigint  constraint fk_comentarios_padre
                           references comentarios (id) ,
   padre_juego        bigint not null constraint fk_comentarios_padre_juego

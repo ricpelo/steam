@@ -12,7 +12,7 @@ function login()
           $out .= '<div class="col-md-2 col-md-offset-10">';
             $out .= form_open('usuarios/logout', 'class="form-inline"');
               $out .= '<div class="form-group">';
-                $out .= anchor('/usuarios/perfil/' . $usuario['id'], $usuario['nick'], '');
+                $out .= anchor('usuarios/perfil/' . $usuario['id'], $usuario['nick'], '');
                 $out .= form_submit('logout', 'Logout',
                                     'id="logout" class="btn btn-primary btn-xs"');
               $out .= '</div>';
@@ -22,7 +22,7 @@ function login()
     else:
         $out .= '<div class="row">';
           $out .= '<div class="col-md-2 col-md-offset-10">';
-                $out .= anchor('/usuarios/login', 'Iniciar sesión',
+                $out .= anchor('usuarios/login', 'Iniciar sesión',
                                 'class="btn btn-primary btn-xs" role="button"');
           $out .= '</div>';
         $out .= '</div>';
