@@ -12,7 +12,7 @@ function login()
           $out .= '<div class="col-md-2 col-md-offset-10">';
             $out .= form_open('usuarios/logout', 'class="form-inline"');
               $out .= '<div class="form-group">';
-                $out .= form_label($usuario['nick'], 'logout');
+                $out .= anchor('/usuarios/perfil/' . $usuario['id'], $usuario['nick'], '');
                 $out .= form_submit('logout', 'Logout',
                                     'id="logout" class="btn btn-primary btn-xs"');
               $out .= '</div>';
