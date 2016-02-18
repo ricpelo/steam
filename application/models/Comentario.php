@@ -42,53 +42,7 @@ class Comentario extends CI_Model
         return $this->db->query("delete from comentarios where id = ?",
                                 array($id));
     }
-
-    /* PINTAR COMENTARIOS
-
-CON LISTA DE JUEGOS
-    <?php foreach ($comentarios as $comentario)
-      {
-          if ($comentario['padre_juego'] === $fila['id'])
-          {
-              if ($comentario['padre_comentario'] === null)
-              {
-              ?>
-              <td><?= $comentario['comentario'] ?></td>
-              <?php
-              }
-              foreach ($comentarios as $com)
-              {
-                  if ($com['padre_comentario'] === $comentario['id'])
-                  {
-                      ?>
-                      <td><?= $com['comentario'] ?></td>
-                      <?php
-                  }
-              }
-          }
-      }?>
-EN UN SOLO JUEGO
-      <?php foreach ($comentarios as $comentario)
-        {
-
-            if ($comentario['padre_comentario'] === null)
-            {
-            ?>
-            <td><?= $comentario['comentario'] ?></td>
-            <?php
-            }
-            foreach ($comentarios as $com)
-            {
-                if ($com['padre_comentario'] === $comentario['id'])
-                {
-                    ?>
-                    <td><?= $com['comentario'] ?></td>
-                    <?php
-                }
-            }
-
-        }?>
-
+/*
 
         //PRUEBA
 
