@@ -32,7 +32,30 @@
                 </div>
 
             </div>
-            <?php
+
+            <?php if (logueado()): ?>
+                <div>
+                    <form>
+                      <fieldset class="form-group">
+                        <label for="nuevoComentario">Introduce un comentario: </label>
+                        <textarea class="form-control" id="nuevoComentario" rows="3"></textarea>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                      </fieldset>
+                    </form>
+                </div>
+
+            <?php else: ?>
+
+                <div>
+                    <form>
+                      <fieldset class="form-group">
+                        <label for="nuevoComentario"><?= anchor('/usuarios/login', 'Logueate') ?> o <?= anchor('/usuarios/registrar', 'Registrarse') ?>  para escribir comentarios. </label>
+                      </fieldset>
+                    </form>
+                </div>
+
+            <?php endif;
+
                 if ($comentarios !== FALSE)
                 {
                     foreach ($comentarios as $comentario)
@@ -48,9 +71,8 @@
                                 <div class="panel panel-default arrow left">
                                   <div class="panel-body">
                                     <header class="text-left">
-                                      <div class="comment-user"><i class="fa fa-user"></i> <?= nick($comentario['autor']) ?></div>
-                                      <time class="comment-date" datetime="<?= $comentario['created_at'] ?> "><i class="fa fa-clock-o"></i> Escrito el: <?= $comentario['created_at'] ?></time>
-                                    </header>
+                                      <div class="comment-user"><i class="fa fa-user"></i> <h4><?= nick($comentario['autor']) ?></h4></div>
+                                      </header>
                                     <div class="comment-post">
                                       <p>
                                         <?= $comentario['contenido'] ?>
@@ -58,6 +80,8 @@
                                     </div>
                                     <p class="text-right"><a href=<?= $comentario['id'] ?> class="btn btn-default btn-sm"><i class="fa fa-reply"></i> Responder</a></p>
                                   </div>
+                                  <time class="comment-date" datetime="<?= $comentario['created_at'] ?> "><i class="fa fa-clock-o"></i> Escrito el: <?= $comentario['created_at'] ?></time>
+
                                 </div>
                               </div>
                         </div>
