@@ -48,7 +48,7 @@
                                 <div class="panel panel-default arrow left">
                                   <div class="panel-body">
                                     <header class="text-left">
-                                      <div class="comment-user"><i class="fa fa-user"></i> <?= $comentario['autor'] ?></div>
+                                      <div class="comment-user"><i class="fa fa-user"></i> <?= nick($comentario['autor']) ?></div>
                                       <time class="comment-date" datetime="<?= $comentario['created_at'] ?> "><i class="fa fa-clock-o"></i> Escrito el: <?= $comentario['created_at'] ?></time>
                                     </header>
                                     <div class="comment-post">
