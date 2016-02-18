@@ -159,7 +159,8 @@ drop table if exists comentarios cascade;
 
 create table comentarios (
   id      bigserial       constraint pk_comentarios primary key,
-  autor   bigint          not null constraint fk_usuarios references usuarios (id),
+  autor   bigint          not null constraint fk_usuarios references usuarios (id)
+                          on update cascade on delete no action,
   contenido varchar(150)  not null,
   created_at   timestamp  not null default CURRENT_TIMESTAMP,
   padre_comentario   bigint  constraint fk_comentarios_padre

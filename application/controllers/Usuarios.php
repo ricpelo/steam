@@ -9,6 +9,11 @@ class Usuarios extends CI_Controller{
             'rules' => 'trim|required|max_length[15]'
         ),
         array(
+            'field' => 'email',
+            'label' => 'Email',
+            'rules' => 'trim|required'
+        ),
+        array(
             'field' => 'password',
             'label' => 'Contraseña',
             'rules' => 'trim|required'
@@ -94,7 +99,8 @@ class Usuarios extends CI_Controller{
             redirect('usuarios/login');
         }
 
-        if ( ! in_array($accion, array('login', 'logout', 'recordar', 'regenerar', 'registrar', 'validar'))) {
+        if ( ! in_array($accion, array('login', 'logout', 'recordar', 'regenerar', 'registrar',
+                                       'validar', 'perfil', 'foto'))) {
             if ( ! $this->Usuario->es_admin())
             {
                 $mensajes = $this->session->flashdata('mensajes');
@@ -127,31 +133,31 @@ class Usuarios extends CI_Controller{
     public function foto($id = NULL) {
         if($id === NULL) {
             $mensajes[] = array('error' =>
-                    "Parámetros incorrectos para acceder a subido de foto de perfil, por favor, intentelo de nuevo.");
+                    "Parámetros incorrectos para acceder a subida de foto de perfil, por favor, intentelo de nuevo.");
             $this->flashdata->load($mensajes);
             redirect('usuarios/login');
         }
         $data['id'] = $id;
+        $data['error'] = array();
 
         if ($this->input->post('insertar') !== NULL) {
             $config['upload_path'] = 'images/usuarios/';
-            $config['allowed_types'] = 'jpeg';
+            $config['allowed_types'] = 'jpeg|jpg|jpe';
             $config['overwrite'] = TRUE;
-            $config['max-width'] = 250;
-            $config['max-height'] = 250;
-            $config['max-size'] = 100;
+            $config['max_width'] = '250';
+            $config['max_height'] = '250';
+            $config['max_size'] = '100';
             $config['file_name'] = $id . '.jpeg';
 
             $this->load->library('upload', $config);
 
             if ( ! $this->upload->do_upload('foto')) {
-                $error = array('error' => $this->upload->display_errors());
-                var_dump($error); die();
+                $data['error'] = $this->upload->display_errors();
             }
             else {
                 $data = array('upload_data' => $this->upload->data());
+                redirect('usuarios/perfil/' . $id);
             }
-            redirect('usuarios/perfil/' . $id);
         }
         $this->template->load('usuarios/foto', $data);
     }
@@ -193,40 +199,18 @@ class Usuarios extends CI_Controller{
 
         if ($this->input->post('registrar') !== NULL)
         {
-
-            $reglas = array(
-                array(
-                    'field' => 'nick',
-                    'label' => 'Nick',
-                    'rules' => array(
-                        'trim', 'required',
-                        array('existe_nick', array($this->Usuario, 'no_existe_nick'))
-                    ),
-                    'errors' => array(
-                        'existe_nick' => 'El nick ya existe, por favor, escoja otro.',
-                    ),
-                ),
-                array(
-                    'field' => 'email',
-                    'label' => 'Email',
-                    'rules' => 'trim|required'
-                ),
-                array(
-                    'field' => 'password',
-                    'label' => 'Contraseña',
-                    'rules' => "trim|required"
-                ),
-                array(
-                    'field' => 'password_confirm',
-                    'label' => 'Confirmar contraseña',
-                    'rules' => 'trim|required|matches[password]'
-                ),
-                array(
-                    'field' => 'foto',
-                    'label' => 'Foto',
-                    'rules' => ''
-                )
-            );
+            $reglas = $reglas_comunes;
+            $reglas[0] = array(
+                            'field' => 'nick',
+                            'label' => 'Nick',
+                            'rules' => array(
+                                'trim', 'required',
+                                array('existe_nick', array($this->Usuario, 'no_existe_nick'))
+                            ),
+                            'errors' => array(
+                                'existe_nick' => 'El nick ya existe, por favor, escoja otro.',
+                        )
+                    );
 
             $this->form_validation->set_rules($reglas);
             if ($this->form_validation->run() === TRUE)
@@ -348,17 +332,9 @@ class Usuarios extends CI_Controller{
 
         if ($this->input->post('regenerar') !== NULL) {
             $reglas = array(
-                array(
-                    'field' => 'password',
-                    'label' => 'Contraseña',
-                    'rules' => 'trim|required'
-                ),
-                array(
-                    'field' => 'password_confirm',
-                    'label' => 'Confirmar Contraseña',
-                    'rules' => 'trim|required|matches[password]'
-                )
+                $reglas_comunes[2], $reglas_comunes[3]
             );
+
             $this->form_validation->set_rules($reglas);
             if ($this->form_validation->run() !== FALSE) {
                 $password = $this->input->post('password');

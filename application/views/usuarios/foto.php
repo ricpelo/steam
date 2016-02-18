@@ -1,17 +1,20 @@
-<?php template_set('title', 'Perfil') ?>
+<?php template_set('title', 'Subir Foto') ?>
 <div class="container-fluid" style="padding-top:20px">
   <div class="row">
     <div class="col-md-4 col-md-offset-4">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">Perfil</h3>
+          <h3 class="panel-title">Subir Foto</h3>
         </div>
         <div class="panel-body">
-          <?php if ( ! empty(error_array())): ?>
+          <?php if ( ! empty($error)): ?>
             <div class="alert alert-danger" role="alert">
-              <?= validation_errors() ?>
+              <?= $error ?>
             </div>
           <?php endif ?>
+          <div class="alert alert-success" role="alert">
+              
+          </div>
           <?= form_open_multipart('usuarios/foto/' . $id) ?>
             <div class="form-group">
               <?= form_label('Foto:', 'foto') ?>
