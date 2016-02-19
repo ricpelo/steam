@@ -156,6 +156,11 @@ class Usuarios extends CI_Controller {
             }
             else {
                 $data = array('upload_data' => $this->upload->data());
+
+                $imagen = new Imagick($data['upload_data']['full_path']);
+                $imagen->adaptiveResizeImage(70, 70);
+                $imagen->writeImageFile(fopen("images/usuarios/" . $id . "_thumbnail.jpeg", "w"));
+
                 redirect('usuarios/perfil/' . $id);
             }
         }
