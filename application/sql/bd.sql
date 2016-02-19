@@ -123,7 +123,7 @@ insert into roles (descripcion)
 values('administrador'),
       ('registrado');
 
-insert into usuarios(nick, password, email, registro_verificado, rol_id)
+insert into usuarios(nick, password, email, registro_verificado, rol_id, activado)
 values('admin', crypt('admin', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 1, true),
       ('pepe', crypt('pepe', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 2, true),
       ('juan', crypt('juan', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 2, true),
