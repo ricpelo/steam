@@ -13,7 +13,7 @@
               <th>Nombre</th>
               <th>Precio</th>
               <th>Valoracion</th>
-              <th colspan="2">Acciones</th>
+              <th colspan="3">Acciones</th>
             </thead>
             <tbody>
               <?php foreach ($filas as $fila): ?>
@@ -28,6 +28,10 @@
                   <td align="center">
                     <?= anchor('/backend/juegos/editar/' . $fila['id'], 'Editar',
                                'class="btn btn-warning btn-xs" role="button"') ?>
+                  </td>
+                  <td align="center">
+                    <?= anchor('/backend/juegos/subida/' . $fila['id'], 'Subir/Cambiar imagen',
+                               'class="btn btn-success btn-xs" role="button"') ?>
                   </td>
                 </tr>
               <?php endforeach ?>
