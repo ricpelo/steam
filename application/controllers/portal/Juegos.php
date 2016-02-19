@@ -6,9 +6,10 @@ class Juegos extends CI_Controller {
 
     public function index()
     {
-        $this->output->cache(1);
+        //$this->output->cache(1);
         $data['filas'] = $this->Juego->todos();
         $data['valoradas'] = $this->Juego->order_valoraciones();
+        $data['fechas'] = $this->Juego->order_fechas();
         $this->template->load('portal/index', $data);
     }
 

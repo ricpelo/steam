@@ -43,18 +43,19 @@ create index "ci_sessions_timestamp" on "ci_sessions" ("timestamp");
 drop table if exists juegos cascade;
 
 create table juegos (
-    id          bigserial constraint pk_juegos primary key,
-    nombre      varchar(50) not null,
-    precio      numeric(6,2) not null,
-    resumen     text not null,
-    descripcion text not null
+    id           bigserial constraint pk_juegos primary key,
+    nombre       varchar(50) not null,
+    precio       numeric(6,2) not null,
+    fecha_salida date not null default current_date,
+    resumen      text not null,
+    descripcion  text not null
 );
 
 
-insert into juegos (nombre, precio, resumen, descripcion)
+insert into juegos (nombre, precio, resumen, descripcion, fecha_salida)
         values  ('XCOM 2',49.99,
                     'XCOM 2 es la secuela de XCOM: Enemy Unknown, el galardonado
-                    juego de estrategia que fue nombrado Juego del Año en 2012. )',
+                    juego de estrategia que fue nombrado Juego del Año en 2012.',
                     'La Tierra ha cambiado. Han pasado veinte años desde que los
 líderes mundiales se rindieran incondicionalmente ante las fuerzas alienígenas.
 XCOM, la última defensa del planeta, acabó destrozada y dispersa. Ahora, en XCOM
@@ -65,7 +66,7 @@ y eliminan a todos los opositores a su nuevo orden.
 margen de libertad. Allí vuelve a reunirse una fuerza para luchar por la humanidad.
 Siempre a la fuga y con todo en su contra, las fuerzas restantes de XCOM deben
 encontrar el modo de avivar una resistencia global y eliminar la amenaza alienígena
-de una vez por todas.'),
+de una vez por todas.', '2016-02-15'::date),
                 ('Rise of the Tomb Raider',45,
 'Tomb Raider se reinventa en un juego que narra la primera aventura de Lara.',
 'Tomb Raider se reinventa en un juego que narra la primera aventura de Lara.
@@ -74,7 +75,7 @@ juegos anteriores, sino con una niña de apenas 20 años que ha sobrevivido a un
 misterioso naufragio y tendrá que escapar de una isla llena de peligros.
 Una aventura que reinventa Tomb Raider haciéndolo más intenso y cinemático,
 en la que Lara tendrá que aprender las habilidades que la convertirán en la
-gran aventurera que hemos conocido.'),
+gran aventurera que hemos conocido.', '2016-01-25'::date),
             ('Rainbow Six Siege',60, 'Tom Clancys Rainbow Six Siege es la nueva
 entrega del shooter más aclamado desarrollado por el estudio Ubisoft Montreal.',
 'Inspirado en el realismo de las actividades de contención terrorista que se desarrollan
@@ -83,7 +84,7 @@ arte de la destrucción: Intensos enfrentamientos en espacios cerrados, combates
 enfrentamientos tácticos, trabajo en equipo y una acción frenética, son los pilares de la
 experiencia.
 El modo multijugador de Tom Clancys Rainbow Six Siege, sube un peldaño más en el intenso y
-frenético tiroteo táctico, consolidando los pilares tradicionales de la franquicia'),
+frenético tiroteo táctico, consolidando los pilares tradicionales de la franquicia', '2016-01-01'::date),
                 ('Grand Theft Auto V',50,
 'Grand Theft Auto V aprovechará al máximo la potencia del PC para ofrecer mejoras de
 todo tipo, que incluyen resolución y detalle gráfico incrementados, tráfico más denso,
@@ -99,7 +100,7 @@ aspirantes a estrellas y famosos en decadencia, en su día la envidia del mundo
 occidental, lucha ahora por mantenerse a flote en una era de incertidumbre
 económica y "realities" baratos. En medio de la confusión, tres criminales
 muy diferentes lo arriesgarán todo en una serie de atrevidos y peligrosos
-atracos que marcarán sus vidas.'),
+atracos que marcarán sus vidas.', '2015-11-02'),
                 ('Call of Duty: Black Ops III',50,'Tom Clancys Rainbow Six Siege es la nueva
 entrega del shooter más aclamado desarrollado por el estudio Ubisoft Montreal.',
 'Inspirado en el realismo de las actividades de contención terrorista que se desarrollan
@@ -108,7 +109,7 @@ arte de la destrucción: Intensos enfrentamientos en espacios cerrados, combates
 enfrentamientos tácticos, trabajo en equipo y una acción frenética, son los pilares de la
 experiencia.
 El modo multijugador de Tom Clancys Rainbow Six Siege, sube un peldaño más en el intenso y
-frenético tiroteo táctico, consolidando los pilares tradicionales de la franquicia'),
+frenético tiroteo táctico, consolidando los pilares tradicionales de la franquicia', '2016-01-01'::date),
                 ('Wild HuntThe Witcher 3: Wild Hunt',50,'Tom Clancys Rainbow Six Siege es la nueva
 entrega del shooter más aclamado desarrollado por el estudio Ubisoft Montreal.',
 'Inspirado en el realismo de las actividades de contención terrorista que se desarrollan
@@ -117,7 +118,7 @@ arte de la destrucción: Intensos enfrentamientos en espacios cerrados, combates
 enfrentamientos tácticos, trabajo en equipo y una acción frenética, son los pilares de la
 experiencia.
 El modo multijugador de Tom Clancys Rainbow Six Siege, sube un peldaño más en el intenso y
-frenético tiroteo táctico, consolidando los pilares tradicionales de la franquicia');
+frenético tiroteo táctico, consolidando los pilares tradicionales de la franquicia', '2015-12-12'::date);
 
 insert into roles (descripcion)
 values('administrador'),

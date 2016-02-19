@@ -9,8 +9,18 @@ class Juego extends CI_Model
 
     public function order_valoraciones()
     {
-        return $this->db->query('select * from v_juegos order by valoracion desc')
-                        ->result_array();
+        return $this->db->query('select *
+                                   from v_juegos
+                               order by valoracion desc
+                                  limit 5')->result_array();
+    }
+
+    public function order_fechas()
+    {
+        return $this->db->query('select *
+                                   from v_juegos
+                               order by fecha_salida desc
+                                  limit 5')->result_array();
     }
 
     public function borrar($id)

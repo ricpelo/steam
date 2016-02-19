@@ -1,4 +1,19 @@
+.horizontal {
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
 
+.valoradas {
+    display: flex;
+    flex-direction: column;
+}
+
+.valoradas img {
+    width: 40%;
+}
 
 .ficha {
     display: flex;
