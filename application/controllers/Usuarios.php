@@ -219,7 +219,6 @@ class Usuarios extends CI_Controller {
 
                 unset($valores['registrar']);
                 unset($valores['password_confirm']);
-                unset($valores['foto']);
 
                 $valores['password'] = password_hash($valores['password'], PASSWORD_DEFAULT);
                 $valores['registro_verificado'] = FALSE;
