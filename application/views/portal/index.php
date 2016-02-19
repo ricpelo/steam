@@ -10,20 +10,18 @@
                 <div class="col-sm-2">
                     <div class="valoradas">
                         <div>
-                            <td><?= img('images/juegos/'.$valorada['id'].'.jpg') ?></td>
+                            <td><?= anchor('/portal/juegos/ficha/' . $valorada['id'],
+                                    img('images/juegos/'.$valorada['id'].'.jpg')) ?></td>
                         </div>
                         <div>
-                            <h5><?= $valorada['nombre'] ?></h5>
+                            <h5><?= anchor('/portal/juegos/ficha/' . $valorada['id'],
+                                    $valorada['nombre']) ?></h5>
                             <p><?= $valorada['precio'] ?>€</p>
                             <form>
                                 <input id="input-1" class="rating" data-min="0" data-max="5"
                                     data-step="1" value="<?= $valorada['valoracion'] ?>" data-readonly="true"
                                     data-show-clear="false" data-show-caption="false" data-size="xs">
                             </form>
-                            <p>
-                                <?= anchor('/portal/juegos/ficha/' . $valorada['id'], 'Ver ficha',
-                                    'class="btn btn-danger btn-xs" role="button"') ?>
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -42,20 +40,18 @@
                 <div class="col-sm-2">
                     <div class="valoradas">
                         <div>
-                            <td><?= img('images/juegos/'.$fecha['id'].'.jpg') ?></td>
+                            <td><?= anchor('/portal/juegos/ficha/' . $fecha['id'],
+                                    img('images/juegos/'.$fecha['id'].'.jpg')) ?></td>
                         </div>
                         <div>
-                            <h5><?= $fecha['nombre'] ?></h5>
+                            <h5><?= anchor('/portal/juegos/ficha/' . $fecha['id'],
+                                    $fecha['nombre']) ?></h5>
                             <p><?= $fecha['precio'] ?>€</p>
                             <form>
                                 <input id="input-1" class="rating" data-min="0" data-max="5"
                                     data-step="1" value="<?= $fecha['valoracion'] ?>" data-readonly="true"
                                     data-show-clear="false" data-show-caption="false" data-size="xs">
                             </form>
-                            <p>
-                                <?= anchor('/portal/juegos/ficha/' . $fecha['id'], 'Ver ficha',
-                                    'class="btn btn-danger btn-xs" role="button"') ?>
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -75,10 +71,12 @@
           <?php foreach ($filas as $fila): ?>
             <div class="ficha">
                 <div>
-                    <td><?= img('images/juegos/'.$fila['id'].'.jpg') ?></td>
+                    <td><?= anchor('/portal/juegos/ficha/' . $fila['id'],
+                            img('images/juegos/'.$fila['id'].'.jpg')) ?></td>
                 </div>
                 <div>
-                    <h1><?= $fila['nombre'] ?></h1>
+                    <h1><?= anchor('/portal/juegos/ficha/' . $fila['id'],
+                                    $fila['nombre']) ?></h1>
                     <h2><?= $fila['precio'] ?>€</h2>
                     <p><?= $fila['resumen'] ?></p>
                     <form>
@@ -86,10 +84,6 @@
                             data-step="1" value="<?= $fila['valoracion'] ?>" data-readonly="true"
                             data-show-clear="false" data-show-caption="false" data-size="xs">
                     </form>
-                    <p>
-                        <?= anchor('/portal/juegos/ficha/' . $fila['id'], 'Ver ficha',
-                            'class="btn btn-danger btn-xs" role="button"') ?>
-                    </p>
                 </div>
             </div>
           <?php endforeach ?>
