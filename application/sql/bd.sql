@@ -152,7 +152,7 @@ insert into valoraciones (id_usuario, id_juego, valoracion)
 drop view if exists v_juegos;
 
 create view v_juegos as
-    select j.*, round(avg(valoracion), 1) as valoracion
+    select j.*, coalesce(round(avg(valoracion), 1), 0) as valoracion
       from juegos j  left join valoraciones v on id = id_juego
   group by id;
 

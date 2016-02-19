@@ -8,6 +8,7 @@ class Juegos extends CI_Controller {
     {
         $this->output->cache(1);
         $data['filas'] = $this->Juego->todos();
+        $data['valoradas'] = $this->Juego->order_valoraciones();
         $this->template->load('portal/index', $data);
     }
 
