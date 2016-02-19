@@ -13,7 +13,10 @@
             </div>
           <?php endif ?>
           <div class="alert alert-success" role="alert">
-              
+              <p>Formatos Admitidos: jpeg, jpg y jpe</p>
+              <p>Tamaño Maximo: 100 Kbytes</p>
+              <p>Alto Maximo: 250 pixeles</p>
+              <p>Ancho Maximo: 250 pixeles</p>
           </div>
           <?= form_open_multipart('usuarios/foto/' . $id) ?>
             <div class="form-group">
