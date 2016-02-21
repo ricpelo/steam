@@ -60,6 +60,34 @@
     </div>
 </div>
 
+<?php if ($proximos !== FALSE): ?>
+    <div class="row col-md-12 col-md-offset-0">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Proximamente</h3>
+          </div>
+          <div class="panel-body horizontal">
+              <?php foreach ($proximos as $proximo): ?>
+                  <div class="col-sm-2">
+                      <div class="valoradas">
+                          <div>
+                              <td><?= anchor('/portal/juegos/ficha/' . $proximo['id'],
+                                      img('images/juegos/'.$proximo['id'].'.jpg')) ?></td>
+                          </div>
+                          <div>
+                              <h5><?= anchor('/portal/juegos/ficha/' . $proximo['id'],
+                                      $proximo['nombre']) ?></h5>
+                              <p><?= $proximo['precio'] ?>€</p>
+                              <p>Disponible: <?= $proximo['fecha_salida'] ?> </p>
+                          </div>
+                      </div>
+                  </div>
+              <?php endforeach; ?>
+          </div>
+      </div>
+    </div>
+<?php endif; ?>
+
 <div class="container-fluid" style="padding-top: 20px">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9df4eabd208d2c3f455f2b4a1578dcbd",
+    "hash": "26e186f16d926b16536c37eb8ba6dedf",
     "content-hash": "43665042fe6b72f41449b73f6cbb79ad",
     "packages": [
         {
@@ -42,23 +42,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-star-rating.git",
-                "reference": "a28cb9186e17c5290e9f3f82382ed255e8f26d25"
+                "reference": "fbe4a597ba0cf584ed8dbb92ec6bc8d64d1cb2c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/a28cb9186e17c5290e9f3f82382ed255e8f26d25",
-                "reference": "a28cb9186e17c5290e9f3f82382ed255e8f26d25",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/fbe4a597ba0cf584ed8dbb92ec6bc8d64d1cb2c6",
+                "reference": "fbe4a597ba0cf584ed8dbb92ec6bc8d64d1cb2c6",
                 "shasum": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.5.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "kartik\\plugins\\rating\\": ""
+                    "dev-master": "4.0.x-dev"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -76,11 +71,14 @@
             "homepage": "https://github.com/kartik-v/bootstrap-star-rating",
             "keywords": [
                 "Rating",
+                "awesome",
                 "bootstrap",
-                "jquery",
-                "star"
+                "font",
+                "glyphicon",
+                "star",
+                "svg"
             ],
-            "time": "2016-02-05 18:18:55"
+            "time": "2016-02-20 11:05:03"
         }
     ],
     "packages-dev": [

@@ -118,7 +118,24 @@ arte de la destrucción: Intensos enfrentamientos en espacios cerrados, combates
 enfrentamientos tácticos, trabajo en equipo y una acción frenética, son los pilares de la
 experiencia.
 El modo multijugador de Tom Clancys Rainbow Six Siege, sube un peldaño más en el intenso y
-frenético tiroteo táctico, consolidando los pilares tradicionales de la franquicia', '2015-12-12'::date);
+frenético tiroteo táctico, consolidando los pilares tradicionales de la franquicia', '2015-12-12'::date),
+('FarCry Primal', 59.99, 'La aclamada serie Far Cry ha pasado por el trópico y el Himalaya y ahora entra
+     en la era de la lucha por la supervivencia', 'La aclamada serie Far Cry ha pasado por el trópico y el Himalaya y ahora entra
+     en la era de la lucha por la supervivencia de la raza humana con su innovador mundo abierto, bestias enormes,
+      entornos impactantes y encuentros salvajes impredecibles.
+Bienvenido a la Edad de Piedra, una época de peligros extremos y aventuras sin límite. Cuando los mamuts gigantes
+y los tigres dientes de sable dominaban la Tierra y la humanidad estaba en la cola de la cadena alimentaria.', '2016-03-01'::date),
+('Bus Simulator 2016', 30, 'Gana la batalla diaria contra el reloj: conviértete en conductor de autobús. ',
+'En Bus Simulator 16 encontrarás seis autobuses urbanos reproducidos con gran realismo, incluyendo dos autobuses
+Lion’s City con licencia de MAN y un mundo gigantesco libremente accesible. Lleva a tus pasajeros a tiempo y sanos
+y salvos hasta su destino a través de cinco auténticos distritos.', '2016-03-02'::date),
+('WWE 2K16', 49.99, '¡La autoridad en videojuegos de la WWE regresa con WWE 2K16!',
+'¡La autoridad en videojuegos de la WWE regresa con WWE 2K16! Esta nueva entrega
+ de la mejor franquicia de videojuegos de la WWE viene repleta de diversión,
+ realismo, acción y contundencia, con el regreso de las funciones y modos de
+ juego favoritos de los fans, diversas innovaciones y mucho más. Juega con las mejores
+ Superstars, Divas y Legends de la WWE de todos los tiempos. ¡WWE 2K16 para PC incluye
+ todos los contenidos descargables!', '2016-03-11'::date);
 
 insert into roles (descripcion)
 values('administrador'),
@@ -155,8 +172,16 @@ drop view if exists v_juegos;
 create view v_juegos as
     select j.*, coalesce(round(avg(valoracion), 1), 0) as valoracion
       from juegos j  left join valoraciones v on id = id_juego
-  group by id;
+  group by id
+    having j.fecha_salida <= current_date;
 
+drop view if exists v_proximos;
+
+create view v_proximos as
+    select id, nombre, precio, resumen, descripcion,
+           to_char(fecha_salida, 'DD/MM/YYYY') as fecha_salida
+      from juegos
+     where fecha_salida > current_date;
 
 drop table if exists comentarios cascade;
 

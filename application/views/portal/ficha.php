@@ -15,22 +15,23 @@
                     <h1><?= $juego['nombre'] ?></h1>
                     <h2><?= $juego['precio'] ?>€</h2>
                     <p><?= $juego['descripcion'] ?></p>
-                    <form>
-                        <label>Valoración total</label>
-                        <input id="input-1" class="rating" data-min="0" data-max="5"
-                            data-step="1" value="<?= $juego['valoracion'] ?>" data-readonly="true"
-                            data-show-clear="false" data-show-caption="false" data-size="xs">
-                        <?php if (logueado()): ?>
-                            <label>Tu valoración</label>
-                            <input id="input-2" class="rating" data-min="0" data-max="5"
-                            data-step="1" value="<?= $usuario['valoracion'] ?>"
-                            data-show-clear="false" data-show-caption="false" data-size="xs">
-                        <?php endif; ?>
-                    </form>
-
-
+                    <?php if (!isset($rating) OR $rating !== FALSE): ?>
+                        <form>
+                            <label>Valoración total</label>
+                            <input id="input-1" class="rating" data-min="0" data-max="5"
+                                data-step="1" value="<?= $juego['valoracion'] ?>" data-readonly="true"
+                                data-show-clear="false" data-show-caption="false" data-size="xs">
+                            <?php if (logueado()): ?>
+                                <label>Tu valoración</label>
+                                <input id="input-2" class="rating" data-min="0" data-max="5"
+                                data-step="1" value="<?= $usuario['valoracion'] ?>"
+                                data-show-clear="false" data-show-caption="false" data-size="xs">
+                            <?php endif; ?>
+                        </form>
+                    <?php else: ?>
+                        <h3>Disponible: <?= $juego['fecha_salida'] ?></h3>
+                    <?php endif; ?>
                 </div>
-
             </div>
 
             <?php if (logueado()): ?>
@@ -43,9 +44,7 @@
                       </fieldset>
                     </form>
                 </div>
-
             <?php else: ?>
-
                 <div>
                     <form>
                       <fieldset class="form-group">
@@ -53,7 +52,6 @@
                       </fieldset>
                     </form>
                 </div>
-
             <?php endif;
 
                 if ($comentarios !== FALSE)

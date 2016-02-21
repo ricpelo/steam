@@ -10,6 +10,7 @@ class Juegos extends CI_Controller {
         $data['filas'] = $this->Juego->todos();
         $data['valoradas'] = $this->Juego->order_valoraciones();
         $data['fechas'] = $this->Juego->order_fechas();
+        $data['proximos'] = $this->Juego->proximos();
         $this->template->load('portal/index', $data);
     }
 
@@ -22,8 +23,12 @@ class Juegos extends CI_Controller {
 
         $this->load->model('Comentario');
         $data['comentarios'] = $this->Comentario->todos($id_juego);
-
         $data['juego'] = $this->Juego->por_id($id_juego);
+        if ($data['juego'] === FALSE)
+        {
+            $data['juego'] = $this->Juego->por_id_proximo($id_juego);
+            $data['rating'] = FALSE;
+        }
         $this->load->model('Valoracion');
         $id_usuario = $this->session->userdata('usuario')['id'];
         $data['usuario'] = $this->Valoracion->por_ids($id_usuario, $id_juego);

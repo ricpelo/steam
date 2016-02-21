@@ -23,6 +23,12 @@ class Juego extends CI_Model
                                   limit 5')->result_array();
     }
 
+    public function proximos() {
+        $res = $this->db->query('select * from v_proximos');
+
+        return $res->num_rows() > 0 ? $res->result_array() : FALSE;
+    }
+
     public function borrar($id)
     {
         return $this->db->query("delete from juegos where id = ?",
@@ -32,6 +38,13 @@ class Juego extends CI_Model
     public function por_id($id)
     {
         $res = $this->db->query('select * from v_juegos where id = ?',
+                                array($id));
+        return $res->num_rows() > 0 ? $res->row_array() : FALSE;
+    }
+
+    public function por_id_proximo($id)
+    {
+        $res = $this->db->query('select * from v_proximos where id = ?',
                                 array($id));
         return $res->num_rows() > 0 ? $res->row_array() : FALSE;
     }
