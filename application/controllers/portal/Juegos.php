@@ -23,6 +23,16 @@ class Juegos extends CI_Controller {
         }
 
         $this->load->model('Comentario');
+
+        if ($this->input->post('enviar') !== NULL)
+        {
+            $comentario['contenido'] = $this->input->post('comentario');
+            $comentario['padre_juego'] = $id_juego;
+            $comentario['autor'] = $this->session->userdata('usuario')['id'];
+            $this->Comentario->insertar($comentario);
+        }
+
+
         $data['comentarios'] = $this->Comentario->todos($id_juego);
         $data['juego'] = $this->Juego->por_id($id_juego);
         if ($data['juego'] === FALSE)

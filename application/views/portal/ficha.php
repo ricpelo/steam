@@ -33,17 +33,16 @@
                     <?php endif; ?>
                 </div>
             </div>
-
+            <br />
             <?php if (logueado()): ?>
-                <div>
-                    <form>
-                      <fieldset class="form-group">
-                        <label for="nuevoComentario">Introduce un comentario: </label>
-                        <textarea class="form-control" id="nuevoComentario" rows="3"></textarea>
-                        <button type="submit" class="btn btn-primary">Enviar</button>
-                      </fieldset>
-                    </form>
-                </div>
+                <?= form_open('portal/juegos/ficha/'.$juego['id']) ?>
+                  <div class="form-group">
+                    <?= form_label('Introduce un comentario:', 'comentario') ?>
+                    <?= form_textarea('comentario', '', 'id="comentario" class="form-control" required') ?>
+                  </div>
+                  <?= form_submit('enviar', 'Enviar', 'class="btn btn-success"') ?>
+                <?= form_close() ?>
+                <br />
             <?php else: ?>
                 <div>
                     <form>
