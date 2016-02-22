@@ -40,6 +40,13 @@ create table "ci_sessions" (
 
 create index "ci_sessions_timestamp" on "ci_sessions" ("timestamp");
 
+drop table if exists generos cascade;
+
+create table generos(
+    id bigserial constraint pk_generos primary key,
+    nombre varchar(100) not null
+);
+
 drop table if exists juegos cascade;
 
 create table juegos (
@@ -48,11 +55,16 @@ create table juegos (
     precio       numeric(6,2) not null,
     fecha_salida date not null default current_date,
     resumen      text not null,
-    descripcion  text not null
+    descripcion  text not null,
+    genero_id       bigint constraint fk_juegos_generos references generos (id)
 );
 
+insert into generos(nombre)
+    values('Acción'),
+          ('Arcade'),
+          ('Estrategia');
 
-insert into juegos (nombre, precio, resumen, descripcion, fecha_salida)
+insert into juegos (nombre, precio, resumen, descripcion, fecha_salida, genero_id)
         values  ('XCOM 2',49.99,
                     'XCOM 2 es la secuela de XCOM: Enemy Unknown, el galardonado
                     juego de estrategia que fue nombrado Juego del Año en 2012.',
@@ -66,7 +78,7 @@ y eliminan a todos los opositores a su nuevo orden.
 margen de libertad. Allí vuelve a reunirse una fuerza para luchar por la humanidad.
 Siempre a la fuga y con todo en su contra, las fuerzas restantes de XCOM deben
 encontrar el modo de avivar una resistencia global y eliminar la amenaza alienígena
-de una vez por todas.', '2016-02-15'::date),
+de una vez por todas.', '2016-02-15'::date, 3),
                 ('Rise of the Tomb Raider',45,
 'Tomb Raider se reinventa en un juego que narra la primera aventura de Lara.',
 'Tomb Raider se reinventa en un juego que narra la primera aventura de Lara.
@@ -75,7 +87,7 @@ juegos anteriores, sino con una niña de apenas 20 años que ha sobrevivido a un
 misterioso naufragio y tendrá que escapar de una isla llena de peligros.
 Una aventura que reinventa Tomb Raider haciéndolo más intenso y cinemático,
 en la que Lara tendrá que aprender las habilidades que la convertirán en la
-gran aventurera que hemos conocido.', '2016-01-25'::date),
+gran aventurera que hemos conocido.', '2016-01-25'::date, 1),
             ('Rainbow Six Siege',60, 'Tom Clancys Rainbow Six Siege es la nueva
 entrega del shooter más aclamado desarrollado por el estudio Ubisoft Montreal.',
 'Inspirado en el realismo de las actividades de contención terrorista que se desarrollan
@@ -84,7 +96,7 @@ arte de la destrucción: Intensos enfrentamientos en espacios cerrados, combates
 enfrentamientos tácticos, trabajo en equipo y una acción frenética, son los pilares de la
 experiencia.
 El modo multijugador de Tom Clancys Rainbow Six Siege, sube un peldaño más en el intenso y
-frenético tiroteo táctico, consolidando los pilares tradicionales de la franquicia', '2016-01-01'::date),
+frenético tiroteo táctico, consolidando los pilares tradicionales de la franquicia', '2016-01-01'::date, 3),
                 ('Grand Theft Auto V',50,
 'Grand Theft Auto V aprovechará al máximo la potencia del PC para ofrecer mejoras de
 todo tipo, que incluyen resolución y detalle gráfico incrementados, tráfico más denso,
@@ -100,7 +112,7 @@ aspirantes a estrellas y famosos en decadencia, en su día la envidia del mundo
 occidental, lucha ahora por mantenerse a flote en una era de incertidumbre
 económica y "realities" baratos. En medio de la confusión, tres criminales
 muy diferentes lo arriesgarán todo en una serie de atrevidos y peligrosos
-atracos que marcarán sus vidas.', '2015-11-02'),
+atracos que marcarán sus vidas.', '2015-11-02', 1),
                 ('Call of Duty: Black Ops III',50,'Tom Clancys Rainbow Six Siege es la nueva
 entrega del shooter más aclamado desarrollado por el estudio Ubisoft Montreal.',
 'Inspirado en el realismo de las actividades de contención terrorista que se desarrollan
@@ -109,7 +121,7 @@ arte de la destrucción: Intensos enfrentamientos en espacios cerrados, combates
 enfrentamientos tácticos, trabajo en equipo y una acción frenética, son los pilares de la
 experiencia.
 El modo multijugador de Tom Clancys Rainbow Six Siege, sube un peldaño más en el intenso y
-frenético tiroteo táctico, consolidando los pilares tradicionales de la franquicia', '2016-01-01'::date),
+frenético tiroteo táctico, consolidando los pilares tradicionales de la franquicia', '2016-01-01'::date, 3),
                 ('Wild HuntThe Witcher 3: Wild Hunt',50,'Tom Clancys Rainbow Six Siege es la nueva
 entrega del shooter más aclamado desarrollado por el estudio Ubisoft Montreal.',
 'Inspirado en el realismo de las actividades de contención terrorista que se desarrollan
@@ -118,24 +130,24 @@ arte de la destrucción: Intensos enfrentamientos en espacios cerrados, combates
 enfrentamientos tácticos, trabajo en equipo y una acción frenética, son los pilares de la
 experiencia.
 El modo multijugador de Tom Clancys Rainbow Six Siege, sube un peldaño más en el intenso y
-frenético tiroteo táctico, consolidando los pilares tradicionales de la franquicia', '2015-12-12'::date),
+frenético tiroteo táctico, consolidando los pilares tradicionales de la franquicia', '2015-12-12'::date, 1),
 ('FarCry Primal', 59.99, 'La aclamada serie Far Cry ha pasado por el trópico y el Himalaya y ahora entra
      en la era de la lucha por la supervivencia', 'La aclamada serie Far Cry ha pasado por el trópico y el Himalaya y ahora entra
      en la era de la lucha por la supervivencia de la raza humana con su innovador mundo abierto, bestias enormes,
       entornos impactantes y encuentros salvajes impredecibles.
 Bienvenido a la Edad de Piedra, una época de peligros extremos y aventuras sin límite. Cuando los mamuts gigantes
-y los tigres dientes de sable dominaban la Tierra y la humanidad estaba en la cola de la cadena alimentaria.', '2016-03-01'::date),
+y los tigres dientes de sable dominaban la Tierra y la humanidad estaba en la cola de la cadena alimentaria.', '2016-03-01'::date, 3),
 ('Bus Simulator 2016', 30, 'Gana la batalla diaria contra el reloj: conviértete en conductor de autobús. ',
 'En Bus Simulator 16 encontrarás seis autobuses urbanos reproducidos con gran realismo, incluyendo dos autobuses
 Lion’s City con licencia de MAN y un mundo gigantesco libremente accesible. Lleva a tus pasajeros a tiempo y sanos
-y salvos hasta su destino a través de cinco auténticos distritos.', '2016-03-02'::date),
+y salvos hasta su destino a través de cinco auténticos distritos.', '2016-03-02'::date, 2),
 ('WWE 2K16', 49.99, '¡La autoridad en videojuegos de la WWE regresa con WWE 2K16!',
 '¡La autoridad en videojuegos de la WWE regresa con WWE 2K16! Esta nueva entrega
  de la mejor franquicia de videojuegos de la WWE viene repleta de diversión,
  realismo, acción y contundencia, con el regreso de las funciones y modos de
  juego favoritos de los fans, diversas innovaciones y mucho más. Juega con las mejores
  Superstars, Divas y Legends de la WWE de todos los tiempos. ¡WWE 2K16 para PC incluye
- todos los contenidos descargables!', '2016-03-11'::date);
+ todos los contenidos descargables!', '2016-03-11'::date, 1);
 
 insert into roles (descripcion)
 values('administrador'),

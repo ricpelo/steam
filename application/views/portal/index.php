@@ -1,4 +1,21 @@
 <?php template_set('title', 'Listado de artículos') ?>
+<div class="row col-md-12 col-md-offset-0">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">Géneros</h3>
+      </div>
+      <div class="panel-body horizontal">
+          <?php foreach ($generos as $genero): ?>
+              <div class="col-sm-2 genero">
+                  <?= anchor('portal/juegos/genero/' . $genero['id'], $genero['nombre'],
+                             'role="button" class="btn btn-info"') ?>
+              </div>
+          <?php endforeach; ?>
+      </div>
+    </div>
+</div>
+
+<?php if(isset($destacados)): ?>
 <div class="container-fluid" style="padding-top: 20px">
   <div class="row col-md-8 col-md-offset-2">
         <div id="destacados" class="carousel slide" data-ride="carousel">
@@ -38,6 +55,9 @@
           </a>
         </div>
   </div>
+<?php endif; ?>
+
+<?php if(isset($valoradas)): ?>
   <div class="row col-md-12 col-md-offset-0">
       <div class="panel panel-primary">
         <div class="panel-heading">
@@ -67,7 +87,9 @@
         </div>
       </div>
   </div>
+<?php endif; ?>
 
+<?php if(isset($fechas)): ?>
   <div class="row col-md-12 col-md-offset-0">
       <div class="panel panel-primary">
         <div class="panel-heading">
@@ -97,8 +119,9 @@
         </div>
     </div>
 </div>
+<?php endif; ?>
 
-<?php if ($proximos !== FALSE): ?>
+<?php if (isset($proximos) && $proximos !== FALSE): ?>
     <div class="row col-md-12 col-md-offset-0">
         <div class="panel panel-primary">
           <div class="panel-heading">
@@ -126,6 +149,7 @@
     </div>
 <?php endif; ?>
 
+<?php if(isset($filas) && $filas !== FALSE): ?>
 <div class="container-fluid" style="padding-top: 20px">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
@@ -153,8 +177,15 @@
                 </div>
             </div>
           <?php endforeach ?>
+          <?php else: ?>
+              <div>
+                  <div>
+                      No hay ningun resultado
+                  </div>
+              </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<?php endif; ?>

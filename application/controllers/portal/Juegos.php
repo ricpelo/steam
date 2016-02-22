@@ -12,6 +12,7 @@ class Juegos extends CI_Controller {
         $data['fechas'] = $this->Juego->order_fechas();
         $data['proximos'] = $this->Juego->proximos();
         $data['destacados'] = $this->Juego->destacados();
+        $data['generos'] = $this->Juego->generos();
         $this->template->load('portal/index', $data);
     }
 
@@ -62,5 +63,15 @@ class Juegos extends CI_Controller {
         echo json_encode(array(
                             'total' => $total['valoracion']
         ));
+    }
+
+    public function genero($id = NULL) {
+        if ($id === NULL) {
+            redirect('/portal');
+        }
+
+        $data['filas'] = $this->Juego->por_genero($id);
+        $data['generos'] = $this->Juego->generos();
+        $this->template->load('portal/index', $data);
     }
 }

@@ -38,6 +38,11 @@ class Juego extends CI_Model
         return $res->num_rows() > 0 ? $res->result_array() : FALSE;
     }
 
+    public function generos() {
+        $res = $this->db->query('select * from generos');
+        return $res->num_rows() > 0 ? $res->result_array() : FALSE;
+    }
+
     public function borrar($id)
     {
         return $this->db->query("delete from juegos where id = ?",
@@ -73,5 +78,11 @@ class Juego extends CI_Model
     public function editar($valores, $id)
     {
         return $this->db->where('id', $id)->update('juegos', $valores);
+    }
+
+    public function por_genero($genero_id) {
+        $res = $this->db->query("select * from v_juegos where genero_id = ?", array($genero_id));
+
+        return $res->num_rows() > 0 ? $res->result_array() : FALSE;
     }
 }

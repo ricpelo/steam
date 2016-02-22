@@ -16,6 +16,10 @@ header {
     justify-content: space-between;
 }
 
+div.genero a {
+    color: black;
+}
+
 a {
     color: gray;
     text-decoration: none;
