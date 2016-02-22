@@ -11,6 +11,7 @@ class Juegos extends CI_Controller {
         $data['valoradas'] = $this->Juego->order_valoraciones();
         $data['fechas'] = $this->Juego->order_fechas();
         $data['proximos'] = $this->Juego->proximos();
+        $data['destacados'] = $this->Juego->destacados();
         $this->template->load('portal/index', $data);
     }
 

@@ -1,5 +1,43 @@
 <?php template_set('title', 'Listado de artículos') ?>
 <div class="container-fluid" style="padding-top: 20px">
+  <div class="row col-md-8 col-md-offset-2">
+        <div id="destacados" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            <li data-target="#destacados" data-slide-to="0" class="active"></li>
+            <li data-target="#destacados" data-slide-to="1"></li>
+            <li data-target="#destacados" data-slide-to="2"></li>
+            <li data-target="#destacados" data-slide-to="3"></li>
+            <li data-target="#destacados" data-slide-to="4"></li>
+          </ol>
+
+          <!-- Wrapper for slides -->
+         <div class="carousel-inner" role="listbox">
+             <?php foreach($destacados as $destacado): ?>
+               <div class="item <?= isset($primera) ? '' : 'active' ?>">
+                   <?= anchor('/portal/juegos/ficha/' . $destacado['id'],
+                           img('images/juegos/'.$destacado['id'].'.jpg')) ?>
+                 <div class="carousel-caption">
+                   <h3><?= anchor('/portal/juegos/ficha/' . $destacado['id'],
+                                    $destacado['nombre']) ?></h3>
+                   <p><?= anchor('/portal/juegos/ficha/' . $destacado['id'],
+                                    $destacado['resumen']) ?></p>
+                 </div>
+               </div>
+               <?php $primera = true; ?>
+             <?php endforeach; ?>
+         </div>
+          <!-- Left and right controls -->
+          <a class="left carousel-control" href="#destacados" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right carousel-control" href="#destacados" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+  </div>
   <div class="row col-md-12 col-md-offset-0">
       <div class="panel panel-primary">
         <div class="panel-heading">
@@ -64,7 +102,7 @@
     <div class="row col-md-12 col-md-offset-0">
         <div class="panel panel-primary">
           <div class="panel-heading">
-            <h3 class="panel-title">Proximamente</h3>
+            <h3 class="panel-title">Próximamente</h3>
           </div>
           <div class="panel-body horizontal">
               <?php foreach ($proximos as $proximo): ?>

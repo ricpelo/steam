@@ -24,7 +24,16 @@ class Juego extends CI_Model
     }
 
     public function proximos() {
-        $res = $this->db->query('select * from v_proximos');
+        $res = $this->db->query('select * from v_proximos limit 5');
+
+        return $res->num_rows() > 0 ? $res->result_array() : FALSE;
+    }
+
+    public function destacados() {
+        $res = $this->db->query('select *
+                                   from juegos
+                               order by floor(random()*5+1)
+                                  limit 5');
 
         return $res->num_rows() > 0 ? $res->result_array() : FALSE;
     }

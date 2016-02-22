@@ -35,3 +35,24 @@ header a:hover {
     color: white;
     text-decoration: none;
 }
+
+#destacados {
+    margin-bottom: 20px;
+}
+
+.item {
+    background-color: rgba(211, 211, 211, 0.5);
+}
+
+.item a {
+    color: white;
+    text-decoration: none;
+}
+
+.carousel-inner > .item > a > img {
+      margin: auto;
+}
+
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.3);
+}
