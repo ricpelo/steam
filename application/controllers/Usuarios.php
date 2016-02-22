@@ -210,13 +210,29 @@ class Usuarios extends CI_Controller {
                             'label' => 'Nick',
                             'rules' => array(
                                 'trim', 'required',
-                                array('existe_nick', array($this->Usuario, 'no_existe_nick'))
+                                array('existe_nick', function ($nick) {
+                                        return !$this->Usuario->existe_nick($nick);
+                                    }
+                                )
                             ),
                             'errors' => array(
                                 'existe_nick' => 'El nick ya existe, por favor, escoja otro.',
                             )
                         );
-
+            $reglas[1] = array(
+                'field' => 'email',
+                'label' => 'Email',
+                'rules' => array(
+                    'trim', 'required',
+                    array('existe_email', function ($email) {
+                            return !$this->Usuario->existe_email($email);
+                        }
+                    )
+                ),
+                'errors' => array(
+                    'existe_email' => 'El email ya existe, por favor, escoja otro.',
+                )
+            );
             $this->form_validation->set_rules($reglas);
             if ($this->form_validation->run() === TRUE) {
 
@@ -373,6 +389,7 @@ class Usuarios extends CI_Controller {
             if ($this->form_validation->run() !== FALSE)
             {
                 $valores = $this->limpiar('insertar', $this->input->post());
+                $valores['registro_verificado'] = TRUE;
                 $this->Usuario->insertar($valores);
                 redirect('usuarios/index');
             }

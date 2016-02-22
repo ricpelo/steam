@@ -40,6 +40,11 @@ class Usuario extends CI_Model
         return $this->por_nick($nick) !== FALSE;
     }
 
+    public function existe_email($email)
+    {
+        return $this->por_email($email) !== FALSE;
+    }
+
     public function existe_nick_registrado($nick) {
         return $this->por_nick_registrado($nick) !== FALSE;
     }

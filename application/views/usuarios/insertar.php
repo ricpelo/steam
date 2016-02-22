@@ -18,6 +18,16 @@
                            'id="nick" class="form-control"') ?>
           </div>
           <div class="form-group">
+            <?= form_label('Email:', 'email') ?>
+            <?= form_input(array(
+                          'type' => 'email',
+                          'name' => 'email',
+                          'id' => 'email',
+                          'value' => set_value('email', '', FALSE),
+                          'class' => 'form-control'
+            )) ?>
+          </div>
+          <div class="form-group">
             <?= form_label('Contraseña:', 'password') ?>
             <?= form_password('password', '',
                               'id="password" class="form-control"') ?>
