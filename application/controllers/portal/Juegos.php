@@ -73,5 +73,13 @@ class Juegos extends CI_Controller {
         $data['filas'] = $this->Juego->por_genero($id);
         $data['generos'] = $this->Juego->generos();
         $this->template->load('portal/index', $data);
+
+    }
+    public function masvalorados($offset) {
+        echo json_encode($this->Juego->mas_valoraciones($offset));
+    }
+
+    public function maxpags() {
+        echo $this->Juego->maxpags();
     }
 }

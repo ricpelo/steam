@@ -12,7 +12,18 @@ class Juego extends CI_Model
         return $this->db->query('select *
                                    from v_juegos
                                order by valoracion desc
-                                  limit 5')->result_array();
+                                  limit 5 offset 0')->result_array();
+    }
+
+    public function mas_valoraciones($offset) {
+        return $this->db->query('select *
+                                   from v_juegos
+                               order by valoracion desc
+                                  limit 5 offset ? * 5', array($offset))->result_array();
+    }
+
+    public function maxpags() {
+        return $this->db->query('select * from v_juegos')->num_rows();
     }
 
     public function order_fechas()

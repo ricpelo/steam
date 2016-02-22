@@ -64,6 +64,7 @@
           <h3 class="panel-title">Juegos más valorados</h3>
         </div>
         <div class="panel-body horizontal">
+            <button id="ant-valorados" class="btn btn-primary"><</button>
             <?php foreach ($valoradas as $valorada): ?>
                 <div class="col-sm-2">
                     <div class="valoradas">
@@ -84,6 +85,7 @@
                     </div>
                 </div>
             <?php endforeach; ?>
+            <button id="sig-valorados" class="btn btn-primary">></button>
         </div>
       </div>
   </div>
@@ -189,3 +191,33 @@
   </div>
 </div>
 <?php endif; ?>
+
+<script>
+    var valorados = 0;
+    var maxfilas;
+
+    function inicializa() {
+        $.get("<?= base_url('portal/juegos/maxpags') ?>",
+                function(r) { return r; });
+    };
+
+    maxfilas = inicializa();
+
+    if (valorados === 0) { $("#ant-valorados").hide(); }
+    $("#sig-valorados").on("click", masValorados);
+
+    function masValorados() {
+        valorados++;
+        llamar('masvalorados', valorados, insertaValorados);
+    }
+
+    function insertaValorados(r) {
+        $()
+    }
+
+    function llamar(llamada, offset, funcion) {
+        $.getJSON("<?= base_url('portal/juegos') ?>" + "/" + llamada + "/" + offset, funcion);
+    }
+
+
+</script>
