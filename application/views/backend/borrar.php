@@ -1,4 +1,7 @@
 <?php template_set('title', 'Borrar un juego') ?>
+
+<?= miga_pan() ?>
+
 <h3>¿Seguro que desea borrar el siguiente juego?</h3>
 <p><?= $nombre ?></p>
 <?= form_open('backend/juegos/borrar') ?>

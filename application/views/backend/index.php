@@ -1,4 +1,7 @@
 <?php template_set('title', 'Listado de artículos') ?>
+
+<?= miga_pan() ?>
+
 <div class="container-fluid" style="padding-top: 20px">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
@@ -37,7 +40,7 @@
               <?php endforeach ?>
             </tbody>
           </table>
-            
+
           <p align="center">
             <?= anchor('/backend/juegos/insertar', 'Insertar',
                        'class="btn btn-success" role="button"') ?>

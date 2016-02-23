@@ -1,4 +1,7 @@
 <?php template_set('title', 'Ficha del juego') ?>
+
+<?= miga_pan() ?>
+
 <div class="container-fluid" style="padding-top: 20px">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
@@ -27,6 +30,9 @@
                                 data-step="1" value="<?= $usuario['valoracion'] ?>"
                                 data-show-clear="false" data-show-caption="false" data-size="xs">
                             <?php endif; ?>
+                            <?= anchor('/portal/juegos/comprar/' . $juego['id'],
+                                       'Comprar (' . $juego["precio"] . ') €',
+                                       'class="btn btn-primary" role="button"'); ?>
                         </form>
                     <?php else: ?>
                         <h3>Disponible: <?= $juego['fecha_salida'] ?></h3>

@@ -80,4 +80,10 @@ class Usuario extends CI_Model
                                 array($id));
         return $res->num_rows() > 0 ? $res->row_array() : FALSE;
     }
+
+    public function juegos_comprados($id) {
+        $res = $this->db->query('select * from carrito_compra where id_usuario = ?', array($id));
+        
+        return $res->num_rows() > 0 ? $res->row_array() : FALSE;
+    }
 }

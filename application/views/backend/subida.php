@@ -1,4 +1,7 @@
 <?php template_set('title', 'Subir') ?>
+
+<?= miga_pan() ?>
+
 <div class="container-fluid" style="padding-top:20px">
   <div class="row">
     <div class="col-md-4 col-md-offset-4">
@@ -13,7 +16,7 @@
             </div>
           <?php endif ?>
           <div class="alert alert-success" role="alert">
-              
+
           </div>
           <?= form_open_multipart('backend/juegos/subida/' . $id) ?>
             <h1>Solo imagenes jpg</h1>

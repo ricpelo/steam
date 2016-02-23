@@ -82,4 +82,16 @@ class Juegos extends CI_Controller {
     public function maxpags() {
         echo $this->Juego->maxpags();
     }
+
+    public function comprar($id = NULL) {
+        if($id === NULL || !$this->Usuario->logueado()) {
+            redirect('portal/juegos');
+        }
+
+        $id_usuario = 1;
+
+        $data['juegos'] = $this->Usuario->juegos_comprados($id_usuario);
+
+        $this->template->load('portal/comprar', $data);
+    }
 }

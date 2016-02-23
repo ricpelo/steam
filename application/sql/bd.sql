@@ -59,6 +59,42 @@ create table juegos (
     genero_id       bigint constraint fk_juegos_generos references generos (id)
 );
 
+drop table if exists valoraciones cascade;
+
+create table valoraciones (
+    id_juego    bigint    constraint fk_juegos_valoraciones references juegos(id)
+                          on update cascade on delete cascade,
+    id_usuario  bigint    constraint fk_usuarios_valoraciones references usuarios(id)
+                          on update cascade on delete cascade,
+    valoracion  numeric(1) constraint ck_valoraciones_max
+                                        check (valoracion >= 1 AND valoracion <= 5),
+    constraint pk_valoraciones primary key (id_juego, id_usuario)
+);
+
+drop table if exists comentarios cascade;
+
+create table comentarios (
+  id      bigserial       constraint pk_comentarios primary key,
+  autor   bigint          not null constraint fk_usuarios references usuarios (id)
+                          on update cascade on delete no action,
+  contenido varchar(150)  not null,
+  created_at   timestamp  not null default CURRENT_TIMESTAMP,
+  padre_comentario   bigint  constraint fk_comentarios_padre
+                          references comentarios (id) ,
+  padre_juego        bigint not null constraint fk_comentarios_padre_juego
+                          references juegos (id)
+);
+
+drop table if exists carrito_compra cascade;
+
+create table carrito_compra(
+    id_usuario bigint constraint fk_usuarios_carrito_compra references usuarios(id)
+                      on update cascade on delete cascade,
+    id_juego bigint   constraint fk_juegos_carrito_compra references juegos(id)
+                      on update cascade on delete cascade,
+    constraint pk_carrito_compra primary key (id_juego, id_usuario)
+);
+
 insert into generos(nombre)
     values('Acción'),
           ('Arcade'),
@@ -159,18 +195,6 @@ values('admin', crypt('admin', gen_salt('bf')), 'guillermo.lopez@iesdonana.org',
       ('juan', crypt('juan', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 2, true),
       ('guillermo', crypt('guillermo', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 2, true);
 
-drop table if exists valoraciones;
-
-create table valoraciones (
-    id_juego    bigint    constraint fk_juegos_valoraciones references juegos(id)
-                          on update cascade on delete cascade,
-    id_usuario  bigint    constraint fk_usuarios_valoraciones references usuarios(id)
-                          on update cascade on delete cascade,
-    valoracion  numeric(1) constraint ck_valoraciones_max
-                                        check (valoracion >= 1 AND valoracion <= 5),
-    constraint pk_valoraciones primary key (id_juego, id_usuario)
-);
-
 insert into valoraciones (id_usuario, id_juego, valoracion)
         values (2, 1, 3),
                (3, 5, 1),
@@ -194,20 +218,6 @@ create view v_proximos as
            to_char(fecha_salida, 'DD/MM/YYYY') as fecha_salida
       from juegos
      where fecha_salida > current_date;
-
-drop table if exists comentarios cascade;
-
-create table comentarios (
-  id      bigserial       constraint pk_comentarios primary key,
-  autor   bigint          not null constraint fk_usuarios references usuarios (id)
-                          on update cascade on delete no action,
-  contenido varchar(150)  not null,
-  created_at   timestamp  not null default CURRENT_TIMESTAMP,
-  padre_comentario   bigint  constraint fk_comentarios_padre
-                          references comentarios (id) ,
-  padre_juego        bigint not null constraint fk_comentarios_padre_juego
-                          references juegos (id)
-);
 
 insert into comentarios (autor, contenido, padre_juego)
             values  (2, 'Comentario num Padre 1 ', 1),

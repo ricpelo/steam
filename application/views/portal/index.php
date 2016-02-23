@@ -1,4 +1,7 @@
 <?php template_set('title', 'Listado de artículos') ?>
+
+<?= miga_pan() ?>
+
 <div class="row col-md-12 col-md-offset-0">
     <div class="panel panel-info">
       <div class="panel-heading">
