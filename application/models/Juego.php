@@ -23,7 +23,7 @@ class Juego extends CI_Model
     }
 
     public function maxpags() {
-        return $this->db->query('select * from v_juegos')->num_rows();
+        return ceil($this->db->query('select * from v_juegos')->num_rows()/5);
     }
 
     public function order_fechas()

@@ -68,26 +68,28 @@
         </div>
         <div class="panel-body horizontal">
             <button id="ant-valorados" class="btn btn-primary"><</button>
-            <?php foreach ($valoradas as $valorada): ?>
-                <div class="col-sm-2">
-                    <div class="valoradas">
-                        <div>
-                            <td><?= anchor('/portal/juegos/ficha/' . $valorada['id'],
-                                    img('images/juegos/'.$valorada['id'].'.jpg')) ?></td>
-                        </div>
-                        <div>
-                            <h5><?= anchor('/portal/juegos/ficha/' . $valorada['id'],
-                                    $valorada['nombre']) ?></h5>
-                            <p><?= $valorada['precio'] ?>€</p>
-                            <form>
-                                <input id="input-1" class="rating" data-min="0" data-max="5"
-                                    data-step="1" value="<?= $valorada['valoracion'] ?>" data-readonly="true"
-                                    data-show-clear="false" data-show-caption="false" data-size="xs">
-                            </form>
+            <div class="valoraciones">
+                <?php foreach ($valoradas as $valorada): ?>
+                    <div class="col-sm-2">
+                        <div class="valoradas">
+                            <div>
+                                <?= anchor('/portal/juegos/ficha/' . $valorada['id'],
+                                        img('images/juegos/'.$valorada['id'].'.jpg')) ?>
+                            </div>
+                            <div>
+                                <h5><?= anchor('/portal/juegos/ficha/' . $valorada['id'],
+                                        $valorada['nombre']) ?></h5>
+                                <p><?= $valorada['precio'] ?>€</p>
+                                <form>
+                                    <input id="input-1" class="rating" data-min="0" data-max="5"
+                                        data-step="1" value="<?= $valorada['valoracion'] ?>" data-readonly="true"
+                                        data-show-clear="false" data-show-caption="false" data-size="xs">
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            </div>
             <button id="sig-valorados" class="btn btn-primary">></button>
         </div>
       </div>
@@ -103,10 +105,10 @@
         <div class="panel-body horizontal">
             <?php foreach ($fechas as $fecha): ?>
                 <div class="col-sm-2">
-                    <div class="valoradas">
+                    <div class="fechas">
                         <div>
-                            <td><?= anchor('/portal/juegos/ficha/' . $fecha['id'],
-                                    img('images/juegos/'.$fecha['id'].'.jpg')) ?></td>
+                            <?= anchor('/portal/juegos/ficha/' . $fecha['id'],
+                                    img('images/juegos/'.$fecha['id'].'.jpg')) ?>
                         </div>
                         <div>
                             <h5><?= anchor('/portal/juegos/ficha/' . $fecha['id'],
@@ -135,10 +137,10 @@
           <div class="panel-body horizontal">
               <?php foreach ($proximos as $proximo): ?>
                   <div class="col-sm-2">
-                      <div class="valoradas">
+                      <div class="proximos">
                           <div>
-                              <td><?= anchor('/portal/juegos/ficha/' . $proximo['id'],
-                                      img('images/juegos/'.$proximo['id'].'.jpg')) ?></td>
+                              <?= anchor('/portal/juegos/ficha/' . $proximo['id'],
+                                      img('images/juegos/'.$proximo['id'].'.jpg')) ?>
                           </div>
                           <div>
                               <h5><?= anchor('/portal/juegos/ficha/' . $proximo['id'],
@@ -166,8 +168,8 @@
           <?php foreach ($filas as $fila): ?>
             <div class="ficha">
                 <div>
-                    <td><?= anchor('/portal/juegos/ficha/' . $fila['id'],
-                            img('images/juegos/'.$fila['id'].'.jpg')) ?></td>
+                    <?= anchor('/portal/juegos/ficha/' . $fila['id'],
+                            img('images/juegos/'.$fila['id'].'.jpg')) ?>
                 </div>
                 <div>
                     <h1><?= anchor('/portal/juegos/ficha/' . $fila['id'],
@@ -200,26 +202,59 @@
     var maxfilas;
 
     function inicializa() {
-        $.get("<?= base_url('portal/juegos/maxpags') ?>",
-                function(r) { return r; });
+         return $.get("<?= base_url('portal/juegos/maxpags') ?>",
+                        function(r) {
+                            maxfilas = parseInt(r);
+                            maxfilas--;
+                            $("#sig-valorados").on("click", masValorados);
+                            $("#ant-valorados").on("click", menosValorados);
+                        });
     };
 
-    maxfilas = inicializa();
+    inicializa();
 
     if (valorados === 0) { $("#ant-valorados").hide(); }
-    $("#sig-valorados").on("click", masValorados);
+    if (maxfilas <= valorados) { $("#sig-valorados").hide(); }
 
     function masValorados() {
         valorados++;
         llamar('masvalorados', valorados, insertaValorados);
+        if (maxfilas <= valorados) { $("#sig-valorados").hide(); }
+        if (valorados !== 0) { $("#ant-valorados").show(); }
+    }
+
+    function menosValorados() {
+        valorados--;
+        llamar('masvalorados', valorados, insertaValorados);
+        if (maxfilas > valorados) { $("#sig-valorados").show(); }
+        if (valorados === 0) { $("#ant-valorados").hide(); }
     }
 
     function insertaValorados(r) {
-        $()
+        $(".valoraciones").fadeOut(500, function() {
+            $(".valoraciones").empty()
+            for (var i = 0; i < r.length; i++) {
+                var divprinci = $('<div class="col-sm-2"></div>').append($('<div class="ficha"></div>'));
+                var primerdiv = $("<div></div>")
+                .append($('<a href="<?= base_url('/portal/juegos/ficha/') ?>' + r[i].id + '"></a>')
+                .append($('<img src="<?= base_url('/images/juegos/') ?>/'+ r[i].id + '.jpg" />')));
+
+                var segundodiv = $("<div></div>")
+                .append($('<a href="<?= base_url('/portal/juegos/ficha/') ?>' + r[i].id + '"></a>')
+                .append($('<h5></h5>').text(r[i].nombre)))
+                .append($('<form></form>')
+                .append($('<input id="input-1" class="rating" data-min="0" data-max="5"'+
+                    ' data-step="1" value="'+ r[i].valoracion + '"' + ' data-readonly="true"'+
+                    ' data-show-clear="false" data-show-caption="false" data-size="xs">')));
+                divprinci.append(primerdiv).append(segundodiv);
+                $(".valoraciones").append(divprinci);
+            }
+            $(".valoraciones").fadeIn(500);
+        });
     }
 
     function llamar(llamada, offset, funcion) {
-        $.getJSON("<?= base_url('portal/juegos') ?>" + "/" + llamada + "/" + offset, funcion);
+        $.getJSON("<?= base_url('portal/juegos') ?>" + "/" + llamada + "/" + offset, insertaValorados);
     }
 
 
