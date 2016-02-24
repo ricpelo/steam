@@ -72,12 +72,23 @@ class Usuarios extends CI_Controller {
                     'nick' => $nick,
                     'rol_id' => $usuario['rol_id']
                 ));
-                if ($usuario['rol_id'] === '1') {
-                    redirect('usuarios/index');
-                } else {
+
+                if($this->session->has_userdata('last_uri'))
+                {
+                    $uri = $this->session->userdata('last_uri');
+                    $this->session->unset_userdata('last_uri');
+                    redirect($uri);
+                }
+                else
+                {
                     redirect('portal/juegos');
                 }
             }
+        }
+        else
+        {
+            $this->session->set_userdata('last_uri',
+                            parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH));
         }
         $this->output->delete_cache('/portal/juegos');
         $this->template->load('usuarios/login');
