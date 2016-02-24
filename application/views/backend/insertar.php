@@ -1,4 +1,7 @@
 <?php template_set('title', 'Editar un juegos') ?>
+
+<?= miga_pan() ?>
+
 <div class="container-fluid" style="padding-top:20px">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">

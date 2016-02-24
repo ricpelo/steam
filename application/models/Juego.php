@@ -7,12 +7,44 @@ class Juego extends CI_Model
         return $this->db->query('select * from v_juegos')->result_array();
     }
 
+    public function lista()
+    {
+        return $this->db->query('select * from v_juegos limit 3 offset 0')->result_array();
+    }
+
+    public function cargar_mas($offset) {
+        return $this->db->query('select * from v_juegos limit 3 offset ? * 3',
+                                array($offset))->result_array();
+    }
+
     public function order_valoraciones()
     {
         return $this->db->query('select *
                                    from v_juegos
                                order by valoracion desc
-                                  limit 5')->result_array();
+                                  limit 5 offset 0')->result_array();
+    }
+
+    public function mas($orden, $offset) {
+        return $this->db->query('select *
+                                   from v_juegos
+                               order by '.$orden.' desc
+                                  limit 5 offset ? * 5', array($offset))->result_array();
+    }
+
+    public function masproximos($offset) {
+        return $this->db->query('select *
+                                   from v_proximos
+                               order by fecha_salida desc
+                                  limit 5 offset ? * 5', array($offset))->result_array();
+    }
+
+    public function maxpags() {
+        return floor($this->db->query('select * from v_juegos')->num_rows()/5);
+    }
+
+    public function maxproximos() {
+        return floor($this->db->query('select * from v_proximos')->num_rows()/5);
     }
 
     public function order_fechas()
@@ -35,6 +67,11 @@ class Juego extends CI_Model
                                order by floor(random()*5+1)
                                   limit 5');
 
+        return $res->num_rows() > 0 ? $res->result_array() : FALSE;
+    }
+
+    public function generos() {
+        $res = $this->db->query('select * from generos');
         return $res->num_rows() > 0 ? $res->result_array() : FALSE;
     }
 
@@ -73,5 +110,11 @@ class Juego extends CI_Model
     public function editar($valores, $id)
     {
         return $this->db->where('id', $id)->update('juegos', $valores);
+    }
+
+    public function por_genero($genero_id) {
+        $res = $this->db->query("select * from v_juegos where genero_id = ?", array($genero_id));
+
+        return $res->num_rows() > 0 ? $res->result_array() : FALSE;
     }
 }

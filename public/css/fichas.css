@@ -6,12 +6,13 @@
     justify-content: space-around;
 }
 
-.valoradas {
+.valoradas, .fechas, .proximos {
     display: flex;
     flex-direction: column;
 }
 
-.valoradas img {
+.valoradas img, .fechas img,
+    .proximos img {
     width: 40%;
 }
 

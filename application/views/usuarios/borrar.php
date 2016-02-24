@@ -1,4 +1,7 @@
 <?php template_set('title', 'Borrar un usuario') ?>
+
+<?= miga_pan() ?>
+
 <h3>¿Seguro que desea borrar el siguiente usuario?</h3>
 <p><?= $nick ?> (<?= $descripcion ?>)</p>
 <?= form_open('usuarios/borrar') ?>

@@ -1,4 +1,7 @@
 <?php template_set('title', 'Registro') ?>
+
+<?= miga_pan() ?>
+
 <div class="container-fluid" style="padding-top:20px">
   <div class="row">
     <div class="col-md-4 col-md-offset-4">

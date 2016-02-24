@@ -7,11 +7,12 @@ class Juegos extends CI_Controller {
     public function index()
     {
         //$this->output->cache(1);
-        $data['filas'] = $this->Juego->todos();
+        $data['filas'] = $this->Juego->lista();
         $data['valoradas'] = $this->Juego->order_valoraciones();
         $data['fechas'] = $this->Juego->order_fechas();
         $data['proximos'] = $this->Juego->proximos();
         $data['destacados'] = $this->Juego->destacados();
+        $data['generos'] = $this->Juego->generos();
         $this->template->load('portal/index', $data);
     }
 
@@ -87,5 +88,50 @@ class Juegos extends CI_Controller {
         echo json_encode(array(
                             'total' => $total['valoracion']
         ));
+    }
+
+    public function genero($id = NULL) {
+        if ($id === NULL) {
+            redirect('/portal');
+        }
+
+        $data['filas'] = $this->Juego->por_genero($id);
+        $data['generos'] = $this->Juego->generos();
+        $this->template->load('portal/index', $data);
+
+    }
+    public function mas($orden, $offset) {
+        if ($orden === 'proximos')
+        {
+            echo json_encode($this->Juego->masproximos($offset));
+        }
+        else
+        {
+            echo json_encode($this->Juego->mas($orden, $offset));
+        }
+    }
+
+    public function cargarmas($offset) {
+        echo json_encode($this->Juego->cargar_mas($offset));
+    }
+
+    public function maxpags() {
+        echo $this->Juego->maxpags();
+    }
+
+    public function maxproximos() {
+        echo $this->Juego->maxproximos();
+    }
+
+    public function comprar($id = NULL) {
+        if($id === NULL || !$this->Usuario->logueado()) {
+            redirect('portal/juegos');
+        }
+
+        $id_usuario = 1;
+
+        $data['juegos'] = $this->Usuario->juegos_comprados($id_usuario);
+
+        $this->template->load('portal/comprar', $data);
     }
 }
