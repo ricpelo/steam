@@ -172,7 +172,7 @@
         <div class="panel-heading">
           <h3 class="panel-title">Listado de Juegos</h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body fichas">
           <?php foreach ($filas as $fila): ?>
             <div class="ficha">
                 <div>
@@ -209,6 +209,7 @@
     var valorados = 0;
     var fechas    = 0;
     var proximos  = 0;
+    var total     = 0;
     var maxfilas;
     var maxproximos;
 
@@ -220,6 +221,11 @@
                         $("#ant-valorados").on("click", menosValorados);
                         $("#sig-fechas").on("click", masFechas);
                         $("#ant-fechas").on("click", menosFechas);
+                        $(document).on("pagecreate","#fichas",function(){
+                            $(document).on("scrollstop",function(){
+                                alert("Stopped scrolling!");
+                            });
+                        });
                         if (valorados === 0) { $("#ant-valorados").hide(); }
                         if (maxfilas <= valorados) { $("#sig-valorados").hide(); }
                         if (fechas === 0) { $("#ant-fechas").hide(); }
@@ -363,6 +369,38 @@
             load_js();
             $(".aproximados").fadeIn(500);
         });
+    }
+
+    function cargarMas() {
+        total++;
+        if (maxpags <= total) { $(document).off('scrollend'); }
+        $.getJSON("<?= base_url('portal/juegos') ?>/cargarmas/" + total, function(r) { insertarTotal(r); });
+    }
+
+    function insertarTotal(r) {
+        var html = $(".panel-body").html();
+
+        for (var i = 0; i < r.length; i++) {
+            html += '<div class="ficha">'+
+                        '<div>'+
+                            '<a href="<?= base_url('/portal/juegos/ficha') ?>/' + r[i].id + '">'+
+                            '<img src="<?= base_url('/images/juegos') ?>/'+ r[i].id + '.jpg" /></a>'+
+                        '</div>'+
+                        '<div>'+
+                            '<h1><a href="<?= base_url('/portal/juegos/ficha') ?>/' + r[i].id + '">'+
+                            r[i].nombre+'</a></h1>'+
+                            '<h2>' + r[i].precio + '</h2>'+
+                            '<p>' + r[i].resumen + '</p>'+
+                            '<form>'+
+                                '<input id="input-1" class="rating" data-min="0" data-max="5"'+
+                                    ' data-step="1" value="'+r[i].valoracion+'" data-readonly="true"' +
+                                    ' data-show-clear="false" data-show-caption="false" data-size="xs">'+
+                            '</form>'+
+                        '</div>'+
+                    '</div>';
+        }
+        $(".panel-body").html(html);
+        load_js();
     }
 
     function llamar(orden, offset, funcion) {

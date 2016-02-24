@@ -7,6 +7,16 @@ class Juego extends CI_Model
         return $this->db->query('select * from v_juegos')->result_array();
     }
 
+    public function lista()
+    {
+        return $this->db->query('select * from v_juegos limit 3 offset 0')->result_array();
+    }
+
+    public function cargar_mas($offset) {
+        return $this->db->query('select * from v_juegos limit 3 offset ? * 3',
+                                array($offset))->result_array();
+    }
+
     public function order_valoraciones()
     {
         return $this->db->query('select *

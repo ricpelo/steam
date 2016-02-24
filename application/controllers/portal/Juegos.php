@@ -7,7 +7,7 @@ class Juegos extends CI_Controller {
     public function index()
     {
         //$this->output->cache(1);
-        $data['filas'] = $this->Juego->todos();
+        $data['filas'] = $this->Juego->lista();
         $data['valoradas'] = $this->Juego->order_valoraciones();
         $data['fechas'] = $this->Juego->order_fechas();
         $data['proximos'] = $this->Juego->proximos();
@@ -84,6 +84,10 @@ class Juegos extends CI_Controller {
         {
             echo json_encode($this->Juego->mas($orden, $offset));
         }
+    }
+
+    public function cargarmas($offset) {
+        echo json_encode($this->Juego->cargar_mas($offset));
     }
 
     public function maxpags() {
