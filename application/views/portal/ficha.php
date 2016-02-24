@@ -42,9 +42,7 @@
             <br />
             <?php if (logueado()): ?>
                 <?= form_open('portal/juegos/ficha/'.$juego['id']) ?>
-
                 <input type="hidden" id="padre" name="padre_comentario"/>
-
                   <div id="comentar" class="form-group">
                     <p id="referencia"></p>
                     <?= form_label('Introduce un comentario:', 'comentario') ?>
@@ -86,6 +84,20 @@
                                       </p>
                                     </div>
                                     <p class="text-right"><a id=<?= $comentario['id'] ?> href='#comentar' class="btn btn-default btn-sm respuesta"><i class="fa fa-reply"></i> Responder</a></p>
+
+                                    <?php
+                                        if(logueado() && $comentario['autor'] === $actual)
+                                        {?>
+
+                                            <?= form_open('portal/juegos/ficha/'.$juego['id']) ?>
+                                            <input type="hidden" value="<?= $comentario['id'] ?>" name="idmsj">
+                                            <?= form_submit('borrar', 'Borrar', 'class="btn btn-success"') ?>
+                                            <?= form_close() ?>
+                                            <?php
+                                        }
+                                    ?>
+
+
                                   </div>
                                   <time class="comment-date" datetime=<?= $comentario['created_at'] ?> ><i class="fa fa-clock-o"></i> Escrito el: <?= $comentario['created_at'] ?></time>
 

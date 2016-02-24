@@ -25,6 +25,7 @@ class Juegos extends CI_Controller {
 
         //COMENTARIOS
         $this->load->model('Comentario');
+                //PARA INSERTAR
         if ($this->input->post('enviar') !== NULL)
         {
             if ($this->input->post('padre_comentario') !== '')
@@ -37,6 +38,18 @@ class Juegos extends CI_Controller {
             $comentario['autor'] = $this->session->userdata('usuario')['id'];
             $this->Comentario->insertar($comentario);
         }
+
+                //PARA BORRAR
+        if ($this->input->post('borrar') !== NULL)
+        {
+            if ($this->input->post('idmsj') !== '')
+            {
+                $comentario['id'] = $this->input->post('idmsj');
+            }
+
+            $this->Comentario->borrar($comentario);
+        }
+
         $data['comentarios'] = $this->Comentario->todos($id_juego);
 
         //FIN COMENTARIOS
@@ -49,6 +62,7 @@ class Juegos extends CI_Controller {
         }
         $this->load->model('Valoracion');
         $id_usuario = $this->session->userdata('usuario')['id'];
+        $data['actual'] = $id_usuario;
         $data['usuario'] = $this->Valoracion->por_ids($id_usuario, $id_juego);
         $this->template->load('portal/ficha', $data);
     }
