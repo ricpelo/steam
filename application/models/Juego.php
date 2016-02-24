@@ -15,15 +15,26 @@ class Juego extends CI_Model
                                   limit 5 offset 0')->result_array();
     }
 
-    public function mas_valoraciones($offset) {
+    public function mas($orden, $offset) {
         return $this->db->query('select *
                                    from v_juegos
-                               order by valoracion desc
+                               order by '.$orden.' desc
+                                  limit 5 offset ? * 5', array($offset))->result_array();
+    }
+
+    public function masproximos($offset) {
+        return $this->db->query('select *
+                                   from v_proximos
+                               order by fecha_salida desc
                                   limit 5 offset ? * 5', array($offset))->result_array();
     }
 
     public function maxpags() {
-        return ceil($this->db->query('select * from v_juegos')->num_rows()/5);
+        return floor($this->db->query('select * from v_juegos')->num_rows()/5);
+    }
+
+    public function maxproximos() {
+        return floor($this->db->query('select * from v_proximos')->num_rows()/5);
     }
 
     public function order_fechas()

@@ -103,26 +103,30 @@
           <h3 class="panel-title">Juegos recientes</h3>
         </div>
         <div class="panel-body horizontal">
-            <?php foreach ($fechas as $fecha): ?>
-                <div class="col-sm-2">
-                    <div class="fechas">
-                        <div>
-                            <?= anchor('/portal/juegos/ficha/' . $fecha['id'],
-                                    img('images/juegos/'.$fecha['id'].'.jpg')) ?>
-                        </div>
-                        <div>
-                            <h5><?= anchor('/portal/juegos/ficha/' . $fecha['id'],
-                                    $fecha['nombre']) ?></h5>
-                            <p><?= $fecha['precio'] ?>€</p>
-                            <form>
-                                <input id="input-1" class="rating" data-min="0" data-max="5"
-                                    data-step="1" value="<?= $fecha['valoracion'] ?>" data-readonly="true"
-                                    data-show-clear="false" data-show-caption="false" data-size="xs">
-                            </form>
+            <button id="ant-fechas" class="btn btn-primary"><</button>
+            <div class="fechados">
+                <?php foreach ($fechas as $fecha): ?>
+                    <div class="col-sm-2">
+                        <div class="fechas">
+                            <div>
+                                <?= anchor('/portal/juegos/ficha/' . $fecha['id'],
+                                        img('images/juegos/'.$fecha['id'].'.jpg')) ?>
+                            </div>
+                            <div>
+                                <h5><?= anchor('/portal/juegos/ficha/' . $fecha['id'],
+                                        $fecha['nombre']) ?></h5>
+                                <p><?= $fecha['precio'] ?>€</p>
+                                <form>
+                                    <input id="input-1" class="rating" data-min="0" data-max="5"
+                                        data-step="1" value="<?= $fecha['valoracion'] ?>" data-readonly="true"
+                                        data-show-clear="false" data-show-caption="false" data-size="xs">
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            </div>
+            <button id="sig-fechas" class="btn btn-primary">></button>
         </div>
     </div>
 </div>
@@ -135,22 +139,26 @@
             <h3 class="panel-title">Próximamente</h3>
           </div>
           <div class="panel-body horizontal">
-              <?php foreach ($proximos as $proximo): ?>
-                  <div class="col-sm-2">
-                      <div class="proximos">
-                          <div>
-                              <?= anchor('/portal/juegos/ficha/' . $proximo['id'],
-                                      img('images/juegos/'.$proximo['id'].'.jpg')) ?>
-                          </div>
-                          <div>
-                              <h5><?= anchor('/portal/juegos/ficha/' . $proximo['id'],
-                                      $proximo['nombre']) ?></h5>
-                              <p><?= $proximo['precio'] ?>€</p>
-                              <p>Disponible: <?= $proximo['fecha_salida'] ?> </p>
+              <button id="ant-proximos" class="btn btn-primary"><</button>
+              <div class="aproximados">
+                  <?php foreach ($proximos as $proximo): ?>
+                      <div class="col-sm-2">
+                          <div class="proximos">
+                              <div>
+                                  <?= anchor('/portal/juegos/ficha/' . $proximo['id'],
+                                          img('images/juegos/'.$proximo['id'].'.jpg')) ?>
+                              </div>
+                              <div>
+                                  <h5><?= anchor('/portal/juegos/ficha/' . $proximo['id'],
+                                          $proximo['nombre']) ?></h5>
+                                  <p><?= $proximo['precio'] ?>€</p>
+                                  <p>Disponible: <?= $proximo['fecha_salida'] ?> </p>
+                              </div>
                           </div>
                       </div>
-                  </div>
-              <?php endforeach; ?>
+                  <?php endforeach; ?>
+              </div>
+              <button id="sig-proximos" class="btn btn-primary">></button>
           </div>
       </div>
     </div>
@@ -199,63 +207,176 @@
 
 <script>
     var valorados = 0;
+    var fechas    = 0;
+    var proximos  = 0;
     var maxfilas;
+    var maxproximos;
 
     function inicializa() {
-         return $.get("<?= base_url('portal/juegos/maxpags') ?>",
-                        function(r) {
-                            maxfilas = parseInt(r);
-                            maxfilas--;
-                            $("#sig-valorados").on("click", masValorados);
-                            $("#ant-valorados").on("click", menosValorados);
-                        });
-    };
+        $.get("<?= base_url('portal/juegos/maxpags') ?>",
+                    function(r) {
+                        maxfilas = parseInt(r);
+                        $("#sig-valorados").on("click", masValorados);
+                        $("#ant-valorados").on("click", menosValorados);
+                        $("#sig-fechas").on("click", masFechas);
+                        $("#ant-fechas").on("click", menosFechas);
+                        if (valorados === 0) { $("#ant-valorados").hide(); }
+                        if (maxfilas <= valorados) { $("#sig-valorados").hide(); }
+                        if (fechas === 0) { $("#ant-fechas").hide(); }
+                        if (maxfilas <= fechas) { $("#sig-fechas").hide(); }
+                        $.get("<?= base_url('portal/juegos/maxproximos') ?>",
+                            function(res) {
+                                maxproximos = parseInt(res);
+                                $("#sig-proximos").on("click", masProximos);
+                                $("#ant-proximos").on("click", menosProximos);
+                                if (proximos === 0) { $("#ant-proximos").hide(); }
+                                if (maxproximos <= proximos) { $("#sig-proximos").hide(); }
+            })});
+        };
 
     inicializa();
 
-    if (valorados === 0) { $("#ant-valorados").hide(); }
-    if (maxfilas <= valorados) { $("#sig-valorados").hide(); }
-
     function masValorados() {
         valorados++;
-        llamar('masvalorados', valorados, insertaValorados);
-        if (maxfilas <= valorados) { $("#sig-valorados").hide(); }
-        if (valorados !== 0) { $("#ant-valorados").show(); }
+        llamar('valoracion', valorados, insertaValorados);
+        if (maxfilas <= valorados) { $("#sig-valorados").prop("disabled", true).fadeOut(1000); }
+        if (valorados !== 0) { $("#ant-valorados").prop("disabled", '').fadeIn(1000); }
     }
 
     function menosValorados() {
         valorados--;
-        llamar('masvalorados', valorados, insertaValorados);
-        if (maxfilas > valorados) { $("#sig-valorados").show(); }
-        if (valorados === 0) { $("#ant-valorados").hide(); }
+        llamar('valoracion', valorados, insertaValorados);
+        if (maxfilas > valorados) { $("#sig-valorados").prop("disabled", '').fadeIn(1000); }
+        if (valorados === 0) { $("#ant-valorados").prop("disabled", true).fadeOut(1000); }
     }
 
     function insertaValorados(r) {
         $(".valoraciones").fadeOut(500, function() {
+            var html = '';
             $(".valoraciones").empty()
             for (var i = 0; i < r.length; i++) {
-                var divprinci = $('<div class="col-sm-2"></div>').append($('<div class="ficha"></div>'));
-                var primerdiv = $("<div></div>")
-                .append($('<a href="<?= base_url('/portal/juegos/ficha/') ?>' + r[i].id + '"></a>')
-                .append($('<img src="<?= base_url('/images/juegos/') ?>/'+ r[i].id + '.jpg" />')));
-
-                var segundodiv = $("<div></div>")
-                .append($('<a href="<?= base_url('/portal/juegos/ficha/') ?>' + r[i].id + '"></a>')
-                .append($('<h5></h5>').text(r[i].nombre)))
-                .append($('<form></form>')
-                .append($('<input id="input-1" class="rating" data-min="0" data-max="5"'+
-                    ' data-step="1" value="'+ r[i].valoracion + '"' + ' data-readonly="true"'+
-                    ' data-show-clear="false" data-show-caption="false" data-size="xs">')));
-                divprinci.append(primerdiv).append(segundodiv);
-                $(".valoraciones").append(divprinci);
+                html += '<div class="col-sm-2">'+
+                                '<div class="valoradas">'+
+                                    '<div>'+
+                                        '<a href="<?= base_url('/portal/juegos/ficha') ?>/' + r[i].id + '">'+
+                                        '<img src="<?= base_url('/images/juegos') ?>/'+ r[i].id + '.jpg" /></a>'+
+                                    '</div>'+
+                                    '<div>'+
+                                        '<a href="<?= base_url('/portal/juegos/ficha') ?>/' + r[i].id + '">'+
+                                        '<h5>'+r[i].nombre+'</h5></a>'+
+                                        '<form>'+
+                                            '<input id="input-1" class="rating" data-min="0" data-max="5"'+
+                                                ' data-step="1" value="'+ r[i].valoracion + '"' + ' data-readonly="true"'+
+                                                ' data-show-clear="false" data-show-caption="false" data-size="xs">'+
+                                        '</form>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>';
             }
+            $(".valoraciones").html(html);
+            load_js();
             $(".valoraciones").fadeIn(500);
         });
     }
 
-    function llamar(llamada, offset, funcion) {
-        $.getJSON("<?= base_url('portal/juegos') ?>" + "/" + llamada + "/" + offset, insertaValorados);
+    function masFechas() {
+        fechas++;
+        llamar('fecha_salida', fechas, insertaFechas);
+        if (maxfilas <= fechas) { $("#sig-fechas").prop("disabled", true).fadeOut(1000); }
+        if (fechas !== 0) { $("#ant-fechas").prop("disabled", '').fadeIn(1000); }
     }
 
+    function menosFechas() {
+        fechas--;
+        llamar('fecha_salida', fechas, insertaFechas);
+        if (maxfilas > fechas) { $("#sig-fechas").prop("disabled", '').fadeIn(1000); }
+        if (fechas === 0) { $("#ant-fechas").prop("disabled", true).fadeOut(1000); }
+    }
 
+    function insertaFechas(r) {
+        $(".fechados").fadeOut(500, function() {
+            var html = '';
+            $(".fechados").empty()
+            for (var i = 0; i < r.length; i++) {
+                html += '<div class="col-sm-2">'+
+                                '<div class="fechas">'+
+                                    '<div>'+
+                                        '<a href="<?= base_url('/portal/juegos/ficha') ?>/' + r[i].id + '">'+
+                                        '<img src="<?= base_url('/images/juegos') ?>/'+ r[i].id + '.jpg" /></a>'+
+                                    '</div>'+
+                                    '<div>'+
+                                        '<a href="<?= base_url('/portal/juegos/ficha') ?>/' + r[i].id + '">'+
+                                        '<h5>'+r[i].nombre+'</h5></a>'+
+                                        '<form>'+
+                                            '<input id="input-1" class="rating" data-min="0" data-max="5"'+
+                                                ' data-step="1" value="'+ r[i].valoracion + '"' + ' data-readonly="true"'+
+                                                ' data-show-clear="false" data-show-caption="false" data-size="xs">'+
+                                        '</form>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>';
+            }
+            $(".fechados").html(html);
+            load_js();
+            $(".fechados").fadeIn(500);
+        });
+    }
+
+    function masProximos() {
+        proximos++;
+        llamar('proximos', proximos, insertaProximos);
+        if (maxproximos <= proximos) { $("#sig-proximos").prop("disabled", true).fadeOut(1000); }
+        if (proximos !== 0) { $("#ant-proximos").prop("disabled", '').fadeIn(1000); }
+    }
+
+    function menosProximos() {
+        proximos--;
+        llamar('proximos', proximos, insertaProximos);
+        if (maxproximos > proximos) { $("#sig-proximos").prop("disabled", '').fadeIn(1000); }
+        if (proximos === 0) { $("#ant-proximos").prop("disabled", true).fadeOut(1000); }
+    }
+
+    function insertaProximos(r) {
+        $(".aproximados").fadeOut(500, function() {
+            var html = '';
+            $(".aproximados").empty()
+            for (var i = 0; i < r.length; i++) {
+                html += '<div class="col-sm-2">'+
+                                '<div class="fechas">'+
+                                    '<div>'+
+                                        '<a href="<?= base_url('/portal/juegos/ficha') ?>/' + r[i].id + '">'+
+                                        '<img src="<?= base_url('/images/juegos') ?>/'+ r[i].id + '.jpg" /></a>'+
+                                    '</div>'+
+                                    '<div>'+
+                                        '<a href="<?= base_url('/portal/juegos/ficha') ?>/' + r[i].id + '">'+
+                                        '<h5>'+r[i].nombre+'</h5></a>'+
+                                        '<form>'+
+                                            '<input id="input-1" class="rating" data-min="0" data-max="5"'+
+                                                ' data-step="1" value="'+ r[i].valoracion + '"' + ' data-readonly="true"'+
+                                                ' data-show-clear="false" data-show-caption="false" data-size="xs">'+
+                                        '</form>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</div>';
+            }
+            $(".aproximados").html(html);
+            load_js();
+            $(".aproximados").fadeIn(500);
+        });
+    }
+
+    function llamar(orden, offset, funcion) {
+        $.getJSON("<?= base_url('portal/juegos') ?>/mas/" + orden + "/" + offset, function(r) { funcion(r); });
+    }
+
+    function load_js()
+   {
+       $("#rating").remove();
+      var head= document.getElementsByTagName('head')[0];
+      var script= document.createElement('script');
+      script.type= 'text/javascript';
+      script.id = 'rating';
+      script.src= '<?= base_url() ?>js/star-rating.min.js';
+      head.appendChild(script);
+   }
 </script>

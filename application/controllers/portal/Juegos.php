@@ -75,12 +75,23 @@ class Juegos extends CI_Controller {
         $this->template->load('portal/index', $data);
 
     }
-    public function masvalorados($offset) {
-        echo json_encode($this->Juego->mas_valoraciones($offset));
+    public function mas($orden, $offset) {
+        if ($orden === 'proximos')
+        {
+            echo json_encode($this->Juego->masproximos($offset));
+        }
+        else
+        {
+            echo json_encode($this->Juego->mas($orden, $offset));
+        }
     }
 
     public function maxpags() {
         echo $this->Juego->maxpags();
+    }
+
+    public function maxproximos() {
+        echo $this->Juego->maxproximos();
     }
 
     public function comprar($id = NULL) {
