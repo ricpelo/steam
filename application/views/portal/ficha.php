@@ -36,7 +36,9 @@
             <br />
             <?php if (logueado()): ?>
                 <?= form_open('portal/juegos/ficha/'.$juego['id']) ?>
-                  <div class="form-group">
+
+                <input type="hidden" id="padre" name="padre_comentario"/>
+                  <div id="comentar" class="form-group">
                     <?= form_label('Introduce un comentario:', 'comentario') ?>
                     <?= form_textarea('comentario', '', 'id="comentario" class="form-control" required') ?>
                   </div>
@@ -68,16 +70,16 @@
                                 <div class="panel panel-default arrow left">
                                   <div class="panel-body">
                                     <header class="text-left">
-                                      <div class="comment-user"><i class="fa fa-user"></i> <h4><?= nick($comentario['autor']) ?></h4></div>
-                                      </header>
+                                      <div class="comment-user"><i class="fa fa-user"><h4><?= nick($comentario['autor']) ?></h4></i> </div>
+                                     </header>
                                     <div class="comment-post">
                                       <p>
                                         <?= $comentario['contenido'] ?>
                                       </p>
                                     </div>
-                                    <p class="text-right"><a href=<?= $comentario['id'] ?> class="btn btn-default btn-sm"><i class="fa fa-reply"></i> Responder</a></p>
+                                    <p class="text-right"><a id=<?= $comentario['id'] ?> href='#comentar' class="btn btn-default btn-sm"><i class="fa fa-reply"></i> Responder</a></p>
                                   </div>
-                                  <time class="comment-date" datetime="<?= $comentario['created_at'] ?> "><i class="fa fa-clock-o"></i> Escrito el: <?= $comentario['created_at'] ?></time>
+                                  <time class="comment-date" datetime=<?= $comentario['created_at'] ?> ><i class="fa fa-clock-o"></i> Escrito el: <?= $comentario['created_at'] ?></time>
 
                                 </div>
                               </div>
@@ -102,5 +104,13 @@
 
     function enviar(r) {
         $("#input-1").rating('update', r.total);
+    }
+
+
+    $("a").click(pintar);
+
+    function pintar()
+    {
+        $("#padre").val(this.id);
     }
 </script>

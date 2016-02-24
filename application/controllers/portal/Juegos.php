@@ -22,18 +22,23 @@ class Juegos extends CI_Controller {
             redirect('portal/index');
         }
 
+        //COMENTARIOS
         $this->load->model('Comentario');
-
         if ($this->input->post('enviar') !== NULL)
         {
+
+            if ($this->input->post('padre_comentario') !== '')
+            {
+                $comentario['padre_comentario'] = $this->input->post('padre_comentario');
+            }
+
             $comentario['contenido'] = $this->input->post('comentario');
             $comentario['padre_juego'] = $id_juego;
             $comentario['autor'] = $this->session->userdata('usuario')['id'];
             $this->Comentario->insertar($comentario);
         }
-
-
         $data['comentarios'] = $this->Comentario->todos($id_juego);
+
         $data['juego'] = $this->Juego->por_id($id_juego);
         if ($data['juego'] === FALSE)
         {
@@ -44,6 +49,26 @@ class Juegos extends CI_Controller {
         $id_usuario = $this->session->userdata('usuario')['id'];
         $data['usuario'] = $this->Valoracion->por_ids($id_usuario, $id_juego);
         $this->template->load('portal/ficha', $data);
+    }
+
+    public function comentario()
+    {
+        //COMENTARIOS
+        $this->load->model('Comentario');
+        if ($this->input->post('enviar') !== NULL)
+        {
+
+            if ($this->input->post('padre_comentario') !== '')
+            {
+                $comentario['padre_comentario'] = $this->input->post('padre_comentario');
+            }
+
+            $comentario['contenido'] = $this->input->post('comentario');
+            $comentario['padre_juego'] = $id_juego;
+            $comentario['autor'] = $this->session->userdata('usuario')['id'];
+            $this->Comentario->insertar($comentario);
+        }
+        $data['comentarios'] = $this->Comentario->todos($id_juego);
     }
 
     public function valoracion($id_usuario, $id_juego, $valoracion) {
