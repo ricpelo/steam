@@ -27,7 +27,6 @@ class Juegos extends CI_Controller {
         $this->load->model('Comentario');
         if ($this->input->post('enviar') !== NULL)
         {
-
             if ($this->input->post('padre_comentario') !== '')
             {
                 $comentario['padre_comentario'] = $this->input->post('padre_comentario');
@@ -39,6 +38,8 @@ class Juegos extends CI_Controller {
             $this->Comentario->insertar($comentario);
         }
         $data['comentarios'] = $this->Comentario->todos($id_juego);
+
+        //FIN COMENTARIOS
 
         $data['juego'] = $this->Juego->por_id($id_juego);
         if ($data['juego'] === FALSE)
