@@ -12,14 +12,14 @@ function login()
             $out .= '<div class="form-group">';
                 $out .= anchor('/usuarios/perfil/' . $usuario['id'], $usuario['nick'], '');
                 $out .= form_submit('logout', 'Logout',
-                                    'id="logout" class="btn btn-primary btn-xs"');
+                                    'id="logout" class="btn btn-custom btn-xs"');
             $out .= '</div>';
         $out .= form_close();
     else:
         $out .= '<div class="row">';
           $out .= '<div class="col-md-2">';
                 $out .= anchor('/usuarios/login', 'Iniciar sesión',
-                                'class="btn btn-primary btn-xs" role="button"');
+                                'class="btn btn-custom btn-xs" role="button"');
           $out .= '</div>';
         $out .= '</div>';
     endif;

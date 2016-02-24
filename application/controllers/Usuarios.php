@@ -33,7 +33,7 @@ class Usuarios extends CI_Controller {
 
     public function login() {
         if ($this->Usuario->logueado()) {
-            redirect('usuarios/index');
+            redirect('portal/juegos');
         }
 
         if ($this->input->post('login') !== NULL)
@@ -85,7 +85,8 @@ class Usuarios extends CI_Controller {
                 }
             }
         }
-        else
+
+        if (isset($_SERVER['HTTP_REFERER']) && !$this->session->has_userdata('last_uri'))
         {
             $this->session->set_userdata('last_uri',
                             parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH));

@@ -7,6 +7,7 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+
 img#logo { width: 50%%; }
 
 header {
@@ -16,12 +17,23 @@ header {
     justify-content: space-around;
 }
 
-div.genero a {
-    color: black;
+.panel-custom {
+    color: white;
+    background-color: gray;
+}
+
+.btn-custom {
+    color: white;
+    background-color: #333;
+}
+
+.btn-custom:hover {
+    color: white;
+    background-color: #4D4D4D;
 }
 
 a {
-    color: gray;
+    color: white;
     text-decoration: none;
 }
 
@@ -30,12 +42,19 @@ a:hover {
     text-decoration: none;
 }
 
-header a {
+.miga {
+    margin: 10px;
+    color: lightgray;
+    text-transform: capitalize;
+}
+
+header a, .miga a {
     margin-right: 0.5em;
+    margin-left: 0.5em;
     color: lightgray;
 }
 
-header a:hover {
+header a:hover, .miga a:hover {
     color: white;
     text-decoration: none;
 }

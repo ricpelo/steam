@@ -3,15 +3,12 @@
 <?= miga_pan() ?>
 
 <div class="row col-md-12 col-md-offset-0">
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <h3 class="panel-title">Géneros</h3>
-      </div>
+    <div class="panel panel-custom">
       <div class="panel-body horizontal">
           <?php foreach ($generos as $genero): ?>
               <div class="col-sm-2 genero">
                   <?= anchor('portal/juegos/genero/' . $genero['id'], $genero['nombre'],
-                             'role="button" class="btn btn-info"') ?>
+                             'role="button" class="btn btn-custom"') ?>
               </div>
           <?php endforeach; ?>
       </div>
@@ -62,12 +59,12 @@
 
 <?php if(isset($valoradas)): ?>
   <div class="row col-md-12 col-md-offset-0">
-      <div class="panel panel-primary">
+      <div class="panel panel-custom">
         <div class="panel-heading">
           <h3 class="panel-title">Juegos más valorados</h3>
         </div>
         <div class="panel-body horizontal">
-            <button id="ant-valorados" class="btn btn-primary"><</button>
+            <button id="ant-valorados" class="btn btn-custom"><</button>
             <div class="valoraciones">
                 <?php foreach ($valoradas as $valorada): ?>
                     <div class="col-sm-2">
@@ -90,7 +87,7 @@
                     </div>
                 <?php endforeach; ?>
             </div>
-            <button id="sig-valorados" class="btn btn-primary">></button>
+            <button id="sig-valorados" class="btn btn-custom">></button>
         </div>
       </div>
   </div>
@@ -98,12 +95,12 @@
 
 <?php if(isset($fechas)): ?>
   <div class="row col-md-12 col-md-offset-0">
-      <div class="panel panel-primary">
+      <div class="panel panel-custom">
         <div class="panel-heading">
           <h3 class="panel-title">Juegos recientes</h3>
         </div>
         <div class="panel-body horizontal">
-            <button id="ant-fechas" class="btn btn-primary"><</button>
+            <button id="ant-fechas" class="btn btn-custom"><</button>
             <div class="fechados">
                 <?php foreach ($fechas as $fecha): ?>
                     <div class="col-sm-2">
@@ -126,7 +123,7 @@
                     </div>
                 <?php endforeach; ?>
             </div>
-            <button id="sig-fechas" class="btn btn-primary">></button>
+            <button id="sig-fechas" class="btn btn-custom">></button>
         </div>
     </div>
 </div>
@@ -134,12 +131,12 @@
 
 <?php if (isset($proximos) && $proximos !== FALSE): ?>
     <div class="row col-md-12 col-md-offset-0">
-        <div class="panel panel-primary">
+        <div class="panel panel-custom">
           <div class="panel-heading">
             <h3 class="panel-title">Próximamente</h3>
           </div>
           <div class="panel-body horizontal">
-              <button id="ant-proximos" class="btn btn-primary"><</button>
+              <button id="ant-proximos" class="btn btn-custom"><</button>
               <div class="aproximados">
                   <?php foreach ($proximos as $proximo): ?>
                       <div class="col-sm-2">
@@ -158,7 +155,7 @@
                       </div>
                   <?php endforeach; ?>
               </div>
-              <button id="sig-proximos" class="btn btn-primary">></button>
+              <button id="sig-proximos" class="btn btn-custom">></button>
           </div>
       </div>
     </div>
@@ -168,36 +165,38 @@
 <div class="container-fluid" style="padding-top: 20px">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <div class="panel panel-primary">
+      <div class="panel panel-custom">
         <div class="panel-heading">
           <h3 class="panel-title">Listado de Juegos</h3>
         </div>
-        <div class="panel-body fichas">
-          <?php foreach ($filas as $fila): ?>
-            <div class="ficha">
-                <div>
-                    <?= anchor('/portal/juegos/ficha/' . $fila['id'],
-                            img('images/juegos/'.$fila['id'].'.jpg')) ?>
+        <div class="panel-body">
+            <div class="fichas">
+              <?php foreach ($filas as $fila): ?>
+                <div class="ficha">
+                    <div>
+                        <?= anchor('/portal/juegos/ficha/' . $fila['id'],
+                                img('images/juegos/'.$fila['id'].'.jpg')) ?>
+                    </div>
+                    <div>
+                        <h1><?= anchor('/portal/juegos/ficha/' . $fila['id'],
+                                        $fila['nombre']) ?></h1>
+                        <h2><?= $fila['precio'] ?>€</h2>
+                        <p><?= $fila['resumen'] ?></p>
+                        <form>
+                            <input id="input-1" class="rating" data-min="0" data-max="5"
+                                data-step="1" value="<?= $fila['valoracion'] ?>" data-readonly="true"
+                                data-show-clear="false" data-show-caption="false" data-size="xs">
+                        </form>
+                    </div>
                 </div>
-                <div>
-                    <h1><?= anchor('/portal/juegos/ficha/' . $fila['id'],
-                                    $fila['nombre']) ?></h1>
-                    <h2><?= $fila['precio'] ?>€</h2>
-                    <p><?= $fila['resumen'] ?></p>
-                    <form>
-                        <input id="input-1" class="rating" data-min="0" data-max="5"
-                            data-step="1" value="<?= $fila['valoracion'] ?>" data-readonly="true"
-                            data-show-clear="false" data-show-caption="false" data-size="xs">
-                    </form>
-                </div>
-            </div>
-          <?php endforeach ?>
-          <?php else: ?>
-              <div>
+              <?php endforeach ?>
+              <?php else: ?>
                   <div>
-                      No hay ningun resultado
+                      <div>
+                          No hay ningun resultado
+                      </div>
                   </div>
-              </div>
+          </div>
         </div>
       </div>
     </div>
@@ -221,10 +220,10 @@
                         $("#ant-valorados").on("click", menosValorados);
                         $("#sig-fechas").on("click", masFechas);
                         $("#ant-fechas").on("click", menosFechas);
-                        $(document).on("pagecreate","#fichas",function(){
-                            $(document).on("scrollstop",function(){
-                                alert("Stopped scrolling!");
-                            });
+                        $(window).scroll(function() {
+                                if($(window).scrollTop() + $(window).height() == $(document).height()) {
+                                    cargarMas();
+                            }
                         });
                         if (valorados === 0) { $("#ant-valorados").hide(); }
                         if (maxfilas <= valorados) { $("#sig-valorados").hide(); }
@@ -372,14 +371,14 @@
     }
 
     function cargarMas() {
+        if (maxfilas <= total) { return; }
         total++;
-        if (maxpags <= total) { $(document).off('scrollend'); }
         $.getJSON("<?= base_url('portal/juegos') ?>/cargarmas/" + total, function(r) { insertarTotal(r); });
     }
 
     function insertarTotal(r) {
-        var html = $(".panel-body").html();
-
+        var html = '';
+        //$(".fichas").empty();
         for (var i = 0; i < r.length; i++) {
             html += '<div class="ficha">'+
                         '<div>'+
@@ -389,7 +388,7 @@
                         '<div>'+
                             '<h1><a href="<?= base_url('/portal/juegos/ficha') ?>/' + r[i].id + '">'+
                             r[i].nombre+'</a></h1>'+
-                            '<h2>' + r[i].precio + '</h2>'+
+                            '<h2>' + r[i].precio + '€</h2>'+
                             '<p>' + r[i].resumen + '</p>'+
                             '<form>'+
                                 '<input id="input-1" class="rating" data-min="0" data-max="5"'+
@@ -399,7 +398,7 @@
                         '</div>'+
                     '</div>';
         }
-        $(".panel-body").html(html);
+        $(".ficha:last-of-type").after(html);
         load_js();
     }
 

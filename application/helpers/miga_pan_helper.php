@@ -6,11 +6,12 @@ function miga_pan() {
     $uri = $CI->uri->segment_array();
     $uri_string = site_url();
 
-    $out = '<div>';
+    $out = '<div class="miga">';
 
+    $total = count($uri);
     foreach ($uri as $parte) {
         $uri_string .= $parte . "/";
-        $out .= '<a href="' . $uri_string . '">' . $parte . '</a> / ';
+        $out .= '<a href="' . $uri_string . '">' . $parte . '</a> >> ';
     }
 
     $out .= '</div>';

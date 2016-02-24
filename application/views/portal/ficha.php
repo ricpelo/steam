@@ -5,10 +5,7 @@
 <div class="container-fluid" style="padding-top: 20px">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <h3 class="panel-title"><?= $juego['nombre'] ?></h3>
-        </div>
+      <div class="panel panel-custom">
         <div class="panel-body">
             <div class="ficha">
                 <div>
