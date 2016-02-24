@@ -31,7 +31,7 @@
                                 data-show-clear="false" data-show-caption="false" data-size="xs">
                             <?php endif; ?>
                             <?= anchor('/portal/juegos/comprar/' . $juego['id'],
-                                       'Comprar (' . $juego["precio"] . ') €',
+                                       'Comprar (' . $juego["precio"] . ' €)',
                                        'class="btn btn-primary" role="button"'); ?>
                         </form>
                     <?php else: ?>

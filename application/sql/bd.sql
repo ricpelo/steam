@@ -195,6 +195,11 @@ values('admin', crypt('admin', gen_salt('bf')), 'guillermo.lopez@iesdonana.org',
       ('juan', crypt('juan', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 2, true),
       ('guillermo', crypt('guillermo', gen_salt('bf')), 'guillermo.lopez@iesdonana.org', true, 2, true);
 
+insert into carrito_compra(id_usuario, id_juego)
+          values(4, 1),
+          (4, 2),
+          (4, 3);
+
 insert into valoraciones (id_usuario, id_juego, valoracion)
         values (2, 1, 3),
                (3, 5, 1),
@@ -238,3 +243,7 @@ create view v_usuarios_valido as
     select *
     from usuarios
     where registro_verificado = true;
+
+create view v_usuarios_carrito_compra as
+    select carrito_compra.id_usuario, juegos.*
+    from carrito_compra join juegos on carrito_compra.id_juego = juegos.id

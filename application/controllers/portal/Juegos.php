@@ -64,6 +64,9 @@ class Juegos extends CI_Controller {
         $id_usuario = $this->session->userdata('usuario')['id'];
         $data['actual'] = $id_usuario;
         $data['usuario'] = $this->Valoracion->por_ids($id_usuario, $id_juego);
+
+        // $data['juego_comprado'] = $this->Usuario->juego_comprado($id_juego);
+
         $this->template->load('portal/ficha', $data);
     }
 
@@ -143,9 +146,14 @@ class Juegos extends CI_Controller {
             redirect('portal/juegos');
         }
 
-        $id_usuario = 1;
+        $usuario_id = $this->session->userdata('usuario')['id'];
+        $usuario = $this->Usuario->por_id($usuario_id);
 
-        $data['juegos'] = $this->Usuario->juegos_comprados($id_usuario);
+        $data['juegos'] = $this->Usuario->juegos_comprados($usuario_id);
+        $data['usuario'] = $usuario;
+        $data['total'] = $data['juegos']['total'];
+
+        unset($data['juegos']['total']);
 
         $this->template->load('portal/comprar', $data);
     }

@@ -82,8 +82,26 @@ class Usuario extends CI_Model
     }
 
     public function juegos_comprados($id) {
-        $res = $this->db->query('select * from carrito_compra where id_usuario = ?', array($id));
-        
-        return $res->num_rows() > 0 ? $res->row_array() : FALSE;
+        $res = $this->db->query('select * from v_usuarios_carrito_compra '.
+                                'where id_usuario = ?', array($id));
+
+        $total = $this->db->query('select sum(v_usuarios_carrito_compra.precio) '.
+                                  'from v_usuarios_carrito_compra where id_usuario = ?',
+                                  array($id))->row_array();
+
+        $resultado = $res->num_rows() > 0 ? $res->result_array() : FALSE;
+
+        if ($resultado !== FALSE) {
+            $resultado['total'] = $total;
+        }
+
+        return $resultado;
+    }
+
+    public function juego_comprado($id_usuario, $id_juego) {
+        $res = $this->db->query('select * from carrito_compra '.
+                                'where id_usuario = ? and id_juego = ?',
+                                array($id_usuario, $id_juego));
+        return $res->num_rows() > 0 ? TRUE : FALSE;
     }
 }
