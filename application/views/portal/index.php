@@ -221,7 +221,7 @@
                         $("#sig-fechas").on("click", masFechas);
                         $("#ant-fechas").on("click", menosFechas);
                         $(window).scroll(function() {
-                                if($(window).scrollTop() + $(window).height() == $(document).height()) {
+                                if($(window).scrollTop() >= ($(document).height() - 50) - $(window).height()) {
                                     cargarMas();
                             }
                         });
