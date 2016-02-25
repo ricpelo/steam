@@ -11,21 +11,36 @@
         </div>
         <div class="panel-body">
             <div class="ficha">
-                <div class="">
+                <div class="lista">
                     <?php if($juegos === FALSE): ?>
                         <p>
                             No hay juegos comprados.
                         </p>
                     <?php else: ?>
                         <?php foreach($juegos as $juego): ?>
-                            <p>
-                                <?= img('images/juegos/' . $juego['id'] . '.jpg') ?>
-                                Precio: <?= $juego['precio'] ?>
-                            </p>
+                            <div class="seccion">
+                                <div class="imagen">
+                                    <?= img('images/juegos/' . $juego['id'] . '.jpg') ?>
+                                </div>
+                                <div class="info">
+                                    <p>
+                                        Precio: <?= $juego['precio'] ?> €
+                                    </p>
+                                    <p>
+                                        Nombre: <?= $juego['nombre'] ?>
+                                    </p>
+                                </div>
+                                <button type="button" aria-label="Left Align"
+                                        class="btn btn-default quitar glyphicon glyphicon-remove"
+                                        aria-hidden="true" value="<?= $juego['id'] ?>">
+                                </button>
+                            </div>
                         <?php endforeach; ?>
-                        <p>
-                            Total: <?= $total['sum'] ?>
+                        <p class="total">
+                            Total: <?= $total['sum'] ?> €
                         </p>
+                        <?= anchor('', 'Comprar todos',
+                                   'class="btn btn-success" role="button"') ?>
                     <?php endif; ?>
                 </div>
             </div>
@@ -34,3 +49,14 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+    $("button.quitar").on("click", quitar);
+
+    function quitar() {
+        $.post('<?= base_url('usuarios/quitar/') ?>'+$(this).val());
+        $(this).parent().fadeOut("slow", function () {
+            $(this).remove();
+        });
+    }
+</script>

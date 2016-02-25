@@ -1,0 +1,35 @@
+div.lista {
+    width: 100%;
+    text-align: left;
+}
+
+div.lista > div.seccion {
+    /*margin-bottom: 5em;*/
+    width: 100%;
+}
+
+div.lista > div > div {
+    float: left;
+}
+
+div.lista > div > div.imagen {
+    clear: both;
+}
+
+div.lista img {
+    width: 5em;
+    height: 5em;
+}
+
+p.total {
+    font-weight: bold;
+    clear: both;
+}
+
+p.quitar {
+    float: right;
+}
+
+.quitar {
+    float: right;
+}
