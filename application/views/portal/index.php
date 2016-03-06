@@ -211,6 +211,7 @@
     var total     = 0;
     var maxfilas;
     var maxproximos;
+    var maxscroll;
 
     function inicializa() {
         $.get("<?= base_url('portal/juegos/maxpags') ?>",
@@ -220,11 +221,14 @@
                         $("#ant-valorados").on("click", menosValorados);
                         $("#sig-fechas").on("click", masFechas);
                         $("#ant-fechas").on("click", menosFechas);
-                        $(window).scroll(function() {
-                                if($(window).scrollTop() >= ($(document).height() - 50) - $(window).height()) {
-                                    cargarMas();
-                            }
-                        });
+                        $.get("<?= base_url('portal/juegos/maxscroll') ?>",
+                            function(res) {
+                                maxscroll = parseInt(res);
+                                $(window).scroll(function() {
+                                    if($(window).scrollTop() >= ($(document).height() - 50) - $(window).height()) {
+                                            cargarMas();
+                                    }
+                                })});
                         if (valorados === 0) { $("#ant-valorados").hide(); }
                         if (maxfilas <= valorados) { $("#sig-valorados").hide(); }
                         if (fechas === 0) { $("#ant-fechas").hide(); }
@@ -371,7 +375,7 @@
     }
 
     function cargarMas() {
-        if (maxfilas <= total) { return; }
+        if (maxscroll <= total) { return; }
         total++;
         $.getJSON("<?= base_url('portal/juegos') ?>/cargarmas/" + total, function(r) { insertarTotal(r); });
     }

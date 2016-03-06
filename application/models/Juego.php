@@ -47,6 +47,10 @@ class Juego extends CI_Model
         return floor($this->db->query('select * from v_proximos')->num_rows()/5);
     }
 
+    public function maxscroll() {
+        return floor($this->db->query('select * from v_juegos')->num_rows()/3);
+    }
+
     public function order_fechas()
     {
         return $this->db->query('select *

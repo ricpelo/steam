@@ -141,6 +141,10 @@ class Juegos extends CI_Controller {
         echo $this->Juego->maxproximos();
     }
 
+    public function maxscroll() {
+        echo $this->Juego->maxscroll();
+    }
+
     public function comprar($id = NULL) {
         if($id === NULL || !$this->Usuario->logueado()) {
             redirect('portal/juegos');
